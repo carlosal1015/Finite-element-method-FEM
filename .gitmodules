@@ -1,0 +1,3 @@
+[submodule "2018/matlab-guide-3ed"]
+	path = 2018/matlab-guide-3ed
+	url = https://github.com/higham/matlab-guide-3ed
