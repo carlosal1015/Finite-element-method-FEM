@@ -1,0 +1,791 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{Functions\_in\_MATLAB}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{n}{help}\PY{p}{(}\PYZdq{}\PY{n}{min}\PYZdq{}\PY{p}{)}
+        \PY{n}{help}\PY{p}{(}\PYZdq{}\PY{n}{max}\PYZdq{}\PY{p}{)}
+        \PY{n}{help}\PY{p}{(}\PYZdq{}\PY{n}{mean}\PYZdq{}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+ MIN    Smallest component.
+    For vectors, MIN(X) is the smallest element in X. For matrices,
+    MIN(X) is a row vector containing the minimum element from each
+    column. For N-D arrays, MIN(X) operates along the first
+    non-singleton dimension.
+ 
+    [Y,I] = MIN(X) returns the indices of the minimum values in vector I.
+    If the values along the first non-singleton dimension contain more
+    than one minimal element, the index of the first one is returned.
+ 
+    MIN(X,Y) returns an array with the smallest elements taken from X or Y.
+    X and Y must have compatible sizes. In the simplest cases, they can be
+    the same size or one can be a scalar. Two inputs have compatible sizes
+    if, for every dimension, the dimension sizes of the inputs are either
+    the same or one of them is 1.
+ 
+    MIN(X,[],'all') returns the smallest element of X.
+ 
+    [Y,I] = MIN(X,[],DIM) operates along the dimension DIM.
+ 
+    MIN(X,[],VECDIM) operates on the dimensions specified in the vector 
+    VECDIM. For example, MIN(X,[],[1 2]) operates on the elements contained
+    in the first and second dimensions of X.
+ 
+    When X is complex, the minimum is computed using the magnitude
+    MIN(ABS(X)). In the case of equal magnitude elements, then the phase
+    angle MIN(ANGLE(X)) is used.
+ 
+    MIN({\ldots},NANFLAG) specifies how NaN (Not-A-Number) values are treated.
+    NANFLAG can be:
+    'omitnan'    - Ignores all NaN values and returns the minimum of the 
+                   non-NaN elements.  If all elements are NaN, then the
+                   first one is returned.
+    'includenan' - Returns NaN if there is any NaN value.  The index points
+                   to the first NaN element.
+    Default is 'omitnan'.
+ 
+    Example: 
+        X = [2 8 4; 7 3 9]
+        min(X,[],1)
+        min(X,[],2)
+        min(X,5)
+ 
+    See also MAX, BOUNDS, CUMMIN, MEDIAN, MEAN, SORT, MINK.
+
+    Reference page in Doc Center
+       doc min
+
+    Other functions named min
+
+       categorical/min      duration/min    gpuArray/min    tall/min
+       codistributed/min    fints/min       sym/min         timeseries/min
+       datetime/min
+
+ MAX    Largest component.
+    For vectors, MAX(X) is the largest element in X. For matrices,
+    MAX(X) is a row vector containing the maximum element from each
+    column. For N-D arrays, MAX(X) operates along the first
+    non-singleton dimension.
+ 
+    [Y,I] = MAX(X) returns the indices of the maximum values in vector I.
+    If the values along the first non-singleton dimension contain more
+    than one maximal element, the index of the first one is returned.
+ 
+    MAX(X,Y) returns an array with the largest elements taken from X or Y.
+    X and Y must have compatible sizes. In the simplest cases, they can be
+    the same size or one can be a scalar. Two inputs have compatible sizes
+    if, for every dimension, the dimension sizes of the inputs are either
+    the same or one of them is 1.
+ 
+    MAX(X,[],'all') returns the largest element of X.
+ 
+    [Y,I] = MAX(X,[],DIM) operates along the dimension DIM.
+ 
+    MAX(X,[],VECDIM) operates on the dimensions specified in the vector 
+    VECDIM. For example, MAX(X,[],[1 2]) operates on the elements contained
+    in the first and second dimensions of X.
+ 
+    When X is complex, the maximum is computed using the magnitude
+    MAX(ABS(X)). In the case of equal magnitude elements, then the phase
+    angle MAX(ANGLE(X)) is used.
+ 
+    MAX({\ldots},NANFLAG) specifies how NaN (Not-A-Number) values are treated.
+    NANFLAG can be:
+    'omitnan'    - Ignores all NaN values and returns the maximum of the 
+                   non-NaN elements.  If all elements are NaN, then the
+                   first one is returned.
+    'includenan' - Returns NaN if there is any NaN value.  The index points
+                   to the first NaN element.
+    Default is 'omitnan'.
+ 
+    Example: 
+        X = [2 8 4; 7 3 9]
+        max(X,[],1)
+        max(X,[],2)
+        max(X,5)
+ 
+    See also MIN, BOUNDS, CUMMAX, MEDIAN, MEAN, SORT, MAXK.
+
+    Reference page in Doc Center
+       doc max
+
+    Other functions named max
+
+       categorical/max      duration/max    gpuArray/max    tall/max
+       codistributed/max    fints/max       sym/max         timeseries/max
+       datetime/max
+
+ MEAN   Average or mean value.
+    S = MEAN(X) is the mean value of the elements in X if X is a vector. 
+    For matrices, S is a row vector containing the mean value of each 
+    column. 
+    For N-D arrays, S is the mean value of the elements along the first 
+    array dimension whose size does not equal 1.
+ 
+    MEAN(X,'all') is the mean of all elements in X.
+ 
+    MEAN(X,DIM) takes the mean along the dimension DIM of X.
+ 
+    MEAN(X,VECDIM) operates on the dimensions specified in the vector 
+    VECDIM. For example, MEAN(X,[1 2]) operates on the elements contained
+    in the first and second dimensions of X.
+ 
+    S = MEAN({\ldots},TYPE) specifies the type in which the mean is performed, 
+    and the type of S. Available options are:
+ 
+    'double'    -  S has class double for any input X
+    'native'    -  S has the same class as X
+    'default'   -  If X is floating point, that is double or single,
+                   S has the same class as X. If X is not floating point, 
+                   S has class double.
+ 
+    S = MEAN({\ldots},NANFLAG) specifies how NaN (Not-A-Number) values are 
+    treated. The default is 'includenan':
+ 
+    'includenan' - the mean of a vector containing NaN values is also NaN.
+    'omitnan'    - the mean of a vector containing NaN values is the mean 
+                   of all its non-NaN elements. If all elements are NaN,
+                   the result is NaN.
+ 
+    Example:
+        X = [1 2 3; 3 3 6; 4 6 8; 4 7 7]
+        mean(X,1)
+        mean(X,2)
+ 
+    Class support for input X:
+       float: double, single
+       integer: uint8, int8, uint16, int16, uint32,
+                int32, uint64, int64
+ 
+    See also MEDIAN, STD, MIN, MAX, VAR, COV, MODE.
+
+    Reference page in Doc Center
+       doc mean
+
+    Other functions named mean
+
+       codistributed/mean    fints/mean       tall/mean
+       datetime/mean         gpuArray/mean    timeseries/mean
+       duration/mean
+
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{n}{a} \PY{p}{=} \PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{7}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{]}\PY{p}{;}
+        \PY{n}{min}\PY{p}{(}\PY{n}{a}\PY{p}{)} \PY{c}{\PYZpc{} el mínimo de a}
+        \PY{n}{max}\PY{p}{(}\PY{n}{a}\PY{p}{)} \PY{c}{\PYZpc{} el máximo de a}
+        \PY{n}{mean}\PY{p}{(}\PY{n}{a}\PY{p}{)} \PY{c}{\PYZpc{} la media de a}
+        \PY{n+nb}{length}\PY{p}{(}\PY{n}{a}\PY{p}{)} \PY{c}{\PYZpc{} longitud de a}
+        \PY{n}{c} \PY{p}{=} \PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{;} \PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{;} \PY{l+m+mi}{7}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}
+        \PY{n+nb}{size}\PY{p}{(}\PY{n}{a}\PY{p}{)}
+        \PY{p}{[}\PY{n}{numf}\PY{p}{,} \PY{n}{numc}\PY{p}{]} \PY{p}{=} \PY{n+nb}{size}\PY{p}{(}\PY{n}{a}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+ans =
+
+    -4
+
+
+ans =
+
+     7
+
+
+ans =
+
+    2.5000
+
+
+ans =
+
+     6
+
+
+c =
+
+     2     3
+     4     5
+     7     1
+
+
+ans =
+
+     1     6
+
+
+numf =
+
+     1
+
+
+numc =
+
+     6
+
+
+    \end{Verbatim}
+
+    \hypertarget{soluciuxf3n-de-sistemas-de-ecuaciones-lineales}{%
+\subsection{Solución de sistemas de ecuaciones
+lineales}\label{soluciuxf3n-de-sistemas-de-ecuaciones-lineales}}
+
+\textbf{Ejemplo:} Encontrar la solución del siguiente sistema lineal
+
+\[\begin{alignat}{9}
+2x_1&&\; + \;&& 6x_2   &&\; + \;&& 7x_3  &&\; + \;&& 9x_4 &&\; = \;&& 2 & \\
+3x_1 &&\; + \;&& 7x_2  &&\; + \;&& 2x_3 &&\; + \;&& 5x_4 &&\; = \;&& -1 & \\
+4x_1 &&\; - \;&& 2x_2  &&\; + \;&& x_3  &&\; + \;&& 6x_4 &&\; = \;&& 3 & \\
+x_1&&\; + \;&&  9x_2   &&\; + \;&& 8x_3 &&\; + \;&& 2x_4 &&\; = \;&& 4 & \\
+\end{alignat}\]
+
+Forma matricial \[Ax=b\] donde
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{n}{A} \PY{p}{=}\PY{p}{[}\PY{l+m+mi}{2} \PY{l+m+mi}{6} \PY{l+m+mi}{7} \PY{l+m+mi}{9}
+            \PY{l+m+mi}{3} \PY{l+m+mi}{7} \PY{l+m+mi}{2} \PY{l+m+mi}{5}
+            \PY{l+m+mi}{4} \PY{o}{\PYZhy{}}\PY{l+m+mi}{2} \PY{l+m+mi}{1} \PY{l+m+mi}{6}
+            \PY{l+m+mi}{1} \PY{l+m+mi}{9} \PY{l+m+mi}{8} \PY{l+m+mi}{2}\PY{p}{]}\PY{p}{;}
+        \PY{n}{b} \PY{p}{=}\PY{p}{[}\PY{l+m+mi}{2} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1} \PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{]}\PY{o}{\PYZsq{}}\PY{p}{;}
+        \PY{n}{x} \PY{p}{=} \PY{n}{A}\PY{o}{\PYZbs{}}\PY{n}{b}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+x =
+
+    0.9557
+   -0.5123
+    1.0788
+   -0.4877
+
+
+    \end{Verbatim}
+
+    Verificando el resultado anterior:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{n}{A}\PY{o}{*}\PY{n}{x}\PY{o}{\PYZhy{}}\PY{n}{b}
+        \PY{n}{norm}\PY{p}{(}\PY{n}{A}\PY{o}{*}\PY{n}{x}\PY{o}{\PYZhy{}}\PY{n}{b}\PY{p}{)} \PY{c}{\PYZpc{} El valor de la norma debe tender a 0.}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+ans =
+
+   1.0e-14 *
+
+    0.0444
+   -0.1776
+         0
+         0
+
+
+ans =
+
+   1.8310e-15
+
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{n}{help}\PY{p}{(}\PYZdq{}\PY{n}{norm}\PYZdq{}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+ NORM   Matrix or vector norm.
+      NORM(X,2) returns the 2-norm of X.
+ 
+      NORM(X) is the same as NORM(X,2).
+ 
+      NORM(X,1) returns the 1-norm of X.
+ 
+      NORM(X,Inf) returns the infinity norm of X.
+ 
+      NORM(X,'fro') returns the Frobenius norm of X.
+ 
+    In addition, for vectors{\ldots}
+ 
+      NORM(V,P) returns the p-norm of V defined as SUM(ABS(V).\^{}P)\^{}(1/P).
+ 
+      NORM(V,Inf) returns the largest element of ABS(V).
+ 
+      NORM(V,-Inf) returns the smallest element of ABS(V).
+ 
+    By convention, NaN is returned if X or V contains NaNs.
+ 
+    See also COND, RCOND, CONDEST, NORMEST, HYPOT.
+
+    Reference page in Doc Center
+       doc norm
+
+    Other functions named norm
+
+       codistributed/norm    DynamicSystem/norm    mfilt/norm    tall/norm
+       dfilt/norm            gpuArray/norm         sym/norm
+
+
+    \end{Verbatim}
+
+    \hypertarget{gruxe1ficas-con-matlab}{%
+\subsection{Gráficas con MATLAB}\label{gruxe1ficas-con-matlab}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{n}{help}\PY{p}{(}\PYZdq{}\PY{n}{plot}\PYZdq{}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+ PLOT   Linear plot. 
+    PLOT(X,Y) plots vector Y versus vector X. If X or Y is a matrix,
+    then the vector is plotted versus the rows or columns of the matrix,
+    whichever line up.  If X is a scalar and Y is a vector, disconnected
+    line objects are created and plotted as discrete points vertically at
+    X.
+ 
+    PLOT(Y) plots the columns of Y versus their index.
+    If Y is complex, PLOT(Y) is equivalent to PLOT(real(Y),imag(Y)).
+    In all other uses of PLOT, the imaginary part is ignored.
+ 
+    Various line types, plot symbols and colors may be obtained with
+    PLOT(X,Y,S) where S is a character string made from one element
+    from any or all the following 3 columns:
+ 
+           b     blue          .     point              -     solid
+           g     green         o     circle             :     dotted
+           r     red           x     x-mark             -.    dashdot 
+           c     cyan          +     plus               --    dashed   
+           m     magenta       *     star             (none)  no line
+           y     yellow        s     square
+           k     black         d     diamond
+           w     white         v     triangle (down)
+                               \^{}     triangle (up)
+                               <     triangle (left)
+                               >     triangle (right)
+                               p     pentagram
+                               h     hexagram
+                          
+    For example, PLOT(X,Y,'c+:') plots a cyan dotted line with a plus 
+    at each data point; PLOT(X,Y,'bd') plots blue diamond at each data 
+    point but does not draw any line.
+ 
+    PLOT(X1,Y1,S1,X2,Y2,S2,X3,Y3,S3,{\ldots}) combines the plots defined by
+    the (X,Y,S) triples, where the X's and Y's are vectors or matrices 
+    and the S's are strings.  
+ 
+    For example, PLOT(X,Y,'y-',X,Y,'go') plots the data twice, with a
+    solid yellow line interpolating green circles at the data points.
+ 
+    The PLOT command, if no color is specified, makes automatic use of
+    the colors specified by the axes ColorOrder property.  By default,
+    PLOT cycles through the colors in the ColorOrder property.  For
+    monochrome systems, PLOT cycles over the axes LineStyleOrder property.
+ 
+    Note that RGB colors in the ColorOrder property may differ from
+    similarly-named colors in the (X,Y,S) triples.  For example, the 
+    second axes ColorOrder property is medium green with RGB [0 .5 0],
+    while PLOT(X,Y,'g') plots a green line with RGB [0 1 0].
+ 
+    If you do not specify a marker type, PLOT uses no marker. 
+    If you do not specify a line style, PLOT uses a solid line.
+ 
+    PLOT(AX,{\ldots}) plots into the axes with handle AX.
+ 
+    PLOT returns a column vector of handles to lineseries objects, one
+    handle per plotted line. 
+ 
+    The X,Y pairs, or X,Y,S triples, can be followed by 
+    parameter/value pairs to specify additional properties 
+    of the lines. For example, PLOT(X,Y,'LineWidth',2,'Color',[.6 0 0]) 
+    will create a plot with a dark red line width of 2 points.
+ 
+    Example
+       x = -pi:pi/10:pi;
+       y = tan(sin(x)) - sin(tan(x));
+       plot(x,y,'--rs','LineWidth',2,{\ldots}
+                       'MarkerEdgeColor','k',{\ldots}
+                       'MarkerFaceColor','g',{\ldots}
+                       'MarkerSize',10)
+ 
+    See also PLOTTOOLS, SEMILOGX, SEMILOGY, LOGLOG, PLOTYY, PLOT3, GRID,
+    TITLE, XLABEL, YLABEL, AXIS, AXES, HOLD, LEGEND, SUBPLOT, SCATTER.
+
+    Reference page in Doc Center
+       doc plot
+
+    Other functions named plot
+
+       alphaShape/plot      dspdata/plot         LinearModel/plot
+       blm/plot             empiricalblm/plot    mixconjugateblm/plot
+       cfit/plot            fints/plot           mixsemiconjugateblm/plot
+       channel/plot         graph/plot           phytree/plot
+       clustergram/plot     HeatMap/plot         polyshape/plot
+       conjugateblm/plot    iddata/plot          semiconjugateblm/plot
+       customblm/plot       idnlarx/plot         sfit/plot
+       diffuseblm/plot      idnlhw/plot          tall/plot
+       digraph/plot         lassoblm/plot        timeseries/plot
+
+
+    \end{Verbatim}
+
+    Comando \texttt{plot}:
+
+Sintáxis: \texttt{plot(X,\ Y)}
+
+Plotea el vector \texttt{Y} vs el vector \texttt{X}.
+
+Si \texttt{X} o \texttt{Y} es una matriz, entonces el vector es ploteado
+vs las filas o columnas de la matriz, dependiendo si el vector es fila o
+columna.
+
+Ejercicio: Grafique \(f(t)=t\mathrm{sen}t\,,0\le t\le 6\).
+
+Ejemplo: Para graficar las funciones:
+\[f(t)=t\mathrm{sen}t\,,0\le t\le 6, \text{ y } g(t)=t^2,0\le t\le 6.\]
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}11}]:} \PY{n}{t\PYZus{}1} \PY{p}{=} \PY{l+m+mi}{0}\PY{p}{:}\PY{l+m+mf}{0.1}\PY{p}{:}\PY{l+m+mi}{6}\PY{p}{;}
+         \PY{n}{y} \PY{p}{=} \PY{p}{[}\PY{n}{t\PYZus{}1}\PY{o}{.*}\PY{n+nb}{sin}\PY{p}{(}\PY{n}{t}\PY{p}{)}\PY{p}{;} \PY{n}{t\PYZus{}1}\PY{o}{.\PYZca{}}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{;}
+         \PY{n}{plot}\PY{p}{(}\PY{n}{t\PYZus{}1}\PY{p}{,}\PY{n}{y}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Lo mismo se obtiene si se escribe
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}12}]:} \PY{n}{t\PYZus{}2} \PY{p}{=} \PY{l+m+mi}{0}\PY{p}{:}\PY{l+m+mf}{0.1}\PY{p}{:}\PY{l+m+mi}{6}\PY{p}{;}
+         \PY{n}{plot}\PY{p}{(}\PY{n}{t\PYZus{}2}\PY{p}{,}\PY{n}{t\PYZus{}2}\PY{o}{.*}\PY{n+nb}{sin}\PY{p}{(}\PY{n}{t\PYZus{}2}\PY{p}{)}\PY{p}{,}\PY{n}{t\PYZus{}2}\PY{p}{,}\PY{n}{t\PYZus{}2}\PY{o}{.\PYZca{}}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_12_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Sintáxis plot (\texttt{X,Y,S}) S es un carácter o cadena (string)
+compuesto de uno o de todos los elementos de las siguientes tres
+columnas:
+
+\begin{longtable}[]{@{}ccc@{}}
+\toprule
+Color & Tipo de marca & Tipo de línea\tabularnewline
+\midrule
+\endhead
+\texttt{y} yellow & \texttt{.} punto & \texttt{-} línea
+continua\tabularnewline
+\texttt{m} magenta & \texttt{o} círculo & \texttt{:} línea
+punteada\tabularnewline
+\texttt{c} cyan & \texttt{x} marca-x & \texttt{-.} línea
+raya-punto.\tabularnewline
+\texttt{r} red & \texttt{+} más & \texttt{-\/-} línea
+rayada\tabularnewline
+\texttt{g} green & \texttt{*} estrella &\tabularnewline
+\texttt{b} blue & s cuadrado &\tabularnewline
+\bottomrule
+\end{longtable}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{El} \PY{n}{objetivo} \PY{n}{de} \PY{n}{los} \PY{n}{métodos} \PY{n}{numéricos} \PY{n}{es} \PY{n}{hallar} \PY{n}{soluciones} \PY{n}{de} \PY{n}{ecuaciones} \PY{n}{desconocidas}\PY{p}{.}\PY{n}{a}
+        \PY{n}{Implementar} \PY{n}{la} \PY{n}{matriz} \PY{n}{de} \PY{n}{Vandermonde} \PY{n}{en} \PY{n}{MATLAB}
+\end{Verbatim}
+
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
