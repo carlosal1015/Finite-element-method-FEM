@@ -1,3 +1,6 @@
 [submodule "2018/matlab-guide-3ed"]
 	path = 2018/matlab-guide-3ed
 	url = https://github.com/higham/matlab-guide-3ed
+[submodule "2018/matlab-schemer"]
+	path = 2018/matlab-schemer
+	url = https://github.com/scottclowe/matlab-schemer
