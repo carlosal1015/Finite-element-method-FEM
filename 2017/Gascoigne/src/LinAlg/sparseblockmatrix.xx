@@ -1,0 +1,631 @@
+/**
+*
+* Copyright (C) 2004, 2005, 2006, 2009, 2011 by the Gascoigne 3D authors
+*
+* This file is part of Gascoigne 3D
+*
+* Gascoigne 3D is free software: you can redistribute it
+* and/or modify it under the terms of the GNU General Public
+* License as published by the Free Software Foundation, either
+* version 3 of the License, or (at your option) any later
+* version.
+*
+* Gascoigne 3D is distributed in the hope that it will be
+* useful, but WITHOUT ANY WARRANTY; without even the implied
+* warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+* PURPOSE.  See the GNU General Public License for more
+* details.
+*
+* Please refer to the file LICENSE.TXT for further information
+* on this license.
+*
+**/
+
+
+#include  "sparseblockmatrix.h"
+#include  "fmatrixblock.h"
+#include  "simplematrix.h"
+
+/*-------------------------------------------------------------*/
+
+namespace Gascoigne
+{
+template<class B>
+SparseBlockMatrix<B>::SparseBlockMatrix() : 
+  MatrixInterface()
+{  
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+SparseBlockMatrix<B>::SparseBlockMatrix(const SparseBlockMatrix<B>& A) : 
+  MatrixInterface()
+{
+}
+  
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockMatrix<B>::Jacobi(GlobalVector& x) const
+{    
+  for(int i=0; i< n(); i++)
+    {	  
+      double a = 1. / (*mat(US.diag(i)))(0,0);
+      *(x.start(i)) *= a; 
+    }
+}   
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockMatrix<B>::FillInterfaceList(const nvector<int>& elements,
+					     nvector<int>& start,
+					     nvector<MatrixEntryType>& values) const
+{
+  assert (elements.size()%2==0);
+  int ne = elements.size()/2;
+  start.resize(ne+1);
+  int index=0;
+  start[index]=0;
+  nvector<MatrixEntryType> tmp;
+  int cur_row=-1;
+  int row;
+  int pos=-1;
+  int col;
+  for (int index=0;index<ne;++index)
+    {
+      row = elements[2*index];
+      col = elements[2*index+1];
+      assert (row>=cur_row);
+      cur_row = row;
+      pos = US.start(row);
+      while ((US.col(pos)!=col)) 
+	{ 
+	  ++pos;
+	  assert (pos!=US.stop(row));
+	}
+      mat(pos)->vector_get(tmp);
+      for (int i=0;i<tmp.size();++i) values.push_back(tmp[i]);	
+      start[index+1]=start[index]+tmp.size();
+    }
+}
+
+// /*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockMatrix<B>::FurbishInterface (double d,
+					     const nvector<int>&   elements,
+					     const nvector<int>&   start,
+					     const nvector<MatrixEntryType>& values)
+{
+  int ne = elements.size()/2;
+  
+  nvector<MatrixEntryType> tmp;
+  int row;
+  int pos=-1;
+  int col;
+  for (int index=0;index<ne;++index)
+    {
+      row = elements[2*index];
+      col = elements[2*index+1];
+      pos = US.start(row);
+      while (US.col(pos)!=col)
+	{
+	  ++pos;
+	  if (pos==US.stop(row)) break;
+	}
+      if (pos == US.stop(row) ) continue;
+      
+      tmp.resize(start[index+1]-start[index]);
+      for (int i=0;i<tmp.size();++i)
+	tmp[i] = values[i+start[index]];
+      mat(pos)->vector_add(d,tmp);
+    }
+}
+
+/*-------------------------------------------------------------*/
+	
+template<class B>
+SparseBlockMatrix<B>& SparseBlockMatrix<B>::operator=(const SparseBlockMatrix<B>& S)
+{
+  const ColumnDiagStencil* AS = dynamic_cast<const ColumnDiagStencil*>(S.GetStencil());
+  assert(AS);
+
+  smat.reserve(S.size());
+  smat.resize (S.size());
+  
+  US.col()  .reserve(AS->nentries());  
+  US.col()  .resize (AS->nentries());
+  US.start().reserve(AS->n()+1);     
+  US.start().resize (AS->n()+1);
+  US.diag() .reserve(AS->n());        
+  US.diag() .resize (AS->n());
+  
+  smat   = S.mat();
+  US.col()   = AS->col();
+  US.start() = AS->start();
+  US.diag()  = AS->diag();
+  
+  return *this;
+} 
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockMatrix<B>::ReInit(const SparseStructureInterface* SI)
+{
+  US.memory(SI);			
+
+  const SparseStructure* S = dynamic_cast<const SparseStructure*>(SI);
+  smat.reserve(S->ntotal());
+  smat.resize (S->ntotal());
+
+  assert(S->ntotal()>0);
+
+  nc = smat[0].ncomp();
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockMatrix<B>::zero()
+{
+  for(int i=0; i<smat.size(); i++)
+    {
+      smat[i].zero();
+    }
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockMatrix<B>::scale_diag(int i, const std::vector<int>& cv,double s)
+{
+  int diag = US.diag(i);
+  for (int c=0;c<cv.size();++c)
+    {
+      int comp = cv[c];
+      assert(comp<nc);
+      smat[diag].diag(comp)*=s;
+    }  
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockMatrix<B>::dirichlet(int i, const std::vector<int>& cv)
+{
+  for(int pos=US.start(i);pos<US.stop(i);pos++)
+    {
+      int j = US.col(pos);
+      smat[pos].DirichletRow(cv);
+      // das ist N^2 !!!!
+      int pos2 = US.Find(j,i);
+      smat[pos2].DirichletCol(cv);
+    }
+  int diag = US.diag(i);
+  smat[diag].DirichletDiag(cv);
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockMatrix<B>::dirichlet_only_row(int i, const std::vector<int>& cv)
+{
+  for(int pos=US.start(i); pos<US.stop(i); pos++)
+    {
+      smat[pos].DirichletRow(cv);
+    }
+  smat[US.diag(i)].DirichletDiag(cv);
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockMatrix<B>::dirichlet_only_column(int i, const std::vector<int>& cv)
+{
+  // very slow... ?? 
+  for (int r=0;r<US.n();++r)
+    for (int p=US.start(r);p<US.stop(r);++p)
+      if (US.col(p)==i)
+	smat[p].DirichletCol(cv);
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockMatrix<B>::dirichlet_only_row_no_diag(int i, const std::vector<int>& cv)
+{
+  for(int pos=US.start(i); pos<US.stop(i); pos++)
+    {
+      smat[pos].DirichletRow(cv);
+    }
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockMatrix<B>::periodic(const map<int,int> &m_PeriodicPairs, const IntVector &iv_Components)
+{
+  for (int i = 0; i < iv_Components.size(); i++)
+  {
+    int comp = iv_Components[i];
+    int first,second;
+    std::vector<double> iv_first,iv_second;
+
+    for (map<int,int>::const_iterator p_pair = m_PeriodicPairs.begin(); p_pair!=m_PeriodicPairs.end(); p_pair++)
+    {
+      first = p_pair->first;
+      second = p_pair->second;
+
+      for(int pos = US.start(first);pos<US.stop(first);pos++)
+      {
+        int j = US.col(pos);
+        for (int pos2 = US.start(second);pos2<US.stop(second);pos2++)
+        {
+          if (US.col(pos2)==j)
+          {
+            smat[pos ].getrow(iv_first,comp);
+            smat[pos2].getrow(iv_second,comp);
+            for (int k = 0; k<iv_first.size();k++)
+            {
+              iv_first[k]  = .5*(iv_first[k] + iv_second[k]);
+              iv_second[k] = iv_first[k];
+            }
+            smat[pos ].setrow(iv_first,comp);
+            smat[pos2].setrow(iv_second,comp);
+            break;
+          }
+        }
+
+        if (j != first && j != second)
+        {
+          for(int pos3 = US.start(j);pos3<US.stop(j);pos3++)
+          {
+            if (US.col(pos3) == first)
+            {
+              for(int pos4 = US.start(j);pos4<US.stop(j);pos4++)
+                if (US.col(pos4) == second)
+                {
+                  smat[pos3].getcolumn(iv_first,comp);
+                  smat[pos4].getcolumn(iv_second,comp);
+                  for (int k = 0; k<iv_first.size();k++)
+                  {
+                    iv_first[k]  = .5*(iv_first[k] + iv_second[k]);
+                    iv_second[k] = iv_first[k];
+                  }
+                  smat[pos3].setcolumn(iv_first,comp);
+                  smat[pos4].setcolumn(iv_second,comp);
+                  break;
+                }
+              break;
+            }
+
+          }
+        }
+      }
+
+      for(int pos = US.start(first);pos<US.stop(first);pos++)
+      {
+        if (US.col(pos) == first)
+        {
+          for (int pos2 = US.start(first);pos2<US.stop(first);pos2++)
+          {
+            if (US.col(pos2) == second)
+            {
+              smat[pos ].getcolumn(iv_first,comp);
+              smat[pos2].getcolumn(iv_second,comp);
+              for (int k = 0; k<iv_first.size();k++)
+              {
+                iv_first[k]  = .5*(iv_first[k] + iv_second[k]);
+                iv_second[k] = iv_first[k];
+              }
+              smat[pos ].setcolumn(iv_first,comp);
+              smat[pos2].setcolumn(iv_second,comp);
+
+              smat[pos ].diag(comp) += smat[pos2].diag(comp);
+              smat[pos2].diag(comp) = 0.;
+              break;
+            }
+          }
+          break;
+        }
+      }
+
+      for(int pos = US.start(second);pos<US.stop(second);pos++)
+      {
+        if (US.col(pos) == first)
+        {
+          for (int pos2 = US.start(second);pos2<US.stop(second);pos2++)
+          {
+            if (US.col(pos2) == second)
+            {
+              smat[pos ].getcolumn(iv_first,comp);
+              smat[pos2].getcolumn(iv_second,comp);
+              for (int k = 0; k<iv_first.size();k++)
+              {
+                iv_first[k]  = .5*(iv_first[k] + iv_second[k]);
+                iv_second[k] = iv_first[k];
+              }
+              smat[pos ].setcolumn(iv_first,comp);
+              smat[pos2].setcolumn(iv_second,comp);
+
+              smat[pos2].diag(comp) += smat[pos].diag(comp);
+              smat[pos ].diag(comp) = 0.;
+              break;
+            }
+          }
+          break;
+        }
+      }
+    }
+  }
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockMatrix<B>::vmult(GlobalVector& y, const GlobalVector& x, double s) const
+{
+  for(int i=0; i<US.n(); i++)
+    {
+      GlobalVector::iterator  off = y.start(i);
+      const int*    cp = &(US.col(US.start(i)));
+      for(int pos = US.start(i); pos<US.stop(i); pos++)
+	{
+	  mat(pos) -> cadd(s,off,x.start(*cp++));
+	}
+    }
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockMatrix<B>::vmult(GlobalVector& y, const GlobalVector& x, const TimePattern& TP, double s) const
+{
+  assert(US.n()>0);
+
+  for(int i=0; i<US.n(); i++)
+    {
+      GlobalVector::iterator  off = y.start(i);
+      for(int pos = US.start(i); pos<US.stop(i); pos++)
+	{
+	  double m = s*smat[pos](0,0);
+	  TP.mult(off,x.start(US.col(pos)),m);
+	}
+    }
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockMatrix<B>::AddMassWithDifferentStencil(const MatrixInterface* M, const TimePattern& TP, double s)
+{
+//   const SparseBlockMatrix<FMatrixBlock<1> >* MP = 
+//     dynamic_cast<const SparseBlockMatrix<FMatrixBlock<1> >*>(M);
+//   assert(MP);
+  const SimpleMatrix* MP = dynamic_cast<const SimpleMatrix*>(M);
+  assert(MP);
+  const ColumnDiagStencil* USM = dynamic_cast<const ColumnDiagStencil*>(MP->GetStencil());
+  assert(USM);
+
+  for(int i=0; i<USM->n(); i++)
+    {
+      for(int pos = USM->start(i); pos<USM->stop(i); pos++)
+	{
+	  int j = USM->col(pos);
+	  //double sm = s * MP->mat(pos)->value(0,0);
+	  double sm = s * MP->GetValue(pos);
+
+	  int mpos = US.Find(i,j);
+	  smat[mpos].add(sm,TP); 
+	}
+    }
+}
+
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockMatrix<B>::AddMassWithDifferentStencilJacobi(const MatrixInterface* M, const TimePattern& TP, double s)
+{
+  const SimpleMatrix* MP = dynamic_cast<const SimpleMatrix*>(M);
+  assert(MP);
+  const ColumnDiagStencil* USM = dynamic_cast<const ColumnDiagStencil*>(MP->GetStencil());
+  assert(USM);
+
+  int n = USM->n();
+  vector<double> diag(n);
+  for(int i=0; i<n; i++)
+  {
+    diag[i] = MP->GetValue(i,i);
+  }
+
+  for(int i=0; i<USM->n(); i++)
+    {
+      for(int pos = USM->start(i); pos<USM->stop(i); pos++)
+	{
+	  int j = USM->col(pos);
+	  double sm = s * MP->GetValue(pos);
+
+	  int mpos = US.Find(i,j);
+	  smat[mpos].add(sm,TP);
+          smat[mpos] *= 1 / sqrt(diag[i] * diag[j]);
+	}
+    }
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockMatrix<B>::transpose()
+{
+  for(int i=0; i<US.n(); i++)
+    {
+      int diag = US.diag(i);
+      smat[diag].transpose();
+      for(int pos = diag+1; pos<US.stop(i); pos++)
+	{
+	  int j    = US.col(pos);
+	  int tpos = US.Find(j,i);
+	  smat[pos].transpose(smat[tpos]);
+	}
+    }
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockMatrix<B>::copy_entries(const MatrixInterface& AI)
+{
+  const SparseBlockMatrix<B>* AP = dynamic_cast<const SparseBlockMatrix<B>*>(&AI);
+  assert(AP);
+
+  const SparseBlockMatrix<B>& A =  *AP;
+
+  const ColumnDiagStencil* AS = dynamic_cast<const ColumnDiagStencil*>(AP->GetStencil());
+  assert(AS);
+
+  if(US.nentries()==AS->nentries()) 
+    {
+      smat = A.mat();
+    }
+  else
+    {
+      zero();
+      for(int i=0;i<US.n();i++)
+	{
+	  for(int posA=AS->start(i); posA<AS->stop(i); posA++)
+	    {
+	      int jA = AS->col(posA);
+	      for(int pos=US.start(i); pos<US.stop(i); pos++)
+		{
+		  int j = US.col(pos);
+		  if(jA==j)  *mat(pos) += *A.mat(posA);	
+		}
+	    }
+	}
+    }
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockMatrix<B>::entry(nvector<int>::const_iterator start, nvector<int>::const_iterator stop, const EntryMatrix& M, double s)
+{
+  nvector<int>::const_iterator p, q;
+  int ii = 0;
+  for (p=start; p!=stop; p++)
+    {
+      int i = *p;
+      int jj = 0;
+      for(q=start; q!=stop; q++)
+	{
+	  int j = *q;
+	  for(int pos=US.start(i);pos<US.stop(i);pos++)
+	    {
+	      if(US.col(pos)==j)   
+		{
+ 		  mat(pos) -> entry(ii,jj,M,s);
+		  break;
+		}
+	    }
+	jj++;
+	}
+      ii++;
+    }
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockMatrix<B>::entry(nvector<int>::const_iterator start1,
+                 nvector<int>::const_iterator stop1,
+                 nvector<int>::const_iterator start2,
+                 nvector<int>::const_iterator stop2,
+                 const EntryMatrix& M, double s)
+{
+  nvector<int>::const_iterator p, q;
+  int ii = 0;
+  for (p=start1; p!=stop1; p++)
+    {
+      int i = *p;
+      int jj = 0;
+      for(q=start2; q!=stop2; q++)
+    	{			
+      	  int j = *q;
+      	  for(int pos=US.start(i);pos<US.stop(i);pos++)
+            {
+              if(US.col(pos)==j)
+            	{
+                  mat(pos) -> entry(ii,jj,M,s);
+                  break;	
+        	}
+        	}
+    	jj++;
+    	}
+      ii++;
+    }
+} 
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockMatrix<B>::entrydual(nvector<int>::const_iterator start, nvector<int>::const_iterator stop, const EntryMatrix& M, double s)
+{
+  nvector<int>::const_iterator p, q;
+  int ii = 0;
+  for (p=start; p!=stop; p++)
+    {
+      int i = *p;
+      int jj = 0;
+      for(q=start; q!=stop; q++)
+	{
+	  int j = *q;
+	  for(int pos=US.start(i);pos<US.stop(i);pos++)
+	    {
+	      if(US.col(pos)==j)   
+		{
+ 		  mat(pos) -> dual_entry(ii,jj,M,s);
+		  break;
+		}
+	    }
+	jj++;
+	}
+      ii++;
+    }
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockMatrix<B>::entry_diag(int i, const nmatrix<double>& M)
+{
+  mat(US.diag(i)) -> entry(M);
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+std::ostream& SparseBlockMatrix<B>::Write(std::ostream &os) const
+{
+  os << n() << "\t" << ntotal() << std::endl << std::endl;
+  os << "Diag\n";
+  for(int i=0; i<US.n(); i++)
+    {
+      os <<  smat[US.diag(i)] << " ";
+    }
+  os << std::endl << std::endl;
+  for(int i=0; i<US.n(); i++)
+    {
+      //const int*    cp = &(US.col(US.start(i)));
+      for(int pos = US.start(i); pos<US.stop(i); pos++)
+	{
+	  os << *mat(pos) << " ";
+	}
+      os << std::endl;
+    }
+  return os;
+}
+}

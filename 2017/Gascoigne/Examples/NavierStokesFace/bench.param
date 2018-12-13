@@ -1,0 +1,39 @@
+//Block Loop
+
+niter        6
+estimator    none
+//estimator    energy
+initial      boundary
+refiner      global
+extrapolate  yes
+
+//Block BoundaryManager
+
+dirichlet        3      4 8 80
+
+dirichletcomp    4      2       1 2
+dirichletcomp    8      2       1 2
+dirichletcomp   80      2       1 2
+
+//Block Equation
+
+visc            0.01
+
+delta           0.5
+alpha           0.5
+
+
+//Block MultiLevelSolver
+
+linearsolve		gmres
+nonlinear_tol		1e-4
+
+//Block Solver
+
+discname 	                Q1
+facediscname			FaceQ1
+
+ilum                    3  0.1  0.1  0.1
+ndirect			200
+
+//Block nix

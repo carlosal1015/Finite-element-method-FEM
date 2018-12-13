@@ -1,0 +1,25 @@
+//Block BoundaryManager
+
+dirichlet       4 1 2 3 4
+dirichletcomp      1  1 0
+dirichletcomp      2  1 0
+dirichletcomp      3  1 0
+dirichletcomp      4  1 0
+
+//Block Loop
+
+niter       10
+refiner     random
+
+//Block Mesh
+
+dimension   2
+prerefine   2
+gridname    square.inp
+
+//Block Solver
+
+discname       Q2
+ndirect              1000
+
+//Block Nix

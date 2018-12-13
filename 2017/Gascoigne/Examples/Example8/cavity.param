@@ -1,0 +1,45 @@
+//Block BoundaryManager
+
+dirichlet        2      1 2
+dirichletcomp    1      2     0  1
+dirichletcomp    2      2     0  1
+
+//Block Loop
+
+scheme      VanKan
+niter       2000
+dt          0.1
+initial     ../DCInstat/vinit.5.bup
+
+//Block Equation
+
+visc            5.e-5
+delta           0.2
+tau             0.
+
+//Block Mesh
+
+dimension   2
+prerefine   6
+gridname    square.inp
+
+//Block MultiLevelSolver
+
+linear_pstep      0
+linear_maxiter    20
+linear_tol        1.e-6
+nonlinear_pstep   1
+nonlinear_tol     1.e-4
+nonlinear_rho     0.4
+mgtype            V
+mgomega           1.
+coarselevel       0
+
+//Block Solver
+
+ndirect                 10
+iterpre                 2
+iterpost                2
+iterexact               10
+
+//Block Nix

@@ -1,0 +1,99 @@
+#############################################
+#
+# skip the following variables
+#
+
+MARK_AS_ADVANCED(CMAKE_INSTALL_PREFIX)
+MARK_AS_ADVANCED(CMAKE_BACKWARDS_COMPATIBILITY)
+
+#############################################
+#
+#  set up user-specific paths
+#
+
+SET(LIBRARY_OUTPUT_PATH    ${GASCOIGNE_LIBRARY_OUTPUT_PATH} CACHE PATH "Single output directory for building all libraries.")
+SET(EXECUTABLE_OUTPUT_PATH ${GASCOIGNE_EXECUTABLE_OUTPUT_PATH} CACHE PATH "Single output directory for building all executables.")
+
+
+#############################################
+#
+#  user-specific compile options
+#
+
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GASCOIGNE_CXX_FLAGS}")
+ADD_DEFINITIONS(${GASCOIGNE_COMPILER_DEFINITIONS})
+
+#############################################
+#
+#  determining the neccesary additional libraries
+#
+
+IF(MARK_WITH_BUILD_TYPE)
+  SET(BUILD_ENDING ${CMAKE_BUILD_TYPE})
+ELSE(MARK_WITH_BUILD_TYPE)
+  SET(BUILD_ENDING "")
+ENDIF(MARK_WITH_BUILD_TYPE)
+
+SET(GASCOIGNE_LIBS "GascoigneStd${BUILD_ENDING}" metis)
+
+IF(WITH_UMFPACK)
+  SET(GASCOIGNE_LIBS ${GASCOIGNE_LIBS} umfpack amd)
+  ADD_DEFINITIONS(-D__WITH_UMFPACK__)
+ENDIF(WITH_UMFPACK)
+
+IF(UMFPACK_WITH_BLAS)
+  SET(GASCOIGNE_LIBS ${GASCOIGNE_LIBS} blas)
+ENDIF(UMFPACK_WITH_BLAS)
+
+IF(MATRIX_DOUBLE_PRECISION)
+  ADD_DEFINITIONS(-D__MATRIX_DOUBLE_PRECISION__)
+ENDIF(MATRIX_DOUBLE_PRECISION)
+
+
+#IF(WITH_GPROF)
+#  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg -g")
+#  SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pg")
+#  SET(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -pg")
+#ENDIF(WITH_GPROF)
+
+
+IF(APPLE)
+  SET(GASCOIGNE_LIBS ${GASCOIGNE_LIBS} "-framework veclib")
+ELSE(APPLE)
+  SET(GASCOIGNE_LIBS ${GASCOIGNE_LIBS} rt)
+ENDIF(APPLE)
+
+IF(WITH_RSTStopWatch)
+  ADD_DEFINITIONS(-D__WITH_RSTStopWatch__)
+ENDIF(WITH_RSTStopWatch)
+
+IF(WITH_THREADS)
+  ADD_DEFINITIONS(-D__WITH_THREADS__)
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
+ENDIF(WITH_THREADS)
+
+IF(NEWER_THAN_GCC_4_2)
+  ADD_DEFINITIONS(-D__NEWER_THAN_GCC_4_2__)
+ENDIF(NEWER_THAN_GCC_4_2)
+
+LINK_DIRECTORIES(${LIBRARY_OUTPUT_PATH})
+
+###############################################
+#
+#  setting the standard include directories
+#
+
+INCLUDE_DIRECTORIES(
+  ${GASCOIGNE_STD}/src/Common 
+  ${GASCOIGNE_STD}/src/Interface
+  ${GASCOIGNE_STD}/src/Mesh
+  ${GASCOIGNE_STD}/src/Discretization/Q1
+  ${GASCOIGNE_STD}/src/Discretization/Q2
+  ${GASCOIGNE_STD}/src/Discretization/Q4
+  ${GASCOIGNE_STD}/src/Discretization/Gls
+  ${GASCOIGNE_STD}/src/Discretization/Lps
+  ${GASCOIGNE_STD}/src/Discretization/Face
+  ${GASCOIGNE_STD}/src/Problems
+  ${GASCOIGNE_STD}/src/LinAlg
+  ${GASCOIGNE_STD}/src/Solver
+)

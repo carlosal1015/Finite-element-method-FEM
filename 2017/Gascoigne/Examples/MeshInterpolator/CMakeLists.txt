@@ -1,0 +1,8 @@
+IF(COPY_PARAMFILES)
+  SET(_SRC ${GASCOIGNESTD_SOURCE_DIR}/Examples/Laplace2D)
+  ADD_CUSTOM_TARGET(COPY ALL cp ${_SRC}/*.param ${_SRC}/*.inp .)
+ENDIF(COPY_PARAMFILES)
+
+ADD_EXECUTABLE("MeshInterpolator${BUILD_ENDING}" main.cc)
+
+

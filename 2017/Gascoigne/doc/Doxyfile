@@ -1,0 +1,11 @@
+@INCLUDE = Doxyfile.generic
+
+PROJECT_NAME           = Gascoigne
+STRIP_FROM_PATH        = ../src
+INPUT                  = ../src
+TAGFILES               = "libstdc++.tag = http://gcc.gnu.org/onlinedocs/libstdc++/latest-doxygen"
+GENERATE_TAGFILE       = gascoigne.tag
+HTML_HEADER            = headerFile
+HTML_FOOTER            = footerFile
+HTML_STYLESHEET        = doxygen.css
+GENERATE_LATEX         = YES

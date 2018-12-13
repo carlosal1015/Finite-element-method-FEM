@@ -1,0 +1,12 @@
+//Block Mesh
+
+dimension   2
+prerefine   0
+gridname    ziel2.gup
+
+//Block Solver
+
+discname       Q1
+ndirect              1000
+
+//Block Nix

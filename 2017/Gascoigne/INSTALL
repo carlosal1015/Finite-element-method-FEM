@@ -1,0 +1,50 @@
+****************************************************
+For installation, we require:
+****************************************************
+
+a) cmake, see
+http://www.cmake.org/HTML/Index.html
+(used as Makefile generator)
+
+
+b) umfpack
+http://www.cise.ufl.edu/research/sparse/umfpack/
+(used as direct sparse solver)
+
+
+c) metis
+http://www-users.cs.umn.edu/~karypis/metis/
+(used for optimisation of matrix storage)
+
+
+****************************************************
+Architecture
+****************************************************
+
+The copiler known to work is gcc-4.x
+
+
+****************************************************
+Installation
+****************************************************
+
+1.) Copy the file "gascoignerc_example" to ${HOME}/.gascoignerc and 
+set the variable "GASCOIGNE_STD" to point to the location of GascoigneStd.
+The other variables are optional.
+
+2) You can compile in the directory GascoigneStd, but it is a good idea 
+to do compile in an empty dir which we call <GAS_STD_OBJ> in the following,
+<GAS_STD> stands for GascoigneStd.
+
+3) cd <GAS_STD_OBJ>
+
+4) ccmake <GAS_STD>
+   Follow the instructions of ccmake, e.g. press "c" for configure,
+   Validate the path for external libraries metis and umfpack.
+   A newer version of umfpack needs the additional library libamd.a.
+   In this case, choose UMFPACK_WITH_AMD ON.
+   Press "c" several times, until all "*" disappear.
+   Press "g" for generate all Makefiles
+
+5) make
+

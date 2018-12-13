@@ -1,0 +1,290 @@
+/**
+*
+* Copyright (C) 2004, 2005, 2006, 2009, 2011 by the Gascoigne 3D authors
+*
+* This file is part of Gascoigne 3D
+*
+* Gascoigne 3D is free software: you can redistribute it
+* and/or modify it under the terms of the GNU General Public
+* License as published by the Free Software Foundation, either
+* version 3 of the License, or (at your option) any later
+* version.
+*
+* Gascoigne 3D is distributed in the hope that it will be
+* useful, but WITHOUT ANY WARRANTY; without even the implied
+* warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+* PURPOSE.  See the GNU General Public License for more
+* details.
+*
+* Please refer to the file LICENSE.TXT for further information
+* on this license.
+*
+**/
+
+
+// -*- c++ -*-
+#include  "sparseblockilu.h"
+#include  "compareclass.h"
+
+#include  "giota.h"
+#include  "sparsestructure.h"
+
+
+/*-------------------------------------------------------------*/
+
+namespace Gascoigne
+{
+template<class B>
+SparseBlockIlu<B>::SparseBlockIlu() : 
+  IluInterface(), SparseBlockMatrix<B>()
+{
+  yp = new GlobalVector;
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+SparseBlockIlu<B>::SparseBlockIlu(const SparseBlockIlu<B>& I) : 
+  IluInterface(), SparseBlockMatrix<B>(I)
+{
+  yp = new GlobalVector;
+} 
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+SparseBlockIlu<B>::~SparseBlockIlu()
+{
+  if(yp) delete yp;
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockIlu<B>::ReInit(const SparseStructureInterface* SI)
+{
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockIlu<B>::ConstructStructure(const nvector<int>& perm, const MatrixInterface& MAP)
+{
+  const ColumnDiagStencil* SP = dynamic_cast<const ColumnDiagStencil*>(MAP.GetStencil());
+
+  int n =    SP->n();
+  int ntot = SP->nentries();
+  assert(ntot>0);
+
+  SparseBlockMatrix<B>::US.memory(n,ntot);
+  SparseBlockMatrix<B>::smat.reserve(ntot);
+  SparseBlockMatrix<B>::smat.resize (ntot);
+  SparseBlockMatrix<B>::nc = SparseBlockMatrix<B>::smat[0].ncomp();
+
+  p.reservesize(n,0);
+  q.reservesize(n,0);
+
+  assert(p.size()==perm.size());
+
+  p = perm;
+  for(int i=0;i<n;i++) q[p[i]] = 1;
+  for(int i=0;i<n;i++) 
+    {
+      assert(q[i]!=0);
+    }
+  for(int i=0;i<n;i++) q[p[i]] = i;
+
+  int zmax = 1;
+  for(int i=0;i<n;i++)
+    {
+      zmax = Gascoigne::max_int(zmax,SP->rowsize(i));
+    }
+  nvector<int> ppi(zmax), picol(zmax);
+
+  SparseBlockMatrix<B>::US.start(0) = 0;
+  for(int i=0;i<n;i++)
+    {
+      int pi = p[i];
+      int ni = SP->rowsize(pi);
+      SparseBlockMatrix<B>::US.start(i+1) = SparseBlockMatrix<B>::US.start(i) + ni;
+
+      int count=0;
+      for(int pos=SP->start(pi);pos<SP->stop(pi);pos++)
+        {
+          picol[count++] = q[SP->col(pos)];
+        }
+      iota(ppi.begin(),ppi.begin()+ni,0);
+      sort(ppi.begin(),ppi.begin()+ni,CompareLess<nvector<int> >(picol));
+
+      for(int ii=0;ii<ni;ii++)
+        {
+          SparseBlockMatrix<B>::US.col(SparseBlockMatrix<B>::US.start(i)+ ii) = picol[ppi[ii]];
+        }
+      for(int pos=SparseBlockMatrix<B>::US.start(i);pos<SparseBlockMatrix<B>::US.stop(i);pos++)
+        {
+          if(SparseBlockMatrix<B>::US.col(pos)==i)
+            {
+              SparseBlockMatrix<B>::US.diag(i) = pos;
+              continue;
+            }
+        }
+    }
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockIlu<B>::copy_entries(const MatrixInterface* A)
+{
+  const SparseBlockMatrix<B>* MM = dynamic_cast<const SparseBlockMatrix<B>*>(A);
+  assert(MM);
+  const ColumnDiagStencil* AS = dynamic_cast<const ColumnDiagStencil*>(MM->GetStencil());
+  assert(AS);
+
+  for(int i=0;i<SparseBlockMatrix<B>::US.n();i++)
+    {
+      int pi = p[i];
+
+      for(int posA=AS->start(pi); posA<AS->stop(pi); posA++)
+        {
+          int j   = AS->col(posA);
+          int pj  = q[j];
+          bool found=0;
+          for(int pos=SparseBlockMatrix<B>::US.start(i); pos<SparseBlockMatrix<B>::US.stop(i); pos++)
+            {
+              int k = SparseBlockMatrix<B>::US.col(pos);
+              if(k==pj)	
+          {
+            *SparseBlockMatrix<B>::mat(pos) += *MM->mat(posA);
+            found=1;
+            break;
+          }
+            }
+          if(!found)
+            {
+              std::cout << "not found " << std::endl;
+              std::cout << *MM->mat(posA) << std::endl;
+              
+      //	      *SparseBlockMatrix<B>::mat(SparseBlockMatrix<B>::US.diag(i)) += *MM.mat(posA);	
+            }
+        }
+    }
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockIlu<B>::hin(const GlobalVector& x) const
+{
+  yp->ncomp() = x.ncomp();
+  yp->reservesize(x.n());
+
+  for(int i=0;i<SparseBlockMatrix<B>::US.n();i++)  yp->equ_node(i,1.,p[i],x);
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockIlu<B>::her(GlobalVector& x) const
+{
+  for(int i=0;i<SparseBlockMatrix<B>::US.n();i++)  x.equ_node(i,1.,q[i],*yp);
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockIlu<B>::forward() const
+{
+  for(int i=1; i<SparseBlockMatrix<B>::US.n(); i++)
+    {
+      int ende = SparseBlockMatrix<B>::US.diag(i); 
+      for(int pos=SparseBlockMatrix<B>::US.start(i); pos<ende; pos++)
+        {
+          SparseBlockMatrix<B>::mat(pos)->subtract(yp->start(i),yp->start(SparseBlockMatrix<B>::US.col(pos)));
+        }
+    }
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockIlu<B>::backward() const
+{
+  for(int i=SparseBlockMatrix<B>::US.n()-1; i>=0; i--)
+    {
+      int ende = SparseBlockMatrix<B>::US.diag(i); 
+      for(int pos=SparseBlockMatrix<B>::US.stop(i)-1; pos>ende; pos--)
+        {
+          SparseBlockMatrix<B>::mat(pos)->subtract(yp->start(i),yp->start(SparseBlockMatrix<B>::US.col(pos)));
+        }
+      SparseBlockMatrix<B>::mat(SparseBlockMatrix<B>::US.diag(i))->vmult(yp->start(i));
+    }
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockIlu<B>::solve(GlobalVector& x) const
+{
+  hin(x);
+  forward ();
+  backward();
+  her(x);
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockIlu<B>::compute_ilu()
+{
+  for(int i=0; i<SparseBlockMatrix<B>::US.n(); i++)
+    {
+      for (int pk=SparseBlockMatrix<B>::US.start(i); pk<SparseBlockMatrix<B>::US.diag(i); pk++)
+        {
+          int k = SparseBlockMatrix<B>::US.col(pk);
+
+          *SparseBlockMatrix<B>::mat(pk) *= *SparseBlockMatrix<B>::mat(SparseBlockMatrix<B>::US.diag(k));   /*  a(i,k) *= a(k,k) */
+
+          for (int pj=SparseBlockMatrix<B>::US.diag(k)+1; pj<SparseBlockMatrix<B>::US.stop(k); pj++)
+            {
+              int j  = SparseBlockMatrix<B>::US.col(pj);
+              // suche ph
+              for (int ph=SparseBlockMatrix<B>::US.start(i); ph<SparseBlockMatrix<B>::US.stop(i); ph++)
+                {
+                  if (SparseBlockMatrix<B>::US.col(ph)==j)
+                    {
+                      SparseBlockMatrix<B>::mat(ph) -> submult(*SparseBlockMatrix<B>::mat(pk),*SparseBlockMatrix<B>::mat(pj));
+                      break;
+                    }
+                }
+            }
+        }
+      SparseBlockMatrix<B>::mat(SparseBlockMatrix<B>::US.diag(i)) -> inverse();
+    }
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void SparseBlockIlu<B>::modify(int c, double s)
+{
+  for(int i=0;i<n();++i)
+    {
+      double sum=0.;
+      for(int pos=start(i);pos<stop(i);pos++)
+        {
+           sum += fabs(SparseBlockMatrix<B>::smat[pos](c,c));
+        }
+      sum -= fabs(SparseBlockMatrix<B>::smat[diag(i)](c,c));
+      SparseBlockMatrix<B>::smat[diag(i)].diag(c) += s*sum;
+    }
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+std::ostream& SparseBlockIlu<B>::Write(std::ostream &s) const
+{
+  return SparseBlockMatrix<B>::Write(s);
+}
+}

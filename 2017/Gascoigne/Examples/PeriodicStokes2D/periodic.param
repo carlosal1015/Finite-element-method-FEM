@@ -1,0 +1,38 @@
+//Block Loop
+niter       4
+refiner     global
+
+//Block Equation
+speed       1
+visc        0.05
+lps_alpha0  0.75
+
+//Block Mesh
+dimension   2
+prerefine   1
+gridname    periodic.inp
+
+//Block MultiLevelSolver
+linearsolve       mg
+//nonlinear_rho     0.009
+//nonlinear_tol     1.e-20
+
+//Block Solver
+discname    Q1Lps
+matrixtype  block
+ilum        3  0.01 0.1 0.1
+pfilter     1  0
+
+//Block BoundaryManager
+//                  nr  colors
+functional          4   0 90 91 92
+
+dirichlet           2  0 91
+dirichletcomp    0  2  1 2
+dirichletcomp   91  2  1 2
+
+periodic            2  90 92
+periodiccomp    90  3  0 1 2
+periodiccomp    92  3  0 1 2
+
+//Block Nix

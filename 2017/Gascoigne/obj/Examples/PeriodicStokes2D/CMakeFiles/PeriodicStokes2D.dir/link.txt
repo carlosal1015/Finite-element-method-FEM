@@ -1,0 +1,1 @@
+/usr/bin/c++   -ansi -pedantic -Wall -Wno-sign-compare -Wold-style-cast -ansi -pedantic -Wall -Wno-sign-compare -Wold-style-cast  -rdynamic CMakeFiles/PeriodicStokes2D.dir/main.o  -o PeriodicStokes2D  -L/home/carlosal1015/Gascoigne/lib -Wl,-rpath,/home/carlosal1015/Gascoigne/lib -lmetis -lumfpack -lamd -lrt ../../../lib/libGascoigneStd.so -lmetis -lumfpack -lamd -lrt 

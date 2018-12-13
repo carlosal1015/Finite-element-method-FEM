@@ -1,0 +1,53 @@
+//Block Adaptor
+
+//maxnodes      1000
+coarsening    0
+
+//Block Loop
+
+niter        5
+estimator    none
+initial      boundary
+refiner      global
+
+//Block BoundaryManager
+
+dirichlet        3      4 8 80
+
+dirichletcomp    4      1       0
+dirichletcomp    8      1       0
+dirichletcomp   80      1       0
+
+//Block Equation
+
+visc            0.001
+sigma           0.
+alpha           0.5
+
+//Block MultiLevelSolver
+
+linear_maxiter          20
+linear_pstep		0
+
+linearsolve		mg
+nonlinear_maxiter       20
+nonlinear_rho           0.05
+nonlinear_tol		1e-4
+nonlinear_damp          10
+
+//Block Solver
+
+discname                Q1Gls
+iterpre                 2
+iterpost                2
+iterexact               10
+ilum                    1  0.5
+ilusort                 cuthillmckee
+ndirect			100
+
+//Block Mesh
+
+dimension   2
+gridname    convection.gup
+
+//Block nix

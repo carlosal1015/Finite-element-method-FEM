@@ -1,0 +1,80 @@
+/**
+*
+* Copyright (C) 2004, 2005 by the Gascoigne 3D authors
+*
+* This file is part of Gascoigne 3D
+*
+* Gascoigne 3D is free software: you can redistribute it
+* and/or modify it under the terms of the GNU General Public
+* License as published by the Free Software Foundation, either
+* version 3 of the License, or (at your option) any later
+* version.
+*
+* Gascoigne 3D is distributed in the hope that it will be
+* useful, but WITHOUT ANY WARRANTY; without even the implied
+* warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+* PURPOSE.  See the GNU General Public License for more
+* details.
+*
+* Please refer to the file LICENSE.TXT for further information
+* on this license.
+*
+**/
+
+
+#include  "finiteelementwithsecond.h"
+
+namespace Gascoigne
+{
+template<int DIM, int BDIM, class TRAFO, class BASE>
+inline void FiniteElementWithSecond<DIM,BDIM,TRAFO,BASE>::ComputeHesse
+(const Vertex3d& xi) const
+{
+  Matrix tmp(3,3);
+  
+  const nvector<Matrix>& ddti = FiniteElement<DIM,BDIM,TRAFO,BASE>::T.DDTI(xi);
+  Matrix dti_ = FiniteElement<DIM,BDIM,TRAFO,BASE>::T.DTI();
+  dti_.transpose();
+  
+  for (int i=0;i<FiniteElement<DIM,BDIM,TRAFO,BASE>::n();++i)
+    {
+		// linear transformation
+      hesse[i](0,0) = FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_xx(i);
+      hesse[i](1,0) = FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_xy(i);
+      hesse[i](2,0) = FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_xz(i);
+
+      hesse[i](0,1) = FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_xy(i);
+      hesse[i](1,1) = FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_yy(i);
+      hesse[i](2,1) = FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_yz(i);
+
+      hesse[i](0,2) = FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_xz(i);
+      hesse[i](1,2) = FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_yz(i);
+      hesse[i](2,2) = FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_zz(i);
+      
+      FiniteElement<DIM,BDIM,TRAFO,BASE>::T.DTI().mmult(tmp,hesse[i]);
+      tmp.mmult(hesse[i],dti_);
+      
+		// nonlinear transformation
+      double xx = FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_x(i)*ddti[0](0,0)+FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_y(i)*ddti[0](1,0)+FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_z(i)*ddti[0](2,0);
+      double xy = FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_x(i)*ddti[0](0,1)+FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_y(i)*ddti[0](1,1)+FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_z(i)*ddti[0](2,1);
+      double xz = FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_x(i)*ddti[0](0,2)+FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_y(i)*ddti[0](1,2)+FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_z(i)*ddti[0](2,2);
+
+      double yy = FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_x(i)*ddti[1](0,1)+FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_y(i)*ddti[1](1,1)+FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_z(i)*ddti[1](2,1);
+      double yz = FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_x(i)*ddti[1](0,2)+FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_y(i)*ddti[1](1,2)+FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_z(i)*ddti[1](2,2);
+
+      double zz = FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_x(i)*ddti[2](0,2)+FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_y(i)*ddti[2](1,2)+FiniteElement<DIM,BDIM,TRAFO,BASE>::B.phi_z(i)*ddti[2](2,2);
+      
+      hesse[i](0,0) += xx;
+      hesse[i](1,0) += xy;
+      hesse[i](2,0) += xz;
+
+      hesse[i](0,1) += xy;
+      hesse[i](1,1) += yy;
+      hesse[i](2,1) += yz;
+
+      hesse[i](0,2) += xz;
+      hesse[i](1,2) += yz;
+      hesse[i](2,2) += zz;
+    } 
+}
+}

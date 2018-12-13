@@ -1,0 +1,49 @@
+//Block Adaptor
+
+alpha        2
+
+//Block Loop
+
+type        tl
+niter       10
+
+p           0.01
+//refiner     dip
+//refiner     random
+//refiner     global
+error      yes
+estimator  old
+
+//Block Mesh
+
+patchdepth  2
+dimension   2
+prerefine   2
+gridname    slit.inp
+etapatcher 0
+
+//Block BoundaryManager
+
+dirichlet       1 9
+dirichletcomp      9  1 0
+
+//Block Problem
+
+equation    Laplace
+
+exactsolution            Slit
+dirichletdata            ExactSolution
+rhs                      Zero
+
+//Block Solver
+
+discname         Q1
+matrixtype   umf
+iterpre                 1
+iterpost                1
+iterexact              10
+
+
+//Block Nix
+
+

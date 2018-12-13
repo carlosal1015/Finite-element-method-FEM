@@ -1,0 +1,383 @@
+/**
+*
+* Copyright (C) 2008, 2011 by the Gascoigne 3D authors
+*
+* This file is part of Gascoigne 3D
+*
+* Gascoigne 3D is free software: you can redistribute it
+* and/or modify it under the terms of the GNU General Public
+* License as published by the Free Software Foundation, either
+* version 3 of the License, or (at your option) any later
+* version.
+*
+* Gascoigne 3D is distributed in the hope that it will be
+* useful, but WITHOUT ANY WARRANTY; without even the implied
+* warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+* PURPOSE.  See the GNU General Public License for more
+* details.
+*
+* Please refer to the file LICENSE.TXT for further information
+* on this license.
+*
+**/
+
+
+//    -*- c++ -*- 
+
+#include  "dynamicblockmatrix.h"
+#include  "fmatrixblock.h"
+#include  "simplematrix.h"
+
+/*-------------------------------------------------------------*/
+
+namespace Gascoigne
+{
+    template<class B>
+    DynamicBlockMatrix<B>::DynamicBlockMatrix() : 
+	MatrixInterface()
+    {  
+    }
+
+/*-------------------------------------------------------------*/
+
+    template<class B>
+    DynamicBlockMatrix<B>::DynamicBlockMatrix(const DynamicBlockMatrix<B>& A) : 
+	MatrixInterface()
+    {
+    }
+  
+/*-------------------------------------------------------------*/
+
+
+	
+    template<class B>
+    DynamicBlockMatrix<B>& DynamicBlockMatrix<B>::operator=(const DynamicBlockMatrix<B>& S)
+    {
+        std::cerr << "\"DynamicBlockMatrix::operator=\" not written!" << std::endl;
+        abort();
+
+// 	const ColumnDiagStencil* AS = dynamic_cast<const ColumnDiagStencil*>(S.GetStencil());
+// 	assert(AS);
+
+// 	smat.reserve(S.size());
+// 	smat.resize (S.size());
+  
+// 	US.col()  .reserve(AS->nentries());  
+// 	US.col()  .resize (AS->nentries());
+// 	US.start().reserve(AS->n()+1);     
+// 	US.start().resize (AS->n()+1);
+// 	US.diag() .reserve(AS->n());        
+// 	US.diag() .resize (AS->n());
+  
+// 	smat   = S.mat();
+// 	US.col()   = AS->col();
+// 	US.start() = AS->start();
+// 	US.diag()  = AS->diag();
+  
+// 	return *this;
+    } 
+
+/*-------------------------------------------------------------*/
+
+    template<class B>
+    void DynamicBlockMatrix<B>::ReInit(const SparseStructureInterface* SI)
+    {
+	// Stencil is in matrix!
+	const SparseStructure* SS = dynamic_cast<const SparseStructure*>(SI);
+	assert(SS);
+	assert(SS->n()>0);
+	
+	DS.cols.clear();
+	DS.cols.resize(SS->n());
+	int count=0;
+	for(int i=0;i<SS->n();++i)
+	    for(set<int>::const_iterator p=SS->rowbegin(i);p!=SS->rowend(i);p++,++count)
+		DS.cols[i].push_back(*p);
+	smat.resize(SS->n());
+	for (int i=0;i<SS->n();++i)
+	    smat[i].resize(DS.cols[i].size());
+	const_viterator it = smat[0].begin(); assert(it!=smat[0].end());
+	nc = it->ncomp();
+    }
+
+/*-------------------------------------------------------------*/
+
+    template<class B>
+    void DynamicBlockMatrix<B>::zero()
+    {
+	for(int i=0; i<smat.size(); i++)
+	    for (viterator it=smat[i].begin();it!=smat[i].end();++it)
+		it->zero();
+    }
+
+/*-------------------------------------------------------------*/
+
+    template<class B>
+    void DynamicBlockMatrix<B>::dirichlet(int i, const std::vector<int>& cv)
+    {
+	const_citerator cit = DS.cstart(i);
+	viterator vit = smat[i].begin();
+	for (;cit!=DS.cstop(i);++cit,++vit)
+	{
+	    int j = *cit;
+	    vit->DirichletRow(cv);
+	    // das ist N^2 !!!!
+	    vfind(j,i)->DirichletCol(cv);
+	}
+	vdiag(i)->DirichletDiag(cv);
+    }
+
+/*-------------------------------------------------------------*/
+
+    template<class B>
+    void DynamicBlockMatrix<B>::dirichlet_only_row(int i, const std::vector<int>& cv)
+    {
+	const_citerator cit = DS.cstart(i);
+	viterator vit = smat[i].begin();
+	for (;cit!=DS.cstop(i);++cit,++vit)
+	    vit->DirichletRow(cv);
+	vdiag(i)->DirichletDiag(cv);
+    }
+
+/*-------------------------------------------------------------*/
+
+    template<class B>
+    void DynamicBlockMatrix<B>::vmult(GlobalVector& y, const GlobalVector& x, double s) const
+    {
+	for(int i=0; i<n(); i++)
+	{
+	    GlobalVector::iterator  off = y.start(i);
+	    const_citerator ci = DS.cstart(i);
+	    const_viterator vi = smat[i].begin();
+	    for (;ci!=DS.cstop(i);++ci,++vi)
+		vi->cadd(s,off,x.start(*ci));
+	}
+    }
+
+/*-------------------------------------------------------------*/
+    
+    template<class B>
+    void DynamicBlockMatrix<B>::AddMassWithDifferentStencil(const MatrixInterface* M, const TimePattern& TP, double s)
+    {
+	const SimpleMatrix* MP = dynamic_cast<const SimpleMatrix*>(M);
+	assert(MP);
+	const ColumnDiagStencil* USM = dynamic_cast<const ColumnDiagStencil*>(MP->GetStencil());
+	assert(USM);
+	
+	assert(n()==USM->n());
+	for(int i=0; i<USM->n(); i++)
+	{
+
+	    //////////////////////////
+	    // Why do we search here??? perhaps it's necessary, who knows...
+	    //////////////////////////
+// 	    for(int pos = USM->start(i); pos<USM->stop(i); pos++)
+// 	    {
+// 		int j = USM->col(pos);
+// 		double sm = s * MP->GetValue(pos);
+// 		vfind(i,j)->add(sm,TP);
+// 	    }
+	    /////////////////////////
+	    // try it like this
+	    /////////////////////////
+	    const_citerator cit = DS.cstart(i);
+	    viterator       vit = vstart(i);
+	    for (int pos=USM->start(i);pos<USM->stop(i);++pos)
+	    {
+		int j = USM->col(pos);
+ 		double sm = s * MP->GetValue(pos);
+		for (;cit!=DS.cstop(i);++cit,++vit)
+		    if (*cit==j) break;
+		assert(cit!=DS.cstop(i));
+		vit->add(sm,TP);
+	    }
+	    
+	}
+    }
+
+
+/*-------------------------------------------------------------*/
+
+    template<class B>
+    void DynamicBlockMatrix<B>::vmult(GlobalVector& y, const GlobalVector& x, const TimePattern& TP, double s) const
+    {
+	for(int i=0; i<n(); i++)
+	{
+	    GlobalVector::iterator  off = y.start(i);
+	    const_citerator ci = DS.cstart(i);
+	    const_viterator vi = smat[i].begin();
+	    for (;ci!=DS.cstop(i);++ci,++vi)
+	    {
+		double m = s* (*vi)(0,0);
+		TP.mult(off, x.start(*ci),m);
+	    }
+	}
+    }
+    
+/*-------------------------------------------------------------*/
+
+    template<class B>
+    void DynamicBlockMatrix<B>::transpose()
+    {
+	// not tested at all!
+	// due to dynamic fill-ins it is also very
+	// unlikely, that this matrix is symmetric!
+
+	for(int i=0; i<n(); i++)
+	{
+	    vdiag(i)->transpose();
+	    const_citerator ci = cdiag(i); ++ci;
+	    viterator       vi = vdiag(i); ++vi;
+	    for(;ci!=DS.cstop(i);++ci,++vi)
+		vi->transpose(*vfind(*ci,i));
+	}
+    }
+
+/*-------------------------------------------------------------*/
+
+//     template<class B>
+//     void DynamicBlockMatrix<B>::copy_entries(const MatrixInterface& AI)
+//     {
+// 	const DynamicBlockMatrix<B>* AP = dynamic_cast<const DynamicBlockMatrix<B>*>(&AI);
+// 	assert(AP);
+
+// 	const DynamicBlockMatrix<B>& A =  *AP;
+
+// 	const ColumnDiagStencil* AS = dynamic_cast<const ColumnDiagStencil*>(AP->GetStencil());
+// 	assert(AS);
+
+// 	if(US.nentries()==AS->nentries()) 
+// 	{
+// 	    smat = A.mat();
+// 	}
+// 	else
+// 	{
+// 	    zero();
+// 	    for(int i=0;i<US.n();i++)
+// 	    {
+// 		for(int posA=AS->start(i); posA<AS->stop(i); posA++)
+// 		{
+// 		    int jA = AS->col(posA);
+// 		    for(int pos=US.start(i); pos<US.stop(i); pos++)
+// 		    {
+// 			int j = US.col(pos);
+// 			if(jA==j)  *mat(pos) += *A.mat(posA);	
+// 		    }
+// 		}
+// 	    }
+// 	}
+//     }
+
+ /*-------------------------------------------------------------*/
+
+    template<class B>
+    void DynamicBlockMatrix<B>::Jacobi(GlobalVector& x) const
+    {    
+	for(int i=0; i< n(); i++)
+	{	  
+	    double a = 1. / ((*vdiag(i))(0,0));
+	    *(x.start(i)) *= a; 
+	}
+    }   
+
+ /*-------------------------------------------------------------*/
+
+    template<class B>
+    void DynamicBlockMatrix<B>::entry(nvector<int>::const_iterator start, nvector<int>::const_iterator stop, const EntryMatrix& M, double s)
+    {
+	nvector<int>::const_iterator p, q;
+	int ii = 0;
+	for (p=start; p!=stop; p++)
+	{
+	    int i = *p;
+	    int jj = 0;
+	    for(q=start; q!=stop; q++)
+	    {
+		int j = *q;
+		viterator vit = smat[i].begin();
+		for(const_citerator cit = DS.cstart(i);cit!=DS.cstop(i);++cit,++vit)
+		{
+		    if(*cit==j)
+		    {
+			vit -> entry(ii,jj,M,s);
+			break;
+		    }
+		}
+		jj++;
+	    }
+	    ii++;
+	}
+    }
+    
+// /*-------------------------------------------------------------*/
+    
+//     template<class B>
+//     void DynamicBlockMatrix<B>::entry(nvector<int>::const_iterator start1,
+// 				      nvector<int>::const_iterator stop1,
+// 				      nvector<int>::const_iterator start2,
+// 				      nvector<int>::const_iterator stop2,
+// 				      const EntryMatrix& M, double s)
+//     {
+// 	nvector<int>::const_iterator p, q;
+// 	int ii = 0;
+// 	for (p=start1; p!=stop1; p++)
+// 	{
+// 	    int i = *p;
+// 	    int jj = 0;
+// 	    for(q=start2; q!=stop2; q++)
+// 	    {			
+// 		int j = *q;
+// 		for(int pos=US.start(i);pos<US.stop(i);pos++)
+// 		{
+// 		    if(US.col(pos)==j)
+// 		    {
+// 			mat(pos) -> entry(ii,jj,M,s);
+// 			break;	
+// 		    }
+//         	}
+// 		jj++;
+// 	    }
+// 	    ii++;
+// 	}
+//     } 
+
+// /*-------------------------------------------------------------*/
+
+//     template<class B>
+//     void DynamicBlockMatrix<B>::entrydual(nvector<int>::const_iterator start, nvector<int>::const_iterator stop, const EntryMatrix& M, double s)
+//     {
+// 	nvector<int>::const_iterator p, q;
+// 	int ii = 0;
+// 	for (p=start; p!=stop; p++)
+// 	{
+// 	    int i = *p;
+// 	    int jj = 0;
+// 	    for(q=start; q!=stop; q++)
+// 	    {
+// 		int j = *q;
+// 		for(int pos=US.start(i);pos<US.stop(i);pos++)
+// 		{
+// 		    if(US.col(pos)==j)   
+// 		    {
+// 			mat(pos) -> dual_entry(ii,jj,M,s);
+// 			break;
+// 		    }
+// 		}
+// 		jj++;
+// 	    }
+// 	    ii++;
+// 	}
+//     }
+
+// /*-------------------------------------------------------------*/
+
+    template<class B>
+    void DynamicBlockMatrix<B>::entry_diag(int i, const nmatrix<double>& M)
+    {
+	vdiag(i)->entry(M);
+    }
+
+// /*-------------------------------------------------------------*/
+
+
+}

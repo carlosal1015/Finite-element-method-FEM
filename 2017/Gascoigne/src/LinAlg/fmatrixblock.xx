@@ -1,0 +1,241 @@
+/**
+*
+* Copyright (C) 2004, 2005, 2009 by the Gascoigne 3D authors
+*
+* This file is part of Gascoigne 3D
+*
+* Gascoigne 3D is free software: you can redistribute it
+* and/or modify it under the terms of the GNU General Public
+* License as published by the Free Software Foundation, either
+* version 3 of the License, or (at your option) any later
+* version.
+*
+* Gascoigne 3D is distributed in the hope that it will be
+* useful, but WITHOUT ANY WARRANTY; without even the implied
+* warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+* PURPOSE.  See the GNU General Public License for more
+* details.
+*
+* Please refer to the file LICENSE.TXT for further information
+* on this license.
+*
+**/
+
+
+#include  "fmatrixblock.h"
+
+namespace Gascoigne
+{
+/**********************************************************/
+
+template<int N>
+std::ostream& FMatrixBlock<N>::print(std::ostream& s) const
+{
+  s << *this;
+  return s;
+}
+
+/**********************************************************/
+
+template<int N>
+void  FMatrixBlock<N>::add(double s, const TimePattern& TP)
+{
+  for (int i=0; i<N; i++)
+    {
+      for (int j=0; j<N; j++)
+        {
+          NodeMatrix<N,MatrixEntryType>::value(i,j) += s*TP(i,j);
+        }
+    }
+}
+
+/**********************************************************/
+
+template<int N>
+  void   FMatrixBlock<N>::DirichletRow (const std::vector<int>& cv)
+{
+  for (int i=0; i<cv.size(); i++) {
+    int c = cv[i];
+    for (int d=0; d<N; d++) NodeMatrix<N,MatrixEntryType>::value(c,d) = 0.;
+  }
+}
+
+template<int N>
+  void   FMatrixBlock<N>::DirichletCol (const std::vector<int>& cv)
+{
+  for (int i=0; i<cv.size(); i++) {
+    int c = cv[i];
+    for (int d=0; d<N; d++) NodeMatrix<N,MatrixEntryType>::value(d,c) = 0.;
+  }
+}
+
+template<int N>
+  void   FMatrixBlock<N>::DirichletDiag(const std::vector<int>& cv)
+{
+  for (int i=0; i<cv.size(); i++) {
+    int c = cv[i];
+    NodeMatrix<N,MatrixEntryType>::value(c,c) = 1.;
+  }
+}
+
+template<int N>
+void FMatrixBlock<N>::zero_row(int c)
+{
+  for (int i=0; i<N; i++) NodeMatrix<N,MatrixEntryType>::value(c,i) =0.;
+}
+ 
+template<int N>
+void FMatrixBlock<N>::uno_diag(int c)
+{
+  NodeMatrix<N,MatrixEntryType>::value(c,c) =1.;
+}
+
+/**********************************************************/
+
+template<int N>
+MatrixEntryType& FMatrixBlock<N>::diag(int i)
+{
+  return (*this)(i,i);
+}
+
+/**********************************************************/
+
+template<int N>
+void FMatrixBlock<N>::getrow(std::vector<double>& v, int i)
+{
+  v.clear();
+  for (int j=0; j<N; j++) v.push_back((*this)(i,j));
+}
+
+/**********************************************************/
+
+template<int N>
+void FMatrixBlock<N>::getcolumn(std::vector<double>& v, int i)
+{
+  v.clear();
+  for (int j=0; j<N; j++) v.push_back((*this)(j,i));
+}
+
+/**********************************************************/
+
+template<int N>
+void FMatrixBlock<N>::setrow(std::vector<double>& v, int i)
+{
+  for (int j=0; j<N; j++) (*this)(i,j) = v[j];
+}
+
+/**********************************************************/
+
+template<int N>
+void FMatrixBlock<N>::setcolumn(std::vector<double>& v, int i)
+{
+  for (int j=0; j<N; j++) (*this)(j,i) = v[j];
+}
+
+/**********************************************************/
+
+template<int N>
+void FMatrixBlock<N>::entry(const nmatrix<double>& E)
+{
+  for (int c=0; c<N; c++)
+    {
+      for (int d=0; d<N; d++)
+        {
+            NodeMatrix<N,MatrixEntryType>::value(c,d) += E(c,d); 
+        }
+    }
+}
+
+/**********************************************************/
+
+template<int N>
+void FMatrixBlock<N>::entry(int i, int j, const EntryMatrix& E, double s)
+{
+  for (int c=0; c<N; c++)
+    {
+      for (int d=0; d<N; d++)
+        {
+            NodeMatrix<N,MatrixEntryType>::value(c,d) += s * E(i,j,c,d); 
+        }
+    }
+}
+
+/**********************************************************/
+
+template<int N>
+void FMatrixBlock<N>::dual_entry(int i, int j, const EntryMatrix& E, double s)
+{
+  for (int c=0; c<N; c++)
+    {
+      for (int d=0; d<N; d++)
+        {
+            NodeMatrix<N,MatrixEntryType>::value(c,d) += s * E(j,i,d,c); 
+        }
+    }
+}
+
+/**********************************************************/
+
+template<int N>
+void FMatrixBlock<N>::transpose() 
+{
+  for(int i=0;i<N;i++)
+    {
+      for(int j=0;j<i;j++)
+        {
+          std::swap(NodeMatrix<N,MatrixEntryType>::value(i,j),NodeMatrix<N,MatrixEntryType>::value(j,i));
+        }
+    }
+}
+
+/**********************************************************/
+
+template<int N>
+void FMatrixBlock<N>::transpose(FMatrixBlock<N>& A) 
+{
+  for(int i=0;i<N;i++)
+    {
+      for(int j=0;j<N;j++)
+        {
+          std::swap(NodeMatrix<N,MatrixEntryType>::value(i,j),A(j,i));
+        }
+    }
+}
+
+/**********************************************************/
+
+template<int N>
+void FMatrixBlock<N>::copy_transpose(const FMatrixBlock<N>& A) 
+{
+  for(int i=0;i<N;i++)
+    {
+      for(int j=0;j<N;j++)
+        {
+          NodeMatrix<N,MatrixEntryType>::value(i,j)=A(j,i);
+        }
+    }
+}
+
+/**********************************************************/
+
+template<int N>
+void FMatrixBlock<N>::operator *= (double s)
+{
+  nvector<MatrixEntryType>::iterator       p(NodeMatrix<N,MatrixEntryType>::begin());
+  nvector<MatrixEntryType>::const_iterator q(p+N*N);
+ 
+  for ( ; p!=q; p++)
+    {
+      *p *= s;
+    }
+}
+
+/**********************************************************/
+
+template<int N>
+void FMatrixBlock<N>::inverse()
+{ 
+  NodeMatrix<N,MatrixEntryType>::gauss_jordan();
+}
+
+}

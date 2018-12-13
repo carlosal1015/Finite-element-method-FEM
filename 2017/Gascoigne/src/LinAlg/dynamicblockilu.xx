@@ -1,0 +1,284 @@
+/**
+*
+* Copyright (C) 2008 by the Gascoigne 3D authors
+*
+* This file is part of Gascoigne 3D
+*
+* Gascoigne 3D is free software: you can redistribute it
+* and/or modify it under the terms of the GNU General Public
+* License as published by the Free Software Foundation, either
+* version 3 of the License, or (at your option) any later
+* version.
+*
+* Gascoigne 3D is distributed in the hope that it will be
+* useful, but WITHOUT ANY WARRANTY; without even the implied
+* warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+* PURPOSE.  See the GNU General Public License for more
+* details.
+*
+* Please refer to the file LICENSE.TXT for further information
+* on this license.
+*
+**/
+
+
+// -*- C++ -*-
+#include  "dynamicblockilu.h"
+#include  "compareclass.h"
+
+#include  "giota.h"
+
+
+/*-------------------------------------------------------------*/
+
+namespace Gascoigne
+{
+    template<class B>
+    DynamicBlockIlu<B>::DynamicBlockIlu() : 
+	IluInterface(), DynamicBlockMatrix<B>()
+    {
+	yp = new GlobalVector;
+    }
+
+/*-------------------------------------------------------------*/
+
+    template<class B>
+    DynamicBlockIlu<B>::DynamicBlockIlu(const DynamicBlockIlu<B>& I) : 
+	IluInterface(), DynamicBlockMatrix<B>(I)
+    {
+	yp = new GlobalVector;
+    } 
+
+/*-------------------------------------------------------------*/
+
+    template<class B>
+    DynamicBlockIlu<B>::~DynamicBlockIlu()
+    {
+	if(yp) delete yp;
+    }
+
+/*-------------------------------------------------------------*/
+
+    template<class B>
+    void DynamicBlockIlu<B>::ReInit(const SparseStructureInterface* SI)
+    {
+	const Gascoigne::SparseStructure* S = dynamic_cast<const SparseStructure*>(SI);
+	assert(S);
+	
+	int n = S->n();
+	assert(n>0);
+	DynamicBlockMatrix<B>::smat.clear();
+	DynamicBlockMatrix<B>::DS.cols.clear();
+	DynamicBlockMatrix<B>::DS.cols.resize(n);
+	DynamicBlockMatrix<B>::smat.resize(n);
+
+	B b;
+	DynamicBlockMatrix<B>::nc = b.ncomp();
+	p.reservesize(n,-1);
+	q.reservesize(n,-1);
+    }
+
+/*-------------------------------------------------------------*/
+
+    template<class B>
+    void DynamicBlockIlu<B>::ConstructStructure(const nvector<int>& perm, const MatrixInterface& MAP)
+    {
+	const DynamicBlockMatrix<B>& M = dynamic_cast<const DynamicBlockMatrix<B>& > (MAP);
+
+	assert(n()>0);
+	assert(M.n()==n());
+	assert(p.size()==perm.size());
+
+	p = perm;
+	for(int i=0;i<n();i++) q[p[i]] = i;
+	for(int i=0;i<n();i++) assert(q[i]!=-1);
+
+	int zmax = 1;
+	for(int i=0;i<n();i++)
+	    zmax = Gascoigne::max_int(zmax,M.rowsize(i));
+	
+	nvector<int> ppi(zmax), picol(zmax);
+
+	for(int i=0;i<M.n();++i)
+	{
+	    int pi = p[i];
+	    int ni = M.rowsize(pi);
+	    DynamicBlockMatrix<B>::DS.cols[i].clear();
+	    int count=0;
+	    for(const_citerator cit=M.cstart(pi);cit!=M.cstop(pi);++cit)
+		picol[count++] = q[*cit];
+
+	    iota(ppi.begin(),ppi.begin()+ni,0);
+	    sort(ppi.begin(),ppi.begin()+ni,CompareLess<nvector<int> >(picol));
+	    
+	    for(int ii=0;ii<ni;ii++)
+		DynamicBlockMatrix<B>::DS.cols[i].push_back(picol[ppi[ii]]);
+	    DynamicBlockMatrix<B>::smat[i].resize(DynamicBlockMatrix<B>::DS.cols[i].size());
+	}
+    }
+
+/*-------------------------------------------------------------*/
+
+    template<class B>
+    void DynamicBlockIlu<B>::copy_entries(const MatrixInterface* A)
+    {
+	const DynamicBlockMatrix<B>* MM = dynamic_cast<const DynamicBlockMatrix<B>*>(A);
+	assert(MM);
+	for(int i=0;i<DynamicBlockMatrix<B>::n();++i)
+	{
+	    int pi = p[i];
+	    const_viterator vposA = MM->vstart(pi);
+	    for(const_citerator cposA=MM->cstart(pi); cposA!=MM->cstop(pi); ++cposA,++vposA)
+	    {
+		assert(vposA!=MM->vstop(pi));
+		int j   = *cposA;
+		int pj  = q[j];
+		bool found=0;
+		viterator vpos = DynamicBlockMatrix<B>::vstart(i);
+		for(const_citerator cpos=DynamicBlockMatrix<B>::cstart(i); 
+		    cpos!=DynamicBlockMatrix<B>::cstop(i); ++cpos,++vpos)
+		{
+		    assert(vpos!=DynamicBlockMatrix<B>::vstop(i));
+		    if(*cpos==pj)	
+		    {
+			*vpos += *vposA;
+			found=1;
+			break;
+		    }
+		}
+		if(!found)
+		{
+		    std::cout << "not found ";
+		    std::cout << *cposA << std::endl;
+		}
+	    }
+	}
+    }
+
+/*-------------------------------------------------------------*/
+
+    template<class B>
+    void DynamicBlockIlu<B>::hin(const GlobalVector& x) const
+    {
+	yp->ncomp() = x.ncomp();
+	yp->reservesize(x.n());
+
+	for(int i=0;i<n();i++)  yp->equ_node(i,1.,p[i],x);
+    }
+
+/*-------------------------------------------------------------*/
+
+    template<class B>
+    void DynamicBlockIlu<B>::her(GlobalVector& x) const
+    {
+	for(int i=0;i<n();i++)  x.equ_node(i,1.,q[i],*yp);
+    }
+
+/*-------------------------------------------------------------*/
+
+    template<class B>
+    void DynamicBlockIlu<B>::forward() const
+    {
+	for(int i=1; i<n(); i++)
+	{
+	    const_viterator vp  = DynamicBlockMatrix<B>::vstart(i);
+	    const_citerator cp  = DynamicBlockMatrix<B>::cstart(i);
+	    const_citerator end = DynamicBlockMatrix<B>::cdiag(i);
+	    for(;cp!=end;++cp,++vp)
+		vp->subtract(yp->start(i),yp->start(*cp));
+	}
+    }
+
+/*-------------------------------------------------------------*/
+
+    template<class B>
+    void DynamicBlockIlu<B>::backward() const
+    {
+	for(int i=DynamicBlockMatrix<B>::n()-1; i>=0; i--)
+	{
+	    const_citerator end = DynamicBlockMatrix<B>::cdiag(i); 
+	    const_citerator cp  = DynamicBlockMatrix<B>::cstop(i); --cp;
+	    const_viterator vp  = DynamicBlockMatrix<B>::vstop(i); --vp;
+	    for(;cp!=end;--cp,--vp)
+		vp->subtract(yp->start(i),yp->start(*cp));
+	    DynamicBlockMatrix<B>::vdiag(i)->vmult(yp->start(i));
+	}
+    }
+
+/*-------------------------------------------------------------*/
+
+    template<class B>
+    void DynamicBlockIlu<B>::solve(GlobalVector& x) const
+    {
+	hin(x);
+	forward ();
+	backward();
+	her(x);
+    }
+
+/*-------------------------------------------------------------*/
+
+    template<class B>
+    void DynamicBlockIlu<B>::compute_ilu()
+    {
+	for(int i=0; i<n(); i++)
+	{
+	    const_citerator cpk = cstart(i);
+	    viterator       vpk = vstart(i);
+	    for (;cpk!=cdiag(i);++cpk,++vpk)
+	    {
+		int k = *cpk;
+		*vpk *= *vdiag(k);   /*  a(i,k) *= a(k,k) */
+
+		const_citerator cpj = cdiag(k); ++cpj;
+		viterator       vpj = vdiag(k); ++vpj;
+		for (;cpj!=cstop(k);++cpj,++vpj)
+		{
+		    int j  = *cpj;
+		    // suche ph
+		    const_citerator cph = cstart(i);
+		    viterator       vph = vstart(i);
+		    for (;cph!=cstop(i);++cph,++vph)
+		    {
+			if (*cph==j)
+			{
+			    vph->submult(*vpk,*vpj);
+			    break;
+			}
+		    }
+		    if (cph==cstop(i)) // add a new element! this results in the full LU
+		    {
+			DynamicBlockMatrix<B>::add_coupling(i,j)->submult(*vpk,*vpj);
+		    }
+		}
+	    }
+	    vdiag(i)->inverse();
+	}
+    }
+
+/*-------------------------------------------------------------*/
+
+    template<class B>
+    void DynamicBlockIlu<B>::modify(int c, double s)
+    {	
+	for(int i=0;i<n();++i)
+	{
+	    double sum=0.;
+	    const_citerator cpk = cstart(i);
+	    viterator       vpk = vstart(i);
+	    for(;cpk!=cstop(i);++cpk,++vpk)
+		if ((*cpk)!=i)
+		    sum += fabs((*vpk)(c,c));
+	    vdiag(i)->diag(c)+=s*sum;
+	}
+    }
+
+/*-------------------------------------------------------------*/
+
+
+//     template<class B>
+//     std::ostream& DynamicBlockIlu<B>::Write(std::ostream &s) const
+//     {
+// 	return DynamicBlockMatrix<B>::Write(s);
+//     }
+}

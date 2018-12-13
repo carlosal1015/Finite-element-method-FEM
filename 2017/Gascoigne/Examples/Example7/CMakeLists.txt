@@ -1,0 +1,9 @@
+IF(COPY_PARAMFILES)
+  SET(_SRC ${GASCOIGNESTD_SOURCE_DIR}/Examples/Example7)
+  ADD_CUSTOM_TARGET(COPY ALL cp ${_SRC}/*.param ${_SRC}/*.inp .)
+ENDIF(COPY_PARAMFILES)
+
+ADD_EXECUTABLE("Gascoigne7${BUILD_ENDING}" dwralgorithm.cc main.cc)
+
+
+

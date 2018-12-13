@@ -1,0 +1,48 @@
+//Block BoundaryManager
+
+dirichlet        3      4 8 80
+
+dirichletcomp    4      2       1 2
+dirichletcomp    8      2       1 2
+dirichletcomp   80      2       1 2
+
+//Block Loop
+
+niter       8
+refiner     global
+dt          1.
+theta       0.5
+initial     boundary 
+
+//Block Equation
+
+visc            0.01
+delta           0.2
+alpha           0.2
+
+//Block Mesh
+
+dimension   2
+prerefine   1
+gridname    nsbench4.inp
+
+//Block MultiLevelSolver
+
+nonlinear_pstep   1
+linear_maxiter    10
+linear_tol        1.e-6
+nonlinear_tol     1.e-4
+nonlinear_rho     0.3
+
+//Block Solver
+
+discname                Q1Lps
+ndirect                 100
+ilum                    3  0.1  0.1  0.1
+iterpre                 2
+iterpost                2
+iterexact               100
+
+//stream_direction        2 1 2
+
+//Block Nix

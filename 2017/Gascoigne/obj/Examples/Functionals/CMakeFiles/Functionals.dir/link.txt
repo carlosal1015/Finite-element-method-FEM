@@ -1,0 +1,1 @@
+/usr/bin/c++   -ansi -pedantic -Wall -Wno-sign-compare -Wold-style-cast  -rdynamic CMakeFiles/Functionals.dir/main.o  -o Functionals  -L/home/carlosal1015/Gascoigne/lib -Wl,-rpath,/home/carlosal1015/Gascoigne/lib ../../../lib/libGascoigneStd.so -lmetis -lumfpack -lamd -lrt 

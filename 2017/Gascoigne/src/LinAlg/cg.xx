@@ -1,0 +1,92 @@
+/**
+*
+* Copyright (C) 2004, 2008 by the Gascoigne 3D authors
+*
+* This file is part of Gascoigne 3D
+*
+* Gascoigne 3D is free software: you can redistribute it
+* and/or modify it under the terms of the GNU General Public
+* License as published by the Free Software Foundation, either
+* version 3 of the License, or (at your option) any later
+* version.
+*
+* Gascoigne 3D is distributed in the hope that it will be
+* useful, but WITHOUT ANY WARRANTY; without even the implied
+* warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+* PURPOSE.  See the GNU General Public License for more
+* details.
+*
+* Please refer to the file LICENSE.TXT for further information
+* on this license.
+*
+**/
+
+
+#include "cg.h"
+
+/********************************************************************/
+
+namespace Gascoigne
+{
+template <class S, class V>
+void CG<S,V>::solve(V& x, const V& b, CGInfo& info)
+{
+  V g("g"),h("h"),d("d"),Ad("Ad");
+
+  solver.RegisterVector(g);
+  solver.ReInitVector  (g);
+  solver.RegisterVector(h);
+  solver.ReInitVector  (h);
+  solver.RegisterVector(d);
+  solver.ReInitVector  (d);
+  solver.RegisterVector(Ad);
+  solver.ReInitVector  (Ad);
+
+  solver.Equ(g,1.,b);	
+  solver.cgvmult(g,x,-1.);
+
+  double res = solver.Norm(g);
+
+  if (res==0.) return;
+
+  solver.precondition(d,g);
+
+  double gh  = solver.ScalarProduct(g,d);
+
+  solver.Equ(d,-1.,d);
+
+  int reached = 0;
+
+  for (int it=0; !reached; it++)
+    {
+      solver.Zero(Ad);	
+      solver.cgvmult(Ad,d,1.);
+
+      double alpha = gh / solver.ScalarProduct(d,Ad);
+
+      solver.Add(g,alpha,Ad);
+      solver.Add(x,-alpha,d);
+      res = solver.Norm(g);
+
+      reached = info.check(res);
+
+      if (reached) break;
+    
+      solver.precondition(h,g);
+      
+      double ghold = gh;
+      gh   = solver.ScalarProduct(g,h);
+      double beta = gh/ghold;
+      
+      //solver.GVsadd(beta,d,-1.,h);
+      solver.Equ(d,beta,d);
+      solver.Add(d,-1.,h);
+    }
+  solver.DeleteVector(g);
+  solver.DeleteVector(h);
+  solver.DeleteVector(d);
+  solver.DeleteVector(Ad);
+}
+}
+
+

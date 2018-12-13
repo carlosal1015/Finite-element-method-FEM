@@ -1,0 +1,182 @@
+/**
+*
+* Copyright (C) 2004, 2005, 2008, 2011 by the Gascoigne 3D authors
+*
+* This file is part of Gascoigne 3D
+*
+* Gascoigne 3D is free software: you can redistribute it
+* and/or modify it under the terms of the GNU General Public
+* License as published by the Free Software Foundation, either
+* version 3 of the License, or (at your option) any later
+* version.
+*
+* Gascoigne 3D is distributed in the hope that it will be
+* useful, but WITHOUT ANY WARRANTY; without even the implied
+* warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+* PURPOSE.  See the GNU General Public License for more
+* details.
+*
+* Please refer to the file LICENSE.TXT for further information
+* on this license.
+*
+**/
+
+
+#include  "hanglist.h"
+
+/*********************************************************************/
+#ifdef __OLDCOMPILER__
+#define HANGMAP  hash_map<EdgeArray<N>,Hang,EdgeHash>
+#else
+#ifdef __NEWER_THAN_GCC_4_2__
+#define HANGMAP   std::tr1::unordered_map<EdgeArray<N>,Hang,EdgeHash> 
+#else
+#define HANGMAP  __gnu_cxx::hash_map<EdgeArray<N>,Hang,EdgeHash> 
+#endif
+#endif
+
+namespace Gascoigne
+{
+template<int N>
+HangList<N>& HangList<N>::operator=(const HangList<N>& A)
+{
+  const_iterator hp=A.begin();
+  while(hp!=A.end())
+    {
+      fixarray<N,int> fa(hp->first);
+      
+      Hang nh = hp->second;
+      
+      HANGMAP::insert(std::make_pair(fa,nh));
+      hp++;
+    }
+  return *this;
+}
+
+/*********************************************************************/
+
+template<int N>
+void HangList<N>::move(HangList<N>& src, iterator& p)
+{
+  HANGMAP::insert(std::make_pair(p->first,p->second));
+
+  typename HangList<N>::iterator it = src.find(p->first);
+  src.erase (it);
+}
+
+/*********************************************************************/
+
+template<int N>
+void HangList<N>::update(const std::vector<int>& vo2n, const std::vector<int>& co2n)
+{
+  HangList<N> HangCopy(*this);
+  HANGMAP::clear();
+  const_iterator hp = HangCopy.begin();
+  while(hp!=HangCopy.end())
+    {
+      fixarray<N,int> fa(hp->first);
+      for (int i=0; i<N; i++) 
+	fa[i] = vo2n[fa[i]];
+      
+      int nh = hp->second.hanging();
+      if(nh>=0) nh = vo2n[nh];
+      
+      int nc = hp->second.cneighbour();
+      if(nc>=0) nc = co2n[nc];
+      
+      int nr = hp->second.rneighbour();
+      if(nr>=0) nr = co2n[nr];
+      
+      Hang h(nh,nr,nc);
+      HANGMAP::insert(std::make_pair(fa,h));
+      hp++;
+    }
+}
+
+/*********************************************************************/
+
+template<int N>
+void HangList<N>::update(const std::vector<int>& vo2n)
+{
+  HangList<N> HangCopy(*this);
+  HANGMAP::clear();
+  
+  const_iterator hp=HangCopy.begin();
+  while(hp!=HangCopy.end())
+    {
+      fixarray<N,int> fa(hp->first);
+      for (int i=0; i<N; i++) 
+	fa[i] = vo2n[fa[i]];
+      
+      int nh = hp->second.hanging();
+      int rn = hp->second.rneighbour();
+      int cn = hp->second.cneighbour();
+      if(nh>=0) nh = vo2n[nh];
+      
+      Hang hi(nh,rn,cn);
+
+      HANGMAP::insert(std::make_pair(fa,hi));
+      hp++;
+    }
+}
+
+/*********************************************************************/
+
+template<int N>
+void HangList<N>::make_consistent(HangList<N>& DH)
+{
+  int n = 0;
+  for(iterator p = HANGMAP::begin(); p!=HANGMAP::end(); )
+    {
+      iterator q = DH.find(p->first);
+      if(q!=DH.end())
+	{
+	  n++;
+	  DH.erase(q);
+          // postincrement: increment but pass the _old_ iterator value to erase 
+	  HANGMAP::erase(p++);
+	}
+      else
+        {
+          p++;
+        }
+    }
+  if(n!=0)  std::cerr << "make_consistent: " << n << std::endl;
+}
+
+/*********************************************************************/
+
+template<int N>
+void HangList<N>::BinWrite(std::ostream &s) const
+{
+  int n=this->size(), sizeInt = sizeof(int);
+  s.write(reinterpret_cast<const char*>(&n),sizeInt);
+ 
+  for (const_iterator p=this->begin(); p!=this->end(); p++)
+  {
+    p->first.BinWrite(s);
+    p->second.BinWrite(s);
+  }
+}
+
+/*********************************************************************/
+
+template<int N>
+void HangList<N>::BinRead(std::istream &s)
+{
+  int n, sizeInt=sizeof(int);
+  s.read(reinterpret_cast<char*>(&n),sizeInt);
+ 
+  fixarray<N,int>  ev;
+  Hang             info;
+
+  for (int i=0; i<n; i++)
+  {
+    ev.BinRead(s);
+    info.BinRead(s);
+    HANGMAP::insert(std::make_pair(ev,info));
+  }
+}
+}
+
+#undef HANGMAP

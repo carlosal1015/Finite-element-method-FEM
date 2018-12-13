@@ -1,0 +1,8 @@
+//Block Mesh
+
+dimension 2
+prerefine 2
+gridname  square2.inp
+
+
+//Block NIX

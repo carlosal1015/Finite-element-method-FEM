@@ -1,0 +1,1 @@
+/usr/bin/c++   -ansi -pedantic -Wall -Wno-sign-compare -Wold-style-cast  -rdynamic CMakeFiles/Gascoigne7.dir/dwralgorithm.o CMakeFiles/Gascoigne7.dir/main.o  -o Gascoigne7  -L/home/carlosal1015/Gascoigne/lib -Wl,-rpath,/home/carlosal1015/Gascoigne/lib ../../../lib/libGascoigneStd.so -lmetis -lumfpack -lamd -lrt 

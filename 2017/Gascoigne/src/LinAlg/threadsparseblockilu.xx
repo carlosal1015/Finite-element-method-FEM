@@ -1,0 +1,243 @@
+/**
+*
+* Copyright (C) 2009, 2011 by the Gascoigne 3D authors
+*
+* This file is part of Gascoigne 3D
+*
+* Gascoigne 3D is free software: you can redistribute it
+* and/or modify it under the terms of the GNU General Public
+* License as published by the Free Software Foundation, either
+* version 3 of the License, or (at your option) any later
+* version.
+*
+* Gascoigne 3D is distributed in the hope that it will be
+* useful, but WITHOUT ANY WARRANTY; without even the implied
+* warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+* PURPOSE.  See the GNU General Public License for more
+* details.
+*
+* Please refer to the file LICENSE.TXT for further information
+* on this license.
+*
+**/
+
+
+// -*- c++ -*-
+#include  "threadsparseblockilu.h"
+#include  "compareclass.h"
+
+#include  "giota.h"
+#include  "sparsestructure.h"
+
+#ifdef __OLDCOMPILER__
+  #include  <hash_map>
+  #define HASHMAP  hash_map
+#else
+#ifdef __NEWER_THAN_GCC_4_2__
+  #include <tr1/unordered_map>
+  #define HASHMAP   std::tr1::unordered_map
+#else
+  #include  <ext/hash_map>
+  #define HASHMAP  __gnu_cxx::hash_map
+#endif
+#endif
+
+/*-------------------------------------------------------------*/
+
+namespace Gascoigne
+{
+template<class B>
+ThreadSparseBlockIlu<B>::ThreadSparseBlockIlu() : 
+  SparseBlockMatrix<B>()
+{
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+ThreadSparseBlockIlu<B>::ThreadSparseBlockIlu(const ThreadSparseBlockIlu<B>& I) : 
+  SparseBlockMatrix<B>(I)
+{
+  abort();
+} 
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+ThreadSparseBlockIlu<B>::~ThreadSparseBlockIlu()
+{
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void ThreadSparseBlockIlu<B>::ReInit(const SparseStructureInterface* SI)
+{
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void ThreadSparseBlockIlu<B>::ConstructStructure(const nvector<int>& perm, const MatrixInterface& MAP,
+						 const nvector<int>& nodes_of_domain)
+{
+  const ColumnDiagStencil* SP = dynamic_cast<const ColumnDiagStencil*>(MAP.GetStencil());
+  assert(perm.size() <= SP->n());
+  assert(perm.size() == nodes_of_domain.size());
+
+  int n = perm.size();
+
+  SparseStructure SA;
+  SA.build_begin(n);
+
+  p.clear();
+  q.clear();
+  for (int i=0;i<n;++i) p.push_back(nodes_of_domain[perm[i]]);
+  for (int i=0;i<n;++i) q[p[i]]=i;
+
+  for (int row_in_ILU=0;row_in_ILU<n;++row_in_ILU)
+  {
+    int row_in_A = p[row_in_ILU];
+    for (int pos=SP->start(row_in_A);pos<SP->stop(row_in_A);++pos)
+    {
+      int col_in_A   = SP->col(pos);
+      
+      HASHMAP<int,int>::const_iterator it = q.find(col_in_A);
+      if (it==q.end()) continue;
+      int col_in_ILU = it->second;
+      
+      SA.build_add(row_in_ILU,col_in_ILU);
+    }
+  }
+  SA.build_end();
+
+  SparseBlockMatrix<B>::ReInit(&SA);
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void ThreadSparseBlockIlu<B>::copy_entries(const MatrixInterface* A)
+{
+  
+  const SparseBlockMatrix<B>* MM = dynamic_cast<const SparseBlockMatrix<B>*>(A);
+  assert(MM);
+  const ColumnDiagStencil* AS = dynamic_cast<const ColumnDiagStencil*>(MM->GetStencil());
+  assert(AS);
+
+  for(int row_in_ILU=0;row_in_ILU<SparseBlockMatrix<B>::US.n();row_in_ILU++)
+    {
+      int row_in_A = p[row_in_ILU];
+
+      for(int pos_in_A=AS->start(row_in_A); pos_in_A<AS->stop(row_in_A); pos_in_A++)
+        {
+          int col_in_A  = AS->col(pos_in_A);
+	  HASHMAP<int,int>::const_iterator it = q.find(col_in_A);
+	  if (it==q.end()) continue;
+
+	  int col_in_ILU = it->second;
+	  int pos_in_ILU = SparseBlockMatrix<B>::US.Find(row_in_ILU,col_in_ILU);
+	  *SparseBlockMatrix<B>::mat(pos_in_ILU) += *MM->mat(pos_in_A);
+        }
+    }
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void ThreadSparseBlockIlu<B>::forward(GlobalVector& x) const
+{
+  for(int i=1; i<SparseBlockMatrix<B>::US.n(); i++)
+    {
+      int ende = SparseBlockMatrix<B>::US.diag(i); 
+      for(int pos=SparseBlockMatrix<B>::US.start(i); pos<ende; pos++)
+        {
+          SparseBlockMatrix<B>::mat(pos)->subtract(x.start(i),x.start(SparseBlockMatrix<B>::US.col(pos)));
+        }
+    }
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void ThreadSparseBlockIlu<B>::backward(GlobalVector& x) const
+{
+  for(int i=SparseBlockMatrix<B>::US.n()-1; i>=0; i--)
+    {
+      int ende = SparseBlockMatrix<B>::US.diag(i); 
+      for(int pos=SparseBlockMatrix<B>::US.stop(i)-1; pos>ende; pos--)
+        {
+          SparseBlockMatrix<B>::mat(pos)->subtract(x.start(i),x.start(SparseBlockMatrix<B>::US.col(pos)));
+        }
+      SparseBlockMatrix<B>::mat(SparseBlockMatrix<B>::US.diag(i))->vmult(x.start(i));
+    }
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void ThreadSparseBlockIlu<B>::solve(GlobalVector& x) const
+{
+  forward (x);
+  backward(x);
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void ThreadSparseBlockIlu<B>::compute_ilu()
+{
+  for(int i=0; i<SparseBlockMatrix<B>::US.n(); i++)
+    {
+      for (int pk=SparseBlockMatrix<B>::US.start(i); pk<SparseBlockMatrix<B>::US.diag(i); pk++)
+        {
+          int k = SparseBlockMatrix<B>::US.col(pk);
+
+          *SparseBlockMatrix<B>::mat(pk) *= *SparseBlockMatrix<B>::mat(SparseBlockMatrix<B>::US.diag(k));   /*  a(i,k) *= a(k,k) */
+
+          for (int pj=SparseBlockMatrix<B>::US.diag(k)+1; pj<SparseBlockMatrix<B>::US.stop(k); pj++)
+            {
+              int j  = SparseBlockMatrix<B>::US.col(pj);
+              // suche ph
+              for (int ph=SparseBlockMatrix<B>::US.start(i); ph<SparseBlockMatrix<B>::US.stop(i); ph++)
+                {
+                  if (SparseBlockMatrix<B>::US.col(ph)==j)
+                    {
+                      SparseBlockMatrix<B>::mat(ph) -> submult(*SparseBlockMatrix<B>::mat(pk),*SparseBlockMatrix<B>::mat(pj));
+                      break;
+                    }
+                }
+            }
+        }
+      SparseBlockMatrix<B>::mat(SparseBlockMatrix<B>::US.diag(i)) -> inverse();
+    }
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+void ThreadSparseBlockIlu<B>::modify(int c, double s)
+{
+  for(int i=0;i<n();++i)
+    {
+      double sum=0.;
+      for(int pos=start(i);pos<stop(i);pos++)
+        {
+           sum += fabs(SparseBlockMatrix<B>::smat[pos](c,c));
+        }
+      sum -= fabs(SparseBlockMatrix<B>::smat[diag(i)](c,c));
+      SparseBlockMatrix<B>::smat[diag(i)].diag(c) += s*sum;
+    }
+}
+
+/*-------------------------------------------------------------*/
+
+template<class B>
+std::ostream& ThreadSparseBlockIlu<B>::Write(std::ostream &s) const
+{
+  return SparseBlockMatrix<B>::Write(s);
+}
+}
+
+
+#undef HASHMAP

@@ -1,0 +1,58 @@
+//Block Adaptor
+
+//maxnodes      1000
+coarsening    0
+
+//Block Loop
+
+niter        3
+estimator    none
+initial      boundary
+refiner      global
+
+//Block Mesh
+
+dimension    3
+patchdepth   0
+gridname     nsbenchZ3d.inp
+prerefine    1
+curvedboundary  6       80   FlacherKreis 5. 2. 0. 0.25
+
+//Block BoundaryManager
+
+dirichlet       3   4 2 80
+
+dirichletcomp   4       3       1 2 3
+dirichletcomp   2       3       1 2 3
+dirichletcomp   80      3       1 2 3
+
+//Block Equation
+
+visc            0.01
+delta           0.5
+alpha           0.5
+
+//Block MultiLevelSolver
+
+linear_maxiter          20
+linear_pstep		0
+
+//linearsolve		gmres_12
+linearsolve		mg
+nonlinear_maxiter       20
+nonlinear_rho           0.
+nonlinear_tol		1e-8
+nonlinear_damp          10
+
+//Block Solver
+
+matrixtype	block
+discname 	                Q1Lps
+iterpre                 4
+iterpost                4
+iterexact               8
+ilum                    4  0.01  0.1  0.1  0.1
+ilusort                 cuthillmckee
+ndirect			10
+
+//Block nix

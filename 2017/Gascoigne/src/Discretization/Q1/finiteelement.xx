@@ -1,0 +1,110 @@
+/**
+*
+* Copyright (C) 2004, 2005 by the Gascoigne 3D authors
+*
+* This file is part of Gascoigne 3D
+*
+* Gascoigne 3D is free software: you can redistribute it
+* and/or modify it under the terms of the GNU General Public
+* License as published by the Free Software Foundation, either
+* version 3 of the License, or (at your option) any later
+* version.
+*
+* Gascoigne 3D is distributed in the hope that it will be
+* useful, but WITHOUT ANY WARRANTY; without even the implied
+* warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+* PURPOSE.  See the GNU General Public License for more
+* details.
+*
+* Please refer to the file LICENSE.TXT for further information
+* on this license.
+*
+**/
+
+
+#include  "finiteelement.h"
+
+/*-----------------------------------------------------*/
+
+namespace Gascoigne
+{
+template<int DIM, int BDIM, class TRAFO, class BASE>
+ FiniteElement<DIM,BDIM,TRAFO,BASE>::FiniteElement() : 
+   T(), B() 
+{
+  grad.reserve(n());
+  grad.resize(n());
+}
+
+/*-----------------------------------------------------*/
+
+template<int DIM, int BDIM, class TRAFO, class BASE>
+ void  FiniteElement<DIM,BDIM,TRAFO,BASE>::ComputeGrad() const
+{
+  for(int i=0;i<n();i++)
+    {
+      grad[i].zero();
+      T.DTI().mult(grad[i],B.phi_grad(i));
+    }
+}
+
+/*-----------------------------------------------------*/
+
+template<int DIM, int BDIM, class TRAFO, class BASE>
+ void  FiniteElement<DIM,BDIM,TRAFO,BASE>::point(const Vertex<DIM>& xi) const
+{
+  T.point(xi);
+  B.point(xi);
+  ComputeGrad();
+  det = T.J();
+}
+
+/*-----------------------------------------------------*/
+
+template<int DIM, int BDIM, class TRAFO, class BASE>
+ void  FiniteElement<DIM,BDIM,TRAFO,BASE>::point_boundary(int ie, const Vertex<BDIM>& s) const
+{
+  T.point_boundary(ie,s);
+  B.point_boundary(ie,s);
+  ComputeGrad();
+}
+
+/*-----------------------------------------------------*/
+
+template<int DIM, int BDIM, class TRAFO, class BASE>
+void  FiniteElement<DIM,BDIM,TRAFO,BASE>::init_test_functions
+(TestFunction& Phi, double w, int i) const
+{
+  Phi.m() = w*N(i);
+  Phi.x() = w*N_x(i);
+  Phi.y() = w*N_y(i);
+  if (DIM==3) Phi.z() = w*N_z(i);
+}
+
+/*-----------------------------------------------------*/
+
+template<int DIM, int BDIM, class TRAFO, class BASE>
+void FiniteElement<DIM,BDIM,TRAFO,BASE>::Anisotropy(DoubleMatrix& A) const
+{
+  assert(A.n()==DIM);
+  assert(A.m()==DIM);
+
+  Vertex<DIM> x(0.5);
+  T.point(x);
+
+  for (int i=0; i<DIM; i++)
+     {
+     	for (int j=0; j<DIM; j++)
+           {
+	      double sum = 0.;
+              for (int k=0; k<DIM; k++) 
+		{
+		   sum += T.DT()(i,k) * T.DT()(j,k);
+		}
+	     A(i,j) = sum;
+       	   }	
+     }
+}
+}
+
+/*-----------------------------------------------------*/

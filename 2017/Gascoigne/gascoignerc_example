@@ -1,0 +1,57 @@
+#############################################
+#
+#  Set the GascoigneStd directory.
+#
+SET(GASCOIGNE_STD "/home/carlosal1015/Gascoigne")
+
+#############################################
+#
+#  Set the path of the executable and library output
+#  directory (e. g. $ENV{HOME}/local, /usr/local, ...).
+#
+SET(GASCOIGNE_LIBRARY_OUTPUT_PATH "/home/carlosal1015/Gascoigne/lib")
+SET(GASCOIGNE_EXECUTABLE_OUTPUT_PATH ".")
+
+#############################################
+#
+#  Set the predefinition of the flags used by the 
+#  C++ compiler like -Wall, ..
+#  The flags like -O3, -g, ... should be set by 
+#  the variable CMAKE_BUILD_TYPE which is 
+#  accessible in ccmake -fopenmp
+#
+SET(GASCOIGNE_CXX_FLAGS "-ansi -pedantic -Wall -Wno-sign-compare -Wold-style-cast" CACHE STRING "Compiler flags for Gascoigne")
+
+
+#############################################
+#
+#  Set -D define flags (e. g. -D_DEBUG)
+#
+SET(GASCOIGNE_COMPILER_DEFINITIONS "" CACHE STRING "Compiler Definitions for Gascoigne")
+
+
+
+
+#############################################
+#
+#  Options
+#
+OPTION(BUILD_SHARED_LIBS "Build shared libraries" ON)
+
+OPTION(WITH_UMFPACK "Use UMFPACK Version 4.1 or higher" ON)
+
+OPTION(UMFPACK_WITH_BLAS "Use UMFPACK with BLAS" OFF)
+
+OPTION(WITH_RSTStopWatch "Use RSTStopWatch" OFF)
+
+OPTION(APPLE "Mark if you try to work on Mac Computers. This disables some platform dependent code" OFF)
+
+OPTION(NEWER_THAN_GCC_4_2 "If your compiler is gcc 4.3 or higher, this is required for some deprecated headerfiles" ON)
+
+OPTION(COPY_PARAMFILES "Copy the Param and the Inp files for examples" OFF)
+
+OPTION(MARK_WITH_BUILD_TYPE "Mark executables and libraries with the string given in CMAKE_BUILD_TYPE" OFF)
+
+OPTION(WITH_THREADS  "Use Threads?" OFF)
+
+OPTION(MATRIX_DOUBLE_PRECISION  "Matrix in double precision?" OFF)

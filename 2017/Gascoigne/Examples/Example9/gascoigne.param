@@ -1,0 +1,46 @@
+//Block BoundaryManager
+
+equation         1   80
+
+//Block Loop
+
+niter       200
+dt          1.e-2
+theta       1.
+beta        0.5
+initial        analytic
+
+//Block Equation
+
+
+//Block Mesh
+
+dimension   2
+prerefine   7
+gridname    square.inp
+
+//Block MultiLevelSolver
+
+linear_pstep      0
+linear_maxiter    10
+linear_tol        1.e-6
+nonlinear_pstep   1
+nonlinear_tol     1.e-6
+nonlinear_rho     0.2
+nonlinear_maxiter 20
+nonlinear_damp    10
+mgtype            V
+mgomega           1.
+coarselevel       0
+
+//Block Solver
+
+discname                Q2
+ndirect                 10
+ilum                    1  0.01
+iterpre                 4
+iterpost                4
+iterexact               0
+//pfilter                 1 0
+
+//Block Nix

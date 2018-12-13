@@ -1,0 +1,1 @@
+/usr/bin/c++   -ansi -pedantic -Wall -Wno-sign-compare -Wold-style-cast  -rdynamic CMakeFiles/NavierStokes2D.dir/main.o  -o NavierStokes2D  -L/home/carlosal1015/Gascoigne/lib -Wl,-rpath,/home/carlosal1015/Gascoigne/lib ../../../lib/libGascoigneStd.so -lmetis -lumfpack -lamd -lrt 

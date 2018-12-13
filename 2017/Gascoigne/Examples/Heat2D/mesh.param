@@ -1,0 +1,36 @@
+//Block Loop
+
+dt          0.04
+niter       6000
+neuler      0
+scheme      FractionalTheta
+scheme      CN
+//scheme      Euler
+refiner     global
+initial     analytic
+
+//Block Mesh
+
+dimension   2
+prerefine   5
+gridname    rect.inp
+
+prerefine 0
+gridname    test.gup
+
+//Block MultiLevelSolver
+
+solver             instat
+linear_maxiter          10
+linear_tol		1.e-2
+nonlinear_rho 	0.009
+
+//Block Solver
+
+discname       Q1
+iterpre                 2
+iterpost                2
+iterexact              10
+ndirect              100
+
+//Block Nix

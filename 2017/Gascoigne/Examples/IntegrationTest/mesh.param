@@ -1,0 +1,14 @@
+//Block Mesh
+
+dimension   2
+prerefine   1
+gridname    square.inp
+patchdepth   1
+
+//Block Solver
+
+discname       Q1
+ndirect              1000
+pfilter     1 0
+
+//Block Nix
