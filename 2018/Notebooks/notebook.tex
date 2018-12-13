@@ -141,7 +141,7 @@
     \def\gt{>}
     \def\lt{<}
     % Document parameters
-    \title{Functions\_in\_MATLAB}
+    \title{Tercera\_clase}
     
     
     
@@ -280,508 +280,232 @@
     
 
     
+    \hypertarget{tercera-clase-12122018}{%
+\section{Tercera clase (12/12/2018)}\label{tercera-clase-12122018}}
+
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}4}]:} \PY{n}{help}\PY{p}{(}\PYZdq{}\PY{n}{min}\PYZdq{}\PY{p}{)}
-        \PY{n}{help}\PY{p}{(}\PYZdq{}\PY{n}{max}\PYZdq{}\PY{p}{)}
-        \PY{n}{help}\PY{p}{(}\PYZdq{}\PY{n}{mean}\PYZdq{}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}14}]:} \PY{n}{M\PYZus{}1} \PY{p}{=} \PY{n+nb}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
+         \PY{n}{A\PYZus{}1} \PY{p}{=} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{;}\PY{o}{\PYZhy{}}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
- MIN    Smallest component.
-    For vectors, MIN(X) is the smallest element in X. For matrices,
-    MIN(X) is a row vector containing the minimum element from each
-    column. For N-D arrays, MIN(X) operates along the first
-    non-singleton dimension.
- 
-    [Y,I] = MIN(X) returns the indices of the minimum values in vector I.
-    If the values along the first non-singleton dimension contain more
-    than one minimal element, the index of the first one is returned.
- 
-    MIN(X,Y) returns an array with the smallest elements taken from X or Y.
-    X and Y must have compatible sizes. In the simplest cases, they can be
-    the same size or one can be a scalar. Two inputs have compatible sizes
-    if, for every dimension, the dimension sizes of the inputs are either
-    the same or one of them is 1.
- 
-    MIN(X,[],'all') returns the smallest element of X.
- 
-    [Y,I] = MIN(X,[],DIM) operates along the dimension DIM.
- 
-    MIN(X,[],VECDIM) operates on the dimensions specified in the vector 
-    VECDIM. For example, MIN(X,[],[1 2]) operates on the elements contained
-    in the first and second dimensions of X.
- 
-    When X is complex, the minimum is computed using the magnitude
-    MIN(ABS(X)). In the case of equal magnitude elements, then the phase
-    angle MIN(ANGLE(X)) is used.
- 
-    MIN({\ldots},NANFLAG) specifies how NaN (Not-A-Number) values are treated.
-    NANFLAG can be:
-    'omitnan'    - Ignores all NaN values and returns the minimum of the 
-                   non-NaN elements.  If all elements are NaN, then the
-                   first one is returned.
-    'includenan' - Returns NaN if there is any NaN value.  The index points
-                   to the first NaN element.
-    Default is 'omitnan'.
- 
-    Example: 
-        X = [2 8 4; 7 3 9]
-        min(X,[],1)
-        min(X,[],2)
-        min(X,5)
- 
-    See also MAX, BOUNDS, CUMMIN, MEDIAN, MEAN, SORT, MINK.
 
-    Reference page in Doc Center
-       doc min
+M\_1 =
 
-    Other functions named min
+     0     0     0     0     0
+     0     0     0     0     0
+     0     0     0     0     0
+     0     0     0     0     0
+     0     0     0     0     0
 
-       categorical/min      duration/min    gpuArray/min    tall/min
-       codistributed/min    fints/min       sym/min         timeseries/min
-       datetime/min
 
- MAX    Largest component.
-    For vectors, MAX(X) is the largest element in X. For matrices,
-    MAX(X) is a row vector containing the maximum element from each
-    column. For N-D arrays, MAX(X) operates along the first
-    non-singleton dimension.
- 
-    [Y,I] = MAX(X) returns the indices of the maximum values in vector I.
-    If the values along the first non-singleton dimension contain more
-    than one maximal element, the index of the first one is returned.
- 
-    MAX(X,Y) returns an array with the largest elements taken from X or Y.
-    X and Y must have compatible sizes. In the simplest cases, they can be
-    the same size or one can be a scalar. Two inputs have compatible sizes
-    if, for every dimension, the dimension sizes of the inputs are either
-    the same or one of them is 1.
- 
-    MAX(X,[],'all') returns the largest element of X.
- 
-    [Y,I] = MAX(X,[],DIM) operates along the dimension DIM.
- 
-    MAX(X,[],VECDIM) operates on the dimensions specified in the vector 
-    VECDIM. For example, MAX(X,[],[1 2]) operates on the elements contained
-    in the first and second dimensions of X.
- 
-    When X is complex, the maximum is computed using the magnitude
-    MAX(ABS(X)). In the case of equal magnitude elements, then the phase
-    angle MAX(ANGLE(X)) is used.
- 
-    MAX({\ldots},NANFLAG) specifies how NaN (Not-A-Number) values are treated.
-    NANFLAG can be:
-    'omitnan'    - Ignores all NaN values and returns the maximum of the 
-                   non-NaN elements.  If all elements are NaN, then the
-                   first one is returned.
-    'includenan' - Returns NaN if there is any NaN value.  The index points
-                   to the first NaN element.
-    Default is 'omitnan'.
- 
-    Example: 
-        X = [2 8 4; 7 3 9]
-        max(X,[],1)
-        max(X,[],2)
-        max(X,5)
- 
-    See also MIN, BOUNDS, CUMMAX, MEDIAN, MEAN, SORT, MAXK.
+A\_1 =
 
-    Reference page in Doc Center
-       doc max
-
-    Other functions named max
-
-       categorical/max      duration/max    gpuArray/max    tall/max
-       codistributed/max    fints/max       sym/max         timeseries/max
-       datetime/max
-
- MEAN   Average or mean value.
-    S = MEAN(X) is the mean value of the elements in X if X is a vector. 
-    For matrices, S is a row vector containing the mean value of each 
-    column. 
-    For N-D arrays, S is the mean value of the elements along the first 
-    array dimension whose size does not equal 1.
- 
-    MEAN(X,'all') is the mean of all elements in X.
- 
-    MEAN(X,DIM) takes the mean along the dimension DIM of X.
- 
-    MEAN(X,VECDIM) operates on the dimensions specified in the vector 
-    VECDIM. For example, MEAN(X,[1 2]) operates on the elements contained
-    in the first and second dimensions of X.
- 
-    S = MEAN({\ldots},TYPE) specifies the type in which the mean is performed, 
-    and the type of S. Available options are:
- 
-    'double'    -  S has class double for any input X
-    'native'    -  S has the same class as X
-    'default'   -  If X is floating point, that is double or single,
-                   S has the same class as X. If X is not floating point, 
-                   S has class double.
- 
-    S = MEAN({\ldots},NANFLAG) specifies how NaN (Not-A-Number) values are 
-    treated. The default is 'includenan':
- 
-    'includenan' - the mean of a vector containing NaN values is also NaN.
-    'omitnan'    - the mean of a vector containing NaN values is the mean 
-                   of all its non-NaN elements. If all elements are NaN,
-                   the result is NaN.
- 
-    Example:
-        X = [1 2 3; 3 3 6; 4 6 8; 4 7 7]
-        mean(X,1)
-        mean(X,2)
- 
-    Class support for input X:
-       float: double, single
-       integer: uint8, int8, uint16, int16, uint32,
-                int32, uint64, int64
- 
-    See also MEDIAN, STD, MIN, MAX, VAR, COV, MODE.
-
-    Reference page in Doc Center
-       doc mean
-
-    Other functions named mean
-
-       codistributed/mean    fints/mean       tall/mean
-       datetime/mean         gpuArray/mean    timeseries/mean
-       duration/mean
+     1     3
+    -3     1
 
 
     \end{Verbatim}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}5}]:} \PY{n}{a} \PY{p}{=} \PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{7}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{]}\PY{p}{;}
-        \PY{n}{min}\PY{p}{(}\PY{n}{a}\PY{p}{)} \PY{c}{\PYZpc{} el mínimo de a}
-        \PY{n}{max}\PY{p}{(}\PY{n}{a}\PY{p}{)} \PY{c}{\PYZpc{} el máximo de a}
-        \PY{n}{mean}\PY{p}{(}\PY{n}{a}\PY{p}{)} \PY{c}{\PYZpc{} la media de a}
-        \PY{n+nb}{length}\PY{p}{(}\PY{n}{a}\PY{p}{)} \PY{c}{\PYZpc{} longitud de a}
-        \PY{n}{c} \PY{p}{=} \PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{;} \PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{;} \PY{l+m+mi}{7}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}
-        \PY{n+nb}{size}\PY{p}{(}\PY{n}{a}\PY{p}{)}
-        \PY{p}{[}\PY{n}{numf}\PY{p}{,} \PY{n}{numc}\PY{p}{]} \PY{p}{=} \PY{n+nb}{size}\PY{p}{(}\PY{n}{a}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}15}]:} \PY{n}{M\PYZus{}1}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{)} \PY{p}{=} \PY{n}{M\PYZus{}1}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{)} \PY{o}{+} \PY{n}{A\PYZus{}1}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
 
-ans =
+M\_1 =
 
-    -4
-
-
-ans =
-
-     7
-
-
-ans =
-
-    2.5000
+     1     3     0     0     0
+    -3     1     0     0     0
+     0     0     0     0     0
+     0     0     0     0     0
+     0     0     0     0     0
 
 
-ans =
+    \end{Verbatim}
 
-     6
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}11}]:} \PY{n}{help}\PY{p}{(}\PYZdq{}\PY{n+nb}{zeros}\PYZdq{}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+ ZEROS  Zeros array.
+    ZEROS(N) is an N-by-N matrix of zeros.
+ 
+    ZEROS(M,N) or ZEROS([M,N]) is an M-by-N matrix of zeros.
+ 
+    ZEROS(M,N,P,{\ldots}) or ZEROS([M N P {\ldots}]) is an M-by-N-by-P-by-{\ldots} array of
+    zeros.
+ 
+    ZEROS(SIZE(A)) is the same size as A and all zeros.
+ 
+    ZEROS with no arguments is the scalar 0.
+ 
+    ZEROS({\ldots}, CLASSNAME) is an array of zeros of class specified by the
+    string CLASSNAME.
+ 
+    ZEROS({\ldots}, 'like', Y) is an array of zeros with the same data type, sparsity,
+    and complexity (real or complex) as the numeric variable Y.
+ 
+    Note: The size inputs M, N, and P{\ldots} should be nonnegative integers. 
+    Negative integers are treated as 0.
+ 
+    Example:
+       x = zeros(2,3,'int8');
+ 
+    See also EYE, ONES.
+
+    Reference page in Doc Center
+       doc zeros
+
+    Other functions named zeros
+
+       codistributed/zeros      codistributor2dbc/zeros    gpuArray/zeros
+       codistributor1d/zeros    distributed/zeros
+
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}16}]:} \PY{n}{M\PYZus{}1}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{:}\PY{l+m+mi}{5}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{:}\PY{l+m+mi}{5}\PY{p}{)} \PY{p}{=} \PY{n}{M\PYZus{}1}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{:}\PY{l+m+mi}{5}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{:}\PY{l+m+mi}{5}\PY{p}{)}\PY{o}{+}\PY{n}{A\PYZus{}1}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+M\_1 =
+
+     1     3     0     0     0
+    -3     1     0     0     0
+     0     0     0     0     0
+     0     0     0     1     3
+     0     0     0    -3     1
+
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}13}]:} \PY{n}{M\PYZus{}2} \PY{p}{=} \PY{n+nb}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
+         \PY{n}{A\PYZus{}2} \PY{p}{=} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{;}\PY{o}{\PYZhy{}}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}
+         \PY{n}{M\PYZus{}2}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{)} \PY{p}{=} \PY{n}{M\PYZus{}2}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{)}\PY{o}{+}\PY{n}{A\PYZus{}2}
+         \PY{n}{M\PYZus{}2}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{:}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{:}\PY{l+m+mi}{3}\PY{p}{)} \PY{p}{=} \PY{n}{M\PYZus{}2}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{:}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{:}\PY{l+m+mi}{3}\PY{p}{)}\PY{o}{+}\PY{n}{A\PYZus{}2}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+M\_2 =
+
+     0     0     0     0     0
+     0     0     0     0     0
+     0     0     0     0     0
+     0     0     0     0     0
+     0     0     0     0     0
+
+
+A\_2 =
+
+     1     3
+    -3     1
+
+
+M\_2 =
+
+     1     3     0     0     0
+    -3     1     0     0     0
+     0     0     0     0     0
+     0     0     0     0     0
+     0     0     0     0     0
+
+
+M\_2 =
+
+     1     3     0     0     0
+    -3     2     3     0     0
+     0    -3     1     0     0
+     0     0     0     0     0
+     0     0     0     0     0
+
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}18}]:} \PY{n}{M\PYZus{}3} \PY{p}{=} \PY{n+nb}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{;}
+         \PY{n}{A}\PY{p}{=}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{;} \PY{o}{\PYZhy{}}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{;}
+         
+         \PY{k}{for} \PY{n}{k} \PY{p}{=} \PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{5}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}
+             \PY{n}{M\PYZus{}3}\PY{p}{(}\PY{n}{k}\PY{p}{:}\PY{n}{k}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{k}\PY{p}{:}\PY{n}{k}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)} \PY{p}{=} \PY{n}{M\PYZus{}3}\PY{p}{(}\PY{n}{k}\PY{p}{:}\PY{n}{k}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{k}\PY{p}{:}\PY{n}{k}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)} \PY{o}{+} \PY{n}{A}\PY{p}{;}
+         \PY{k}{end}
+         
+         \PY{n}{M\PYZus{}3}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+M\_3 =
+
+     1     3     0     0     0
+    -3     2     3     0     0
+     0    -3     2     3     0
+     0     0    -3     2     3
+     0     0     0    -3     1
+
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}25}]:} \PY{n}{c} \PY{p}{=} \PY{n+nb}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{;}
+         \PY{n}{b\PYZus{}base} \PY{p}{=} \PY{p}{[}\PY{l+m+mi}{3}\PY{p}{;}\PY{l+m+mi}{4}\PY{p}{]}\PY{p}{;} \PY{c}{\PYZpc{} Otra manera es colocar c = [3, 4]\PYZsq{}}
+         \PY{k}{for} \PY{n}{k}\PY{p}{=}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{5}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}
+             \PY{n}{c}\PY{p}{(}\PY{n}{k}\PY{p}{:}\PY{n}{k}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)} \PY{p}{=} \PY{n}{c}\PY{p}{(}\PY{n}{k}\PY{p}{:}\PY{n}{k}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)} \PY{o}{+} \PY{n}{b\PYZus{}base}
+             \PY{n}{pause}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
+         \PY{k}{end}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+c =
+
+     3
+     4
+     0
+     0
+     0
 
 
 c =
 
-     2     3
-     4     5
-     7     1
+     3
+     7
+     4
+     0
+     0
 
 
-ans =
+c =
 
-     1     6
-
-
-numf =
-
-     1
-
-
-numc =
-
-     6
+     3
+     7
+     7
+     4
+     0
 
 
-    \end{Verbatim}
+c =
 
-    \hypertarget{soluciuxf3n-de-sistemas-de-ecuaciones-lineales}{%
-\subsection{Solución de sistemas de ecuaciones
-lineales}\label{soluciuxf3n-de-sistemas-de-ecuaciones-lineales}}
-
-\textbf{Ejemplo:} Encontrar la solución del siguiente sistema lineal
-
-\[\begin{alignat}{9}
-2x_1&&\; + \;&& 6x_2   &&\; + \;&& 7x_3  &&\; + \;&& 9x_4 &&\; = \;&& 2 & \\
-3x_1 &&\; + \;&& 7x_2  &&\; + \;&& 2x_3 &&\; + \;&& 5x_4 &&\; = \;&& -1 & \\
-4x_1 &&\; - \;&& 2x_2  &&\; + \;&& x_3  &&\; + \;&& 6x_4 &&\; = \;&& 3 & \\
-x_1&&\; + \;&&  9x_2   &&\; + \;&& 8x_3 &&\; + \;&& 2x_4 &&\; = \;&& 4 & \\
-\end{alignat}\]
-
-Forma matricial \[Ax=b\] donde
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}6}]:} \PY{n}{A} \PY{p}{=}\PY{p}{[}\PY{l+m+mi}{2} \PY{l+m+mi}{6} \PY{l+m+mi}{7} \PY{l+m+mi}{9}
-            \PY{l+m+mi}{3} \PY{l+m+mi}{7} \PY{l+m+mi}{2} \PY{l+m+mi}{5}
-            \PY{l+m+mi}{4} \PY{o}{\PYZhy{}}\PY{l+m+mi}{2} \PY{l+m+mi}{1} \PY{l+m+mi}{6}
-            \PY{l+m+mi}{1} \PY{l+m+mi}{9} \PY{l+m+mi}{8} \PY{l+m+mi}{2}\PY{p}{]}\PY{p}{;}
-        \PY{n}{b} \PY{p}{=}\PY{p}{[}\PY{l+m+mi}{2} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1} \PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{]}\PY{o}{\PYZsq{}}\PY{p}{;}
-        \PY{n}{x} \PY{p}{=} \PY{n}{A}\PY{o}{\PYZbs{}}\PY{n}{b}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-
-x =
-
-    0.9557
-   -0.5123
-    1.0788
-   -0.4877
+     3
+     7
+     7
+     7
+     4
 
 
     \end{Verbatim}
-
-    Verificando el resultado anterior:
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}7}]:} \PY{n}{A}\PY{o}{*}\PY{n}{x}\PY{o}{\PYZhy{}}\PY{n}{b}
-        \PY{n}{norm}\PY{p}{(}\PY{n}{A}\PY{o}{*}\PY{n}{x}\PY{o}{\PYZhy{}}\PY{n}{b}\PY{p}{)} \PY{c}{\PYZpc{} El valor de la norma debe tender a 0.}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-
-ans =
-
-   1.0e-14 *
-
-    0.0444
-   -0.1776
-         0
-         0
-
-
-ans =
-
-   1.8310e-15
-
-
-    \end{Verbatim}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}8}]:} \PY{n}{help}\PY{p}{(}\PYZdq{}\PY{n}{norm}\PYZdq{}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
- NORM   Matrix or vector norm.
-      NORM(X,2) returns the 2-norm of X.
- 
-      NORM(X) is the same as NORM(X,2).
- 
-      NORM(X,1) returns the 1-norm of X.
- 
-      NORM(X,Inf) returns the infinity norm of X.
- 
-      NORM(X,'fro') returns the Frobenius norm of X.
- 
-    In addition, for vectors{\ldots}
- 
-      NORM(V,P) returns the p-norm of V defined as SUM(ABS(V).\^{}P)\^{}(1/P).
- 
-      NORM(V,Inf) returns the largest element of ABS(V).
- 
-      NORM(V,-Inf) returns the smallest element of ABS(V).
- 
-    By convention, NaN is returned if X or V contains NaNs.
- 
-    See also COND, RCOND, CONDEST, NORMEST, HYPOT.
-
-    Reference page in Doc Center
-       doc norm
-
-    Other functions named norm
-
-       codistributed/norm    DynamicSystem/norm    mfilt/norm    tall/norm
-       dfilt/norm            gpuArray/norm         sym/norm
-
-
-    \end{Verbatim}
-
-    \hypertarget{gruxe1ficas-con-matlab}{%
-\subsection{Gráficas con MATLAB}\label{gruxe1ficas-con-matlab}}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}9}]:} \PY{n}{help}\PY{p}{(}\PYZdq{}\PY{n}{plot}\PYZdq{}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
- PLOT   Linear plot. 
-    PLOT(X,Y) plots vector Y versus vector X. If X or Y is a matrix,
-    then the vector is plotted versus the rows or columns of the matrix,
-    whichever line up.  If X is a scalar and Y is a vector, disconnected
-    line objects are created and plotted as discrete points vertically at
-    X.
- 
-    PLOT(Y) plots the columns of Y versus their index.
-    If Y is complex, PLOT(Y) is equivalent to PLOT(real(Y),imag(Y)).
-    In all other uses of PLOT, the imaginary part is ignored.
- 
-    Various line types, plot symbols and colors may be obtained with
-    PLOT(X,Y,S) where S is a character string made from one element
-    from any or all the following 3 columns:
- 
-           b     blue          .     point              -     solid
-           g     green         o     circle             :     dotted
-           r     red           x     x-mark             -.    dashdot 
-           c     cyan          +     plus               --    dashed   
-           m     magenta       *     star             (none)  no line
-           y     yellow        s     square
-           k     black         d     diamond
-           w     white         v     triangle (down)
-                               \^{}     triangle (up)
-                               <     triangle (left)
-                               >     triangle (right)
-                               p     pentagram
-                               h     hexagram
-                          
-    For example, PLOT(X,Y,'c+:') plots a cyan dotted line with a plus 
-    at each data point; PLOT(X,Y,'bd') plots blue diamond at each data 
-    point but does not draw any line.
- 
-    PLOT(X1,Y1,S1,X2,Y2,S2,X3,Y3,S3,{\ldots}) combines the plots defined by
-    the (X,Y,S) triples, where the X's and Y's are vectors or matrices 
-    and the S's are strings.  
- 
-    For example, PLOT(X,Y,'y-',X,Y,'go') plots the data twice, with a
-    solid yellow line interpolating green circles at the data points.
- 
-    The PLOT command, if no color is specified, makes automatic use of
-    the colors specified by the axes ColorOrder property.  By default,
-    PLOT cycles through the colors in the ColorOrder property.  For
-    monochrome systems, PLOT cycles over the axes LineStyleOrder property.
- 
-    Note that RGB colors in the ColorOrder property may differ from
-    similarly-named colors in the (X,Y,S) triples.  For example, the 
-    second axes ColorOrder property is medium green with RGB [0 .5 0],
-    while PLOT(X,Y,'g') plots a green line with RGB [0 1 0].
- 
-    If you do not specify a marker type, PLOT uses no marker. 
-    If you do not specify a line style, PLOT uses a solid line.
- 
-    PLOT(AX,{\ldots}) plots into the axes with handle AX.
- 
-    PLOT returns a column vector of handles to lineseries objects, one
-    handle per plotted line. 
- 
-    The X,Y pairs, or X,Y,S triples, can be followed by 
-    parameter/value pairs to specify additional properties 
-    of the lines. For example, PLOT(X,Y,'LineWidth',2,'Color',[.6 0 0]) 
-    will create a plot with a dark red line width of 2 points.
- 
-    Example
-       x = -pi:pi/10:pi;
-       y = tan(sin(x)) - sin(tan(x));
-       plot(x,y,'--rs','LineWidth',2,{\ldots}
-                       'MarkerEdgeColor','k',{\ldots}
-                       'MarkerFaceColor','g',{\ldots}
-                       'MarkerSize',10)
- 
-    See also PLOTTOOLS, SEMILOGX, SEMILOGY, LOGLOG, PLOTYY, PLOT3, GRID,
-    TITLE, XLABEL, YLABEL, AXIS, AXES, HOLD, LEGEND, SUBPLOT, SCATTER.
-
-    Reference page in Doc Center
-       doc plot
-
-    Other functions named plot
-
-       alphaShape/plot      dspdata/plot         LinearModel/plot
-       blm/plot             empiricalblm/plot    mixconjugateblm/plot
-       cfit/plot            fints/plot           mixsemiconjugateblm/plot
-       channel/plot         graph/plot           phytree/plot
-       clustergram/plot     HeatMap/plot         polyshape/plot
-       conjugateblm/plot    iddata/plot          semiconjugateblm/plot
-       customblm/plot       idnlarx/plot         sfit/plot
-       diffuseblm/plot      idnlhw/plot          tall/plot
-       digraph/plot         lassoblm/plot        timeseries/plot
-
-
-    \end{Verbatim}
-
-    Comando \texttt{plot}:
-
-Sintáxis: \texttt{plot(X,\ Y)}
-
-Plotea el vector \texttt{Y} vs el vector \texttt{X}.
-
-Si \texttt{X} o \texttt{Y} es una matriz, entonces el vector es ploteado
-vs las filas o columnas de la matriz, dependiendo si el vector es fila o
-columna.
-
-Ejercicio: Grafique \(f(t)=t\mathrm{sen}t\,,0\le t\le 6\).
-
-Ejemplo: Para graficar las funciones:
-\[f(t)=t\mathrm{sen}t\,,0\le t\le 6, \text{ y } g(t)=t^2,0\le t\le 6.\]
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}11}]:} \PY{n}{t\PYZus{}1} \PY{p}{=} \PY{l+m+mi}{0}\PY{p}{:}\PY{l+m+mf}{0.1}\PY{p}{:}\PY{l+m+mi}{6}\PY{p}{;}
-         \PY{n}{y} \PY{p}{=} \PY{p}{[}\PY{n}{t\PYZus{}1}\PY{o}{.*}\PY{n+nb}{sin}\PY{p}{(}\PY{n}{t}\PY{p}{)}\PY{p}{;} \PY{n}{t\PYZus{}1}\PY{o}{.\PYZca{}}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{;}
-         \PY{n}{plot}\PY{p}{(}\PY{n}{t\PYZus{}1}\PY{p}{,}\PY{n}{y}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
-    Lo mismo se obtiene si se escribe
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}12}]:} \PY{n}{t\PYZus{}2} \PY{p}{=} \PY{l+m+mi}{0}\PY{p}{:}\PY{l+m+mf}{0.1}\PY{p}{:}\PY{l+m+mi}{6}\PY{p}{;}
-         \PY{n}{plot}\PY{p}{(}\PY{n}{t\PYZus{}2}\PY{p}{,}\PY{n}{t\PYZus{}2}\PY{o}{.*}\PY{n+nb}{sin}\PY{p}{(}\PY{n}{t\PYZus{}2}\PY{p}{)}\PY{p}{,}\PY{n}{t\PYZus{}2}\PY{p}{,}\PY{n}{t\PYZus{}2}\PY{o}{.\PYZca{}}\PY{l+m+mi}{2}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_12_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
-    Sintáxis plot (\texttt{X,Y,S}) S es un carácter o cadena (string)
-compuesto de uno o de todos los elementos de las siguientes tres
-columnas:
-
-\begin{longtable}[]{@{}ccc@{}}
-\toprule
-Color & Tipo de marca & Tipo de línea\tabularnewline
-\midrule
-\endhead
-\texttt{y} yellow & \texttt{.} punto & \texttt{-} línea
-continua\tabularnewline
-\texttt{m} magenta & \texttt{o} círculo & \texttt{:} línea
-punteada\tabularnewline
-\texttt{c} cyan & \texttt{x} marca-x & \texttt{-.} línea
-raya-punto.\tabularnewline
-\texttt{r} red & \texttt{+} más & \texttt{-\/-} línea
-rayada\tabularnewline
-\texttt{g} green & \texttt{*} estrella &\tabularnewline
-\texttt{b} blue & s cuadrado &\tabularnewline
-\bottomrule
-\end{longtable}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor} }]:} \PY{n}{El} \PY{n}{objetivo} \PY{n}{de} \PY{n}{los} \PY{n}{métodos} \PY{n}{numéricos} \PY{n}{es} \PY{n}{hallar} \PY{n}{soluciones} \PY{n}{de} \PY{n}{ecuaciones} \PY{n}{desconocidas}\PY{p}{.}\PY{n}{a}
-        \PY{n}{Implementar} \PY{n}{la} \PY{n}{matriz} \PY{n}{de} \PY{n}{Vandermonde} \PY{n}{en} \PY{n}{MATLAB}
-\end{Verbatim}
-
 
 
     % Add a bibliography block to the postdoc
