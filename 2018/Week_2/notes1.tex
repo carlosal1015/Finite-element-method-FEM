@@ -1,0 +1,155 @@
+\documentclass[openany]{memoir}
+\usepackage{amsmath,amssymb,bm,amsthm}
+\theoremstyle{defintion}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\begin{document}
+
+\chapter{Laplace Equation}
+
+If does not have boundary conditions, the problem is ill. The equation needs two conditions.
+
+It is very easy to partition the interval $[a,b]$
+
+
+\begin{definition}
+  We call $\Omega\subset\mathbb{R}^d$ for $d=1,2,3$ a \textbf{domain} if
+
+  \begin{enumerate}
+  \item $\Omega$ is open, is connected. It has no holes. It must be smooth.
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+  We call $\Gamma=\partial\Omega$ the \textbf{boundary} of the domain $\Omega$.
+\end{definition}
+
+\begin{definition}
+By $\hat{n}$ we denote the \textbf{unit normal vector} (facing outwards) on the boundary.
+\end{definition}
+
+\begin{definition}
+  We define \textbf{function space of differentiable functions}
+
+  \[ C^m*(\Omega)=\{f\colon\Omega\rightarrow\mathbb{R}|f(x_1.x_2,\ldots, x_d) \} \]
+\end{definition}
+
+\begin{definition}
+We define \textbf{laplace operator}
+\end{definition}
+
+
+\begin{itemize}
+\item Let $f\in C^{0}(\Omega)$ be the \textbf{right hand side function}.
+\item Let $g\in C^0(\Gamma)$ be the \textbf{boundary value function}.
+ 
+\item \textbf{Dirichtlet Problem} we are looking for $u\in C^2(\Omega)$ such that
+  \[ -\Delta u=f\text{ in } \]
+
+\item Let $\Omega$ be the unit sphere
+  \[ \Omega=\{\bm{x}=(x,y)\in\mathbb{R}^2|x^2+y^2\le 1 \} \]
+
+\item Let $f=1$ and $g=0$
+\item There is \textbf{no solution} to the Dirichlet Problem \[-\Delta u=1 \text{in} u=0 \text{on}\Gamma. \] which is $2$ times differentiable.
+\end{itemize}
+
+\section{The variational formulation}
+
+\begin{itemize}
+\item Assume that $u\in C^2(\Omega)$ is a solution to the Laplace problem \[-\Delta u(x,y)=f(x,y) \text{ in }\Omega\text{ with }u=0\text{ on }\Gamma. \]
+ 
+\item The, we can multiply this equation with a \textbf{test function} $\phi$ \[ -\Delta u(x,y)\cdot \phi(x,y)=f(x,y)\cdot\phi(x,y)\text{ in }\Omega \]
+
+  
+\item The, we can \textbf{integrate by parts over the domain} \[-\int_{D}\Delta u(x,y)\cdot\phi(x,y)\mathrm{d}x\mathrm{d}y=\int_{\Omega}f(x,y)\cdot\phi(x,y)\mathrm{d}x\mathrm{d}y \]
+\item We assume that the test function is differentiable $\phi\in C^1(\Omega)$. Then, we can \textbf{integrate by parts} \[\int_{\Omega}\nabla u(x,y)\cdot\phi(x,y)\mathrm{d}x\mathrm{d}y-\int_\Gamma(\hat{n}\cdot\nabla)u\cdot\phi\mathrm{d}S=\int_{\Omega}f(x,y)\cdot\phi(x,y)\mathrm{d}x\mathrm{d}y \]
+\item We assume that the test function is zero on the boundary. Then \[\int_\Omega\nabla u(x,y)\cdot\nabla\phi(x,y)\mathrm{d}x\mathrm{d}y=\int_\Omega f(x,y)\cdot\phi(x,y)\mathrm{d}x\mathrm{d}y. \]
+
+\end{itemize}
+
+If the boundary is given by he graph of a function in $C^2$, then there exists a classical solution $u\in C^2(\Omega)$.
+
+\begin{itemize}
+\item We introduce $L^2$ scalar product
+  \begin{align*}
+    (u,\phi)=\int_\Omega 
+  \end{align*}
+\end{itemize}
+
+\begin{theorem}
+Let $\Omega\subset\mathbb{R}^d$ for $d=1,2,3$ be a domain and $f\in L^2(\Omega)$. Then, there exists a solution \[ u\in\nu = H^1_0(\Omega) \] to the \textit{Laplace problem} in variational formulation
+\end{theorem}
+
+\chapter{Finite Element Method}
+
+\textbf{Steps for a finit element discretization}
+
+\begin{enumerate}
+\item We discretize the domain $\Omega$ by a mesh $\Omega_h$.
+\item On $\Omega_h$ we discretize the function space $\nu=H^1_0(\Omega)$ by a finite element space $V_h$.
+\item We restrict the variational formulation to $V_h$ \[u_h\in V_h (\nabla u_h,\nabla \phi_h)=(f,\phi_h)\quad\forall \phi_h \]
+\item We solve a linear system of equations.
+\end{enumerate}
+
+\section{Construction}
+
+\begin{itemize}
+\item We discretize the domain $\Omega$ by splitting it into simple \textbf{open elements}, e.g, triangles, quadrilaterals (in $2D$) or tetrahedras, prisms, hexaedras, pyramids (in $3D$)
+\item The \textbf{finite element mesh} $\Omega_h$
+\end{itemize}
+
+\section{Some examples}
+
+\section{Shape assumption}
+
+\textbf{Local Finite Element space}
+
+\begin{itemize}
+\item On every element $T\in\Omega_h$ define the basis functions of a simple polynomial splace
+\item \textbf{bi-linear finite elments}
+\item Let $T$ be and quadrilateral with the points $x^{(1)}=(0,0)$, $x^{(2)}=(h,0)$, $x^{(3)}=(o,h)$, $x^{(4)}=(h,h)$.
+\item $\phi^{(1)}(x,y)=(1-\frac{x}{h})(1-\frac{y}{h})$, $\phi^{(2)}(x,y)=\frac{x}{h}(1-\frac{y}{h})$, $\phi^{(3)}(x,y)=(1-\frac{x}{h})\frac{y}{h}$, $\phi^{(1)}(x,y)=\frac{xy}{h^2}$
+\end{itemize}
+
+\begin{itemize}
+\item The Lagrange basis of the finite element space is given as \[ V_h=\{\phi_h\in C(\Omega)|\phi|_{T}\in Q^1=\text{span}(\phi^{(1)}_h,\phi^{(2)}_h,\phi^{(3)}_h,\phi^{(4)}_h) \} \]
+\item The \textbf{Lagrange basis} of \textbf{nodal basis} is given by \[ V \]
+\end{itemize}
+
+\begin{itemize}
+\item Starting point: weak formulation of Laplace equation \[u\in\nu \]
+\item \[u_h\in V_h (\nabla u_h, \nabla\phi_h)=(f,\phi_h)\quad\forall\phi_h\in V_h \]
+\item The finite element is given by a local basis \[V_h=\text{span}\{\phi^{(1)}_h,\ldots,\phi^{(N)}_h\quad\forall i=1,\ldots, N \} \]
+\item We write the unknown solution $u_h\in V_h$
+\end{itemize}
+
+\section{Assembling the matrix}
+
+\begin{itemize}
+\item We must compute the matrix entries \[A_{ij}(\nabla\phi_h^{(j)}, \nabla\phi_h^{(i)})=\int_\Omega\nabla\phi_h^{(j)}\cdot\nabla\phi_h^{(i)}\mathrm{d}x=\sum_{T\subset\Omega_h}\int_T\nabla\phi_h^{(j)}\cdot\nabla\phi_h^{(i)}\mathrm{d}x \]
+\item For every \textbf{nodal}....
+\end{itemize}
+
+\begin{itemize}
+\item We combine the result in a \textbf{stencil}
+  \[
+    S =
+    \begin{bmatrix}
+      s_{31} & s_{32} & s_{33} \\
+      s_{21} & s_{22} & s{23} \\
+      s_{11} & s_{12} & s_{13}
+    \end{bmatrix}
+  \]
+\item The finite element matrix on a small mesh with $16=4\cdot 4$ nodes like
+  \[
+    A=\frac{1}{3}
+    \begin{bmatrix}
+      1
+    \end{bmatrix}
+  \]
+\end{itemize}
+
+\begin{itemize}
+\item The main difference between $1D$ and $2D$ (or $3D$)
+\end{itemize}
+\end{document}
