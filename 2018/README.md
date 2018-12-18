@@ -17,3 +17,11 @@
 ├── Week_1
 └── Week_2
 ```
+
+* La carpeta `matlab-guide-3ed` contiene los scripts del libro 
+<p align="center">
+<href="http://www.maths.manchester.ac.uk/~higham/mg/index.php">
+  <img src="./Notebooks/img/matlabguide.png" width="400" />
+</p>
+
+* La carpeta `matlab-schemer` contiene esquemas de color tales comoc olores de resaltado variable, subrayado ondulado por errores o advertencias.
