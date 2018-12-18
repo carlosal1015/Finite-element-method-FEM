@@ -27,25 +27,25 @@
 * La carpeta `matlab-schemer` contiene esquemas de color tales comoc olores de resaltado variable, subrayado ondulado por errores o advertencias.
 <p align="center">
 <href="https://www.mathworks.com/matlabcentral/fileexchange/53862-matlab-schemer">
-  <img src="./Notebooks/img/cobalt.png" width="400" />
+  <img src="./Notebooks/img/cobalt.png" width="600" />
 </p>
 
-## Cuadernos Jupyter (MATLAB | C++)
+## [Cuadernos Jupyter (MATLAB | C++)](https://github.com/carlosal1015/Finite-element-method-FEM/tree/master/2018/Notebooks)
 
 * [Introduction_to_MATLAB](https://nbviewer.jupyter.org/github/carlosal1015/Finite-element-method-FEM/blob/master/2018/Notebooks/Introduction_to_MATLAB.ipynb)
 * [Functions_in_MATLAB_I](https://nbviewer.jupyter.org/github/carlosal1015/Finite-element-method-FEM/blob/master/2018/Notebooks/Functions_in_MATLAB_I.ipynb)
 * [Functions_in_MATLAB_II](https://nbviewer.jupyter.org/github/carlosal1015/Finite-element-method-FEM/blob/master/2018/Notebooks/Functions_in_MATLAB_II.ipynb)
 
 
-## Diapositivas
+## [Diapositivas](https://github.com/carlosal1015/Finite-element-method-FEM/tree/master/2018/Slides)
 
-### Semana 1
+### Semana 1 (10-13, diciembre 2018)
 * [Revisión de álgebra lineal, 10/12/2018](https://github.com/carlosal1015/Finite-element-method-FEM/blob/master/2018/Slides/Revision_Algebra_lineal_Beamer_1.pdf)
 * [Aproximación lineal por tramos $1-D$ y la Proyección $L^2$](https://github.com/carlosal1015/Finite-element-method-FEM/blob/master/2018/Slides/UNALM_proy_L2_Beamer_2_v1.pdf)
 * [Elementos finitos $1-D$](https://github.com/carlosal1015/Finite-element-method-FEM/blob/master/2018/Slides/UNALM_FEM_Beamer_3.pdf)
 * [Problema lineal y no lineal de valor de frontera. Formulación variacional e implementación computacional](https://github.com/carlosal1015/Finite-element-method-FEM/blob/master/2018/Slides/UNALM_PVFgeneral_FEM_Beamer_4.pdf)
 * [Elementos de la teoría matemática de los elementos finitos](https://github.com/carlosal1015/Finite-element-method-FEM/blob/master/2018/Slides/Teoria_Matematica_Beamer_5.pdf)
 
-### Semana 2
+### Semana 2 (17-21, diciembre 2018)
 
 * [Condiciones de Dirichlet]()
