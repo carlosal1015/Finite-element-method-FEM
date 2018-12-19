@@ -1,4 +1,3 @@
-
 function z = comb(n, k)
     z = 1;
     for i = 0:(k-1)

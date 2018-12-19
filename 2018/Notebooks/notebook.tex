@@ -141,7 +141,7 @@
     \def\gt{>}
     \def\lt{<}
     % Document parameters
-    \title{Tercera\_clase}
+    \title{Functions\_in\_MATLAB\_II}
     
     
     
@@ -280,233 +280,641 @@
     
 
     
-    \hypertarget{tercera-clase-12122018}{%
-\section{Tercera clase (12/12/2018)}\label{tercera-clase-12122018}}
+    \hypertarget{teoruxeda-de-elementos-finitos-y-su-implementaciuxf3n-11122018}{%
+\section{Teoría de elementos finitos y su implementación
+(11/12/2018)}\label{teoruxeda-de-elementos-finitos-y-su-implementaciuxf3n-11122018}}
+
+\hypertarget{funciones-que-realizan-tareas}{%
+\subsection{Funciones que realizan
+tareas}\label{funciones-que-realizan-tareas}}
+
+\hypertarget{programas-usando-archivos-m-file}{%
+\subsubsection{\texorpdfstring{Programas usando archivos
+\(M\)-file}{Programas usando archivos M-file}}\label{programas-usando-archivos-m-file}}
+
+\begin{itemize}
+\tightlist
+\item
+  Archivos de instrucciones
+\item
+  Archivos de funciones
+\end{itemize}
+
+    \hypertarget{archivos-de-instrucciones}{%
+\subsubsection{Archivos de
+instrucciones}\label{archivos-de-instrucciones}}
+
+Un archivo o \emph{script} de instrucciones consisten de una sucesión de
+instrucciones normales de MATLAB.
+
+Las variables en un archivo de instrucciones son globales y, por tanto,
+cambiarán los valores del espacio de trabajo.
+
+Los archivos de instrucciones son utilizados a menudo para introducir
+datos en una matriz grande.
+
+    \hypertarget{archivos-de-funciones}{%
+\subsubsection{Archivos de funciones}\label{archivos-de-funciones}}
+
+Los archivos de funciones hacen que MATLAB tenga \emph{capacidad de
+crecimiento}.
+
+Se pueden crear funciones específicas para un problema concreto y a
+partir de su introducción, tendrán el mismo rango que las demás
+funciones del sistema.
+
+Las variables en las funciones son locales.
+
+También se puede declararse una variable como global.
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}14}]:} \PY{n}{M\PYZus{}1} \PY{p}{=} \PY{n+nb}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
-         \PY{n}{A\PYZus{}1} \PY{p}{=} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{;}\PY{o}{\PYZhy{}}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}
+{\color{incolor}In [{\color{incolor}1}]:} \PY{c}{\PYZpc{} Nombre del script figura1.m}
+        \PY{c}{\PYZpc{} Ejecutar en el prompt de MATLAB como figura1.m}
+        \PY{c}{\PYZpc{} figura 1}
+        \PY{c}{\PYZpc{} shg}
+\end{Verbatim}
+
+
+    \hypertarget{para-direccionar-una-carpeta-de-trabajo}{%
+\subsection{Para direccionar una carpeta de
+trabajo}\label{para-direccionar-una-carpeta-de-trabajo}}
+
+\begin{itemize}
+\tightlist
+\item
+  Se puede utilizar las instrucciones: \texttt{cd}, \texttt{dir}.
+\item
+  Se puede usar la instrucción \texttt{path}. Por ejemplo:
+  \texttt{/home/user/Projects/MATLAB}.
+\end{itemize}
+
+    \hypertarget{creando-un-archivo-de-variables-inicializados}{%
+\subsection{Creando un archivo de variables
+inicializados}\label{creando-un-archivo-de-variables-inicializados}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{c}{\PYZpc{} datos.m}
+        \PY{c}{\PYZpc{} Archivo de variables inicializadas}
+        \PY{n}{a} \PY{p}{=} \PY{p}{[}\PY{l+m+mi}{2} \PY{l+m+mi}{3}\PY{p}{;} \PY{l+m+mi}{4} \PY{l+m+mi}{5}\PY{p}{]}\PY{p}{;}
+        \PY{n}{b} \PY{p}{=} \PY{p}{[}\PY{l+m+mi}{2} \PY{l+m+mi}{3}\PY{p}{]}\PY{o}{\PYZsq{}}\PY{p}{;}
+\end{Verbatim}
+
+
+    \hypertarget{para-cargar-los-datos}{%
+\subsection{Para cargar los datos}\label{para-cargar-los-datos}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{c}{\PYZpc{} datos}
+        \PY{n}{a}
+        \PY{n}{b}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
 
-M\_1 =
+a =
 
-     0     0     0     0     0
-     0     0     0     0     0
-     0     0     0     0     0
-     0     0     0     0     0
-     0     0     0     0     0
+     2     3
+     4     5
 
 
-A\_1 =
+b =
 
-     1     3
-    -3     1
+     2
+     3
 
 
     \end{Verbatim}
 
+    \hypertarget{instrucciones-de-control}{%
+\subsection{Instrucciones de control}\label{instrucciones-de-control}}
+
+\hypertarget{instrucciuxf3n-for-...-end}{%
+\subsubsection{\texorpdfstring{Instrucción
+\texttt{for\ ...\ end}}{Instrucción for ... end}}\label{instrucciuxf3n-for-...-end}}
+
+Sintáxis:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{for NombVar = expresión}
+\NormalTok{    instrucción_1}
+\NormalTok{    instrucción_2}
+\NormalTok{    ...}
+\NormalTok{    instrucción_M}
+\NormalTok{end}
+\end{Highlighting}
+\end{Shaded}
+
+o
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{for NombVar = expresión, instrucción_1, instrucción_2, ..., instrucción_M end}
+\end{Highlighting}
+\end{Shaded}
+
+donde:
+
+\texttt{NombVar}: es el identificador de la variable.
+
+\texttt{expresión}: usualmente tiene la siguiente forma:
+\texttt{Val\_Inic:incr:Val\_Fin} o \texttt{Val\_Inic:Val\_Fin}.
+
+\texttt{Val\_Inic}: valor inicial que a tomar la variable.
+
+\texttt{incr}: incremento
+
+\texttt{Val\_Fin}: valor final que va a tomar la variable.
+
+si expresión tiene la forma \texttt{Val\_Inic:Val\_Fin}, el incremento
+(implícito) es \textbf{uno}.
+
+    A continuación, se muestra un ejemplo ilustrativo: 
+
+    Ejemplo: Escriba una función \texttt{comb(n,k)} en MATLAB para calcular
+\(\dbinom{n}{k}=\dfrac{n!}{k!(n-k)!}\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{function z = comb(n, k)}
+\NormalTok{    z = }\FloatTok{1}\NormalTok{;}
+\NormalTok{    for i=}\FloatTok{0}\NormalTok{:(k-}\FloatTok{1}\NormalTok{);}
+\NormalTok{        z = z * (n-i)/(k-i);}
+\NormalTok{    end}
+\NormalTok{end}
+\end{Highlighting}
+\end{Shaded}
+
+Guardar en el directorio de trabajo con el nombre \texttt{comb.m}. Para
+ejecutar esta función, ingrese \texttt{n=4} y \texttt{k=3}, ingrese:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{comb(}\FloatTok{4}\NormalTok{,}\FloatTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}15}]:} \PY{n}{M\PYZus{}1}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{)} \PY{p}{=} \PY{n}{M\PYZus{}1}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{)} \PY{o}{+} \PY{n}{A\PYZus{}1}
+{\color{incolor}In [{\color{incolor}4}]:} \PY{c}{\PYZpc{}\PYZpc{}file comb.m}
+        \PY{k}{function}\PY{+w}{ }z \PY{p}{=}\PY{+w}{ }\PY{n+nf}{comb}\PY{p}{(}n, k\PY{p}{)}
+        \PY{+w}{    }\PY{n}{z} \PY{p}{=} \PY{l+m+mi}{1}\PY{p}{;}
+            \PY{k}{for} \PY{n+nb}{i} \PY{p}{=} \PY{l+m+mi}{0}\PY{p}{:}\PY{p}{(}\PY{n}{k}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+                \PY{n}{z} \PY{p}{=} \PY{n}{z} \PY{o}{*} \PY{p}{(}\PY{n}{n}\PY{o}{\PYZhy{}}\PY{n+nb}{i}\PY{p}{)}\PY{o}{/}\PY{p}{(}\PY{n}{k}\PY{o}{\PYZhy{}}\PY{n+nb}{i}\PY{p}{)}\PY{p}{;}
+            \PY{k}{end}
+        \PY{k}{end}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Created file '/home/carlosal1015/GitHub/Finite-element-method-FEM/2018/Notebooks/comb.m'.
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{n}{n} \PY{p}{=} \PY{l+m+mi}{4}\PY{p}{;} \PY{n}{k} \PY{p}{=} \PY{l+m+mi}{3}\PY{p}{;}
+        \PY{n}{comb}\PY{p}{(}\PY{n}{n}\PY{p}{,} \PY{n}{k}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
 
-M\_1 =
+ans =
 
-     1     3     0     0     0
-    -3     1     0     0     0
-     0     0     0     0     0
-     0     0     0     0     0
-     0     0     0     0     0
+     4
 
 
     \end{Verbatim}
 
+    Ejemplo: Escribir los cuadrados de los números naturales pares menores
+que \(20\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{for i = }\FloatTok{2}\NormalTok{:}\FloatTok{2}\NormalTok{:}\FloatTok{20}
+\NormalTok{    disp(i^}\FloatTok{2}\NormalTok{)}
+\NormalTok{end}
+\end{Highlighting}
+\end{Shaded}
+
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}11}]:} \PY{n}{help}\PY{p}{(}\PYZdq{}\PY{n+nb}{zeros}\PYZdq{}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}6}]:} \PY{k}{for} \PY{n+nb}{i} \PY{p}{=} \PY{l+m+mi}{2}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{:}\PY{l+m+mi}{19}
+            \PY{n+nb}{disp}\PY{p}{(}\PY{n+nb}{i}\PYZca{}\PY{l+m+mi}{2}\PY{p}{)}
+        \PY{k}{end}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
- ZEROS  Zeros array.
-    ZEROS(N) is an N-by-N matrix of zeros.
- 
-    ZEROS(M,N) or ZEROS([M,N]) is an M-by-N matrix of zeros.
- 
-    ZEROS(M,N,P,{\ldots}) or ZEROS([M N P {\ldots}]) is an M-by-N-by-P-by-{\ldots} array of
-    zeros.
- 
-    ZEROS(SIZE(A)) is the same size as A and all zeros.
- 
-    ZEROS with no arguments is the scalar 0.
- 
-    ZEROS({\ldots}, CLASSNAME) is an array of zeros of class specified by the
-    string CLASSNAME.
- 
-    ZEROS({\ldots}, 'like', Y) is an array of zeros with the same data type, sparsity,
-    and complexity (real or complex) as the numeric variable Y.
- 
-    Note: The size inputs M, N, and P{\ldots} should be nonnegative integers. 
-    Negative integers are treated as 0.
- 
-    Example:
-       x = zeros(2,3,'int8');
- 
-    See also EYE, ONES.
+     4
 
-    Reference page in Doc Center
-       doc zeros
+    16
 
-    Other functions named zeros
+    36
 
-       codistributed/zeros      codistributor2dbc/zeros    gpuArray/zeros
-       codistributor1d/zeros    distributed/zeros
+    64
+
+   100
+
+   144
+
+   196
+
+   256
+
+   324
 
 
     \end{Verbatim}
 
+    
+
+    Aplicando el teorema del valor intermedio se obtiene el error: \[
+\int_{a}^{b}\!\!f(x)\,\mathrm{d}x-T_n(f)=-\frac{h^2(b-a)}{12}f^{\prime\prime}\left(\xi\right),\quad h=\frac{b-a}{n}.
+\]
+
+    Ejemplo: Método trapezoidal compuesta
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{function inttrapS = int_trap(f, a, b, n)}
+\CommentTok{% Regla trapezoidal compuesta}
+\NormalTok{    h = (b-a)/n;}
+\NormalTok{    t = (f(a) + f(b))/}\FloatTok{2}\NormalTok{:}
+\NormalTok{    for i = }\FloatTok{1}\NormalTok{:n-}\FloatTok{1}
+\NormalTok{        t = t + f(a + i*h);}
+\NormalTok{    end}
+\NormalTok{    inttrapS = h * t}
+\NormalTok{end}
+\end{Highlighting}
+\end{Shaded}
+
+    \hypertarget{regla-de-simpson}{%
+\subsection{Regla de Simpson}\label{regla-de-simpson}}
+
+\hypertarget{regla-de-simpson-13-o-regla-de-simpson-n2}{%
+\subsubsection{\texorpdfstring{Regla de Simpson \(1/3\) o Regla de
+Simpson
+\((n=2)\):}{Regla de Simpson 1/3 o Regla de Simpson (n=2):}}\label{regla-de-simpson-13-o-regla-de-simpson-n2}}
+
+\[
+\begin{align*}
+K_2(f)&=\frac{b-a}{6}\left[f(a) + 4f\left(\frac{a+b}{2}\right) + f(b)\right].\\
+E_2(f)&=-\frac{h^5}{90}f^{(4)}\left(\xi\right)=-\frac{1}{2880}{\left(b-a\right)}^{5}f^{(4)}\left(\xi\right),\quad a<\xi<b.
+\end{align*}
+\] Si \(h=\dfrac{b-a}{2}\), \(x_0=a\), \(x_1=x_0+h\), \(x_2=x_1+h=b\),
+se tiene \[
+K_2(f)=\frac{1}{3}h\left(f(x_0)+4f(x_1)+f(x_2)\right)
+\]
+
+    Ejemplo: Calcule la integral \(I=\int_{I}x^2+y^2\mathrm{d}x\mathrm{d}y\)
+sobre el rectángulo \(I=\left[-3,3\right]\times\left[-5,5\right]\)
+usando la función \texttt{trapz} proporcionada por MATLAB.
+
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}16}]:} \PY{n}{M\PYZus{}1}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{:}\PY{l+m+mi}{5}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{:}\PY{l+m+mi}{5}\PY{p}{)} \PY{p}{=} \PY{n}{M\PYZus{}1}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{:}\PY{l+m+mi}{5}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{:}\PY{l+m+mi}{5}\PY{p}{)}\PY{o}{+}\PY{n}{A\PYZus{}1}
+{\color{incolor}In [{\color{incolor}7}]:} \PY{c}{\PYZpc{} https://www.mathworks.com/help/matlab/ref/trapz.html}
+        \PY{n}{x} \PY{p}{=} \PY{o}{\PYZhy{}}\PY{l+m+mi}{3}\PY{p}{:}\PY{p}{.}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{3}\PY{p}{;} 
+        \PY{n}{y} \PY{p}{=} \PY{o}{\PYZhy{}}\PY{l+m+mi}{5}\PY{p}{:}\PY{p}{.}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{5}\PY{p}{;} 
+        \PY{p}{[}\PY{n}{X}\PY{p}{,}\PY{n}{Y}\PY{p}{]} \PY{p}{=} \PY{n+nb}{meshgrid}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{)}\PY{p}{;}
+        \PY{n}{F} \PY{p}{=} \PY{n}{X}\PY{o}{.\PYZca{}}\PY{l+m+mi}{2} \PY{o}{+} \PY{n}{Y}\PY{o}{.\PYZca{}}\PY{l+m+mi}{2}\PY{p}{;}
+        \PY{n}{I} \PY{p}{=} \PY{n}{trapz}\PY{p}{(}\PY{n}{y}\PY{p}{,}\PY{n}{trapz}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{F}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
 
-M\_1 =
+I =
 
-     1     3     0     0     0
-    -3     1     0     0     0
-     0     0     0     0     0
-     0     0     0     1     3
-     0     0     0    -3     1
+  680.2000
 
 
     \end{Verbatim}
 
+    
+
+    \hypertarget{regla-compuesta-de-simpson}{%
+\subsection{Regla compuesta de
+Simpson}\label{regla-compuesta-de-simpson}}
+
+De manera similar se obtiene la \emph{Regla Compuesta de Simpson}. Sean
+\(n=2m\) (par), \(m\in\mathbb{N}\), \(h=\dfrac{(b-a)}{n}\),
+\(x_j=a+jh\), \(j\in\left\{0,1,2,\ldots,n\right\}\) y
+\(f\in\mathcal{C}^{4}\left[a,b\right]\).
+
+Simplificando la regla de Simpson en los subintervalos
+\(\left[x_{j-1},x_j\right]\) con \(j\in\left\{1,2,\ldots, n\right\}\) se
+obtiene
+
+\[
+\int_{a}^{b}\!\!f(x)\,\mathrm{d}x=S_n\left[a,b\right]-\frac{h^4\left(b-a\right)}{180}\left(\frac{1}{m}\sum_{j=1}^{m}f^{(4)}\left(\xi_j\right)\right),\quad \xi_j\in\left]x_{j-1},x_j\right[.
+\]
+
+    Ejemplo: Método Compuesta de Simpson (1/3)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{function intsimpS = int_simp(f, a, b, n)}
+\CommentTok{% Se aplica M = 2*n veces el método de Simpson}
+\CommentTok{% n+1 puntos de partición}
+\NormalTok{    M = n/}\FloatTok{2}\NormalTok{; s = }\FloatTok{0}\NormalTok{; h =(b-a)/n;}
+\NormalTok{    s1 = f(a+h * (}\FloatTok{2}\NormalTok{*M-}\FloatTok{1}\NormalTok{)); s2 = }\FloatTok{0}\NormalTok{;}
+\NormalTok{    for j=}\FloatTok{1}\NormalTok{: M-}\FloatTok{1}
+\NormalTok{        s1 = s1 + f(a + h*(}\FloatTok{2}\NormalTok{*j-}\FloatTok{1}\NormalTok{));}
+\NormalTok{        s2 = s2 + f(a + h*(}\FloatTok{2}\NormalTok{*j));}
+\NormalTok{    end}
+\NormalTok{    intsimpS = h * (f(a) + }\FloatTok{4}\NormalTok{*s1+}\FloatTok{2}\NormalTok{*s2+f(b))/}\FloatTok{3}\NormalTok{;}
+\NormalTok{end}
+\end{Highlighting}
+\end{Shaded}
+
+    Ejemplo: Calcule la siguiente sumatoria: \[
+S=\sum_{k=0}^{m}\frac{k^k}{k!} \text{ para } x=5 \text{ y } m = 24.
+\]
+
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}13}]:} \PY{n}{M\PYZus{}2} \PY{p}{=} \PY{n+nb}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
-         \PY{n}{A\PYZus{}2} \PY{p}{=} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{;}\PY{o}{\PYZhy{}}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}
-         \PY{n}{M\PYZus{}2}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{)} \PY{p}{=} \PY{n}{M\PYZus{}2}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{)}\PY{o}{+}\PY{n}{A\PYZus{}2}
-         \PY{n}{M\PYZus{}2}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{:}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{:}\PY{l+m+mi}{3}\PY{p}{)} \PY{p}{=} \PY{n}{M\PYZus{}2}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{:}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{:}\PY{l+m+mi}{3}\PY{p}{)}\PY{o}{+}\PY{n}{A\PYZus{}2}
+{\color{incolor}In [{\color{incolor}8}]:} \PY{n}{x} \PY{p}{=} \PY{l+m+mi}{5}\PY{p}{;} \PY{n}{m} \PY{p}{=} \PY{l+m+mi}{24}\PY{p}{;}
+        \PY{n}{sum} \PY{p}{=} \PY{l+m+mi}{1}\PY{p}{;} \PY{n}{fact} \PY{p}{=} \PY{l+m+mi}{1}\PY{p}{;}
+        \PY{k}{for} \PY{n}{k}\PY{p}{=}\PY{l+m+mi}{1}\PY{p}{:}\PY{n}{m}
+            \PY{n}{fact} \PY{p}{=} \PY{n}{fact} \PY{o}{*} \PY{n}{x}\PY{o}{/}\PY{n}{k}\PY{p}{;}
+            \PY{n}{sum} \PY{p}{=} \PY{n}{sum} \PY{o}{+} \PY{n}{fact}\PY{p}{;}
+        \PY{k}{end}
+        \PY{n+nb}{disp}\PY{p}{(}\PY{n}{sum}\PY{p}{)}
+        \PY{c}{\PYZpc{} Verificando: El resultado debe acercase a cero.}
+        \PY{n+nb}{disp}\PY{p}{(}\PY{n}{sum} \PY{o}{\PYZhy{}} \PY{n+nb}{exp}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+  148.4132
+
+  -2.3740e-08
+
+
+    \end{Verbatim}
+
+    \hypertarget{instrucciuxf3n-if}{%
+\subsection{\texorpdfstring{Instrucción
+\texttt{if}}{Instrucción if}}\label{instrucciuxf3n-if}}
+
+Sintáxis:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{if relación}
+\NormalTok{    instrucciones}
+\NormalTok{end}
+\end{Highlighting}
+\end{Shaded}
+
+Las instrucciones se ejecutarán solo si la relación es cierta.
+
+La forma general de la sentencia \texttt{if} es
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{if expresión1}
+\NormalTok{    sentencias1}
+\NormalTok{elseif expresión2}
+\NormalTok{    sentencias2}
+\NormalTok{else}
+\NormalTok{    sentencias3}
+\NormalTok{end}
+\end{Highlighting}
+\end{Shaded}
+
+Las sentencias serán ejecutadas si la parte real de la expresión tiene
+todos los elementos no ceros.
+
+La partes \texttt{else} y \texttt{elseif} son opcionales.
+
+La expresión usualmente tiene la forma \texttt{expr\ oper\ expr} donde
+\texttt{oper} es: \texttt{==}, \texttt{\textless{}},
+\texttt{\textgreater{}}, \texttt{\textless{}=},
+\texttt{\textgreater{}=}, \texttt{\textasciitilde{}=}.
+
+Ejemplo:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{c}{\PYZpc{} Recuerde que n vale 4 :\PYZhy{})}
+        \PY{k}{if} \PY{n}{n} \PY{o}{\PYZlt{}} \PY{l+m+mi}{0}
+            \PY{n}{paridad} \PY{p}{=} \PY{l+m+mi}{0}\PY{p}{;}
+        \PY{k}{elseif} \PY{n+nb}{rem}\PY{p}{(}\PY{n}{n}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)} \PY{o}{==} \PY{l+m+mi}{0}
+            \PY{n}{paridad} \PY{p}{=} \PY{l+m+mi}{2}\PY{p}{;}
+        \PY{k}{else}
+            \PY{n}{paridad} \PY{p}{=} \PY{l+m+mi}{1}\PY{p}{;}
+        \PY{k}{end}
+        \PY{n+nb}{disp}\PY{p}{(}\PY{n}{paridad}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+     2
+
+
+    \end{Verbatim}
+
+    \hypertarget{relaciones}{%
+\subsection{Relaciones:}\label{relaciones}}
+
+Los operadores relacionales en MATLAB son
+
+\begin{longtable}[]{@{}cc@{}}
+\toprule
+Operador relacional & Significado\tabularnewline
+\midrule
+\endhead
+\texttt{\textless{}} & menor que\tabularnewline
+\texttt{\textgreater{}} & mayor que\tabularnewline
+\texttt{\textless{}=} & menor o igual que\tabularnewline
+\texttt{\textgreater{}=} & mayor o igual que\tabularnewline
+\texttt{==} & igual\tabularnewline
+\texttt{\textasciitilde{}=} & no igual\tabularnewline
+\bottomrule
+\end{longtable}
+
+Los operadores pueden conectarse o cuantificarse por los operadores
+lógicos
+
+\begin{longtable}[]{@{}cc@{}}
+\toprule
+Operador lógico & Significado\tabularnewline
+\midrule
+\endhead
+\texttt{\&} & y (conjunción)\tabularnewline
+pipe o tubería & o (disyunción inclusiva)\tabularnewline
+\texttt{\textasciitilde{}} & no (negación)\tabularnewline
+\bottomrule
+\end{longtable}
+
+Cuando se aplican a escalares, la relación es realmente el escalar
+\texttt{1} o \texttt{0} dependiendo de si la relación es
+\emph{verdadera} o \emph{falsa}.
+
+Ejemplo:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}10}]:} \PY{l+m+mi}{4} \PY{o}{\PYZlt{}} \PY{l+m+mi}{6}
+         \PY{l+m+mi}{3} \PY{o}{\PYZgt{}} \PY{l+m+mi}{8}
+         \PY{l+m+mi}{4} \PY{o}{==} \PY{l+m+mi}{4}
+         \PY{l+m+mi}{3} \PY{o}{==} \PY{l+m+mi}{6}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
 
-M\_2 =
+ans =
 
-     0     0     0     0     0
-     0     0     0     0     0
-     0     0     0     0     0
-     0     0     0     0     0
-     0     0     0     0     0
+  logical
+
+   1
 
 
-A\_2 =
+ans =
 
-     1     3
-    -3     1
+  logical
 
-
-M\_2 =
-
-     1     3     0     0     0
-    -3     1     0     0     0
-     0     0     0     0     0
-     0     0     0     0     0
-     0     0     0     0     0
+   0
 
 
-M\_2 =
+ans =
 
-     1     3     0     0     0
-    -3     2     3     0     0
-     0    -3     1     0     0
-     0     0     0     0     0
-     0     0     0     0     0
+  logical
+
+   1
+
+
+ans =
+
+  logical
+
+   0
 
 
     \end{Verbatim}
 
+    Ejemplo: Escriba una función que encuentre el mayor de dos números
+\texttt{a}, \texttt{b}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{function SalMay = mayor(a, b)}
+\NormalTok{if a > b}
+\NormalTok{    SalMay = a;}
+\NormalTok{else}
+\NormalTok{    SalMay = b;}
+\NormalTok{end}
+\end{Highlighting}
+\end{Shaded}
+
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}18}]:} \PY{n}{M\PYZus{}3} \PY{p}{=} \PY{n+nb}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{;}
-         \PY{n}{A}\PY{p}{=}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{;} \PY{o}{\PYZhy{}}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{;}
-         
-         \PY{k}{for} \PY{n}{k} \PY{p}{=} \PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{5}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}
-             \PY{n}{M\PYZus{}3}\PY{p}{(}\PY{n}{k}\PY{p}{:}\PY{n}{k}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{k}\PY{p}{:}\PY{n}{k}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)} \PY{p}{=} \PY{n}{M\PYZus{}3}\PY{p}{(}\PY{n}{k}\PY{p}{:}\PY{n}{k}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{k}\PY{p}{:}\PY{n}{k}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)} \PY{o}{+} \PY{n}{A}\PY{p}{;}
+{\color{incolor}In [{\color{incolor}11}]:} \PY{c}{\PYZpc{}\PYZpc{}file mayor.m}
+         \PY{k}{function}\PY{+w}{ }SalMay \PY{p}{=}\PY{+w}{ }\PY{n+nf}{mayor}\PY{p}{(}a, b\PY{p}{)}
+         \PY{k}{if} \PY{n}{a} \PY{o}{\PYZgt{}} \PY{n}{b}
+             \PY{n}{SalMay} \PY{p}{=} \PY{n}{a}\PY{p}{;}
+         \PY{k}{else}
+             \PY{n}{SalMay} \PY{p}{=} \PY{n}{b}\PY{p}{;}
          \PY{k}{end}
-         
-         \PY{n}{M\PYZus{}3}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Created file '/home/carlosal1015/GitHub/Finite-element-method-FEM/2018/Notebooks/mayor.m'.
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}12}]:} \PY{n}{mayor}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
 
-M\_3 =
+ans =
 
-     1     3     0     0     0
-    -3     2     3     0     0
-     0    -3     2     3     0
-     0     0    -3     2     3
-     0     0     0    -3     1
+     5
 
 
     \end{Verbatim}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}25}]:} \PY{n}{c} \PY{p}{=} \PY{n+nb}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{;}
-         \PY{n}{b\PYZus{}base} \PY{p}{=} \PY{p}{[}\PY{l+m+mi}{3}\PY{p}{;}\PY{l+m+mi}{4}\PY{p}{]}\PY{p}{;} \PY{c}{\PYZpc{} Otra manera es colocar c = [3, 4]\PYZsq{}}
-         \PY{k}{for} \PY{n}{k}\PY{p}{=}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{5}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}
-             \PY{n}{c}\PY{p}{(}\PY{n}{k}\PY{p}{:}\PY{n}{k}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)} \PY{p}{=} \PY{n}{c}\PY{p}{(}\PY{n}{k}\PY{p}{:}\PY{n}{k}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)} \PY{o}{+} \PY{n}{b\PYZus{}base}
-             \PY{n}{pause}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}13}]:} \PY{c}{\PYZpc{}\PYZpc{}file grafica\PYZus{}hat.m}
+         \PY{k}{function}\PY{+w}{ }\PY{n+nf}{grafica\PYZus{}hat}\PY{p}{(}j, a, b, n, s\PY{p}{)}
+         \PY{c}{\PYZpc{} n segmentos}
+         \PY{n}{x} \PY{p}{=} \PY{n+nb}{linspace}\PY{p}{(}\PY{n}{a}\PY{p}{,} \PY{n}{b}\PY{p}{,} \PY{n}{n} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{;}
+         \PY{k}{if} \PY{n+nb}{j} \PY{o}{==} \PY{l+m+mi}{1}
+             \PY{n}{xx} \PY{p}{=} \PY{p}{[}\PY{n}{x}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{x}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{,} \PY{n}{x}\PY{p}{(}\PY{n}{n} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{]}\PY{p}{;}
+             \PY{n}{yy} \PY{p}{=} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{;}
+         \PY{k}{else}
+             \PY{k}{if} \PY{n+nb}{j} \PY{o}{==} \PY{n}{n}
+                 \PY{n}{xx} \PY{p}{=} \PY{p}{[}\PY{n}{x}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{x}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{,} \PY{n}{x}\PY{p}{(}\PY{n}{n} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{]}\PY{p}{;}
+                 \PY{n}{yy} \PY{p}{=} \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{;}
+             \PY{k}{else}
+                 \PY{n}{xx} \PY{p}{=} \PY{p}{[}\PY{n}{x}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{x}\PY{p}{(}\PY{n+nb}{j} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{x}\PY{p}{(}\PY{n+nb}{j}\PY{p}{)}\PY{p}{,} \PY{n}{x}\PY{p}{(}\PY{n+nb}{j} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{x}\PY{p}{(}\PY{n}{n} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{]}\PY{p}{;}
+                 \PY{n}{yy} \PY{p}{=} \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{;}
+             \PY{k}{end}
+         \PY{k}{end}
+         \PY{n}{plot}\PY{p}{(}\PY{n}{xx}\PY{p}{,} \PY{n}{yy}\PY{p}{,} \PY{n}{s}\PY{p}{)}
+         \PY{n}{shg}
          \PY{k}{end}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-
-c =
-
-     3
-     4
-     0
-     0
-     0
-
-
-c =
-
-     3
-     7
-     4
-     0
-     0
-
-
-c =
-
-     3
-     7
-     7
-     4
-     0
-
-
-c =
-
-     3
-     7
-     7
-     7
-     4
-
+Created file '/home/carlosal1015/GitHub/Finite-element-method-FEM/2018/Notebooks/grafica\_hat.m'.
 
     \end{Verbatim}
 
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}14}]:} \PY{c}{\PYZpc{}\PYZpc{}file PL2.m}
+         \PY{k}{function}\PY{+w}{ }[x, proy] \PY{p}{=}\PY{+w}{ }\PY{n+nf}{PL2}\PY{p}{(}f, a, b, n\PY{p}{)}
+         \PY{+w}{    }\PY{n}{M} \PY{p}{=} \PY{n+nb}{zeros}\PY{p}{(}\PY{n}{n} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{n} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{;}
+             \PY{n}{c} \PY{p}{=} \PY{n+nb}{zeros}\PY{p}{(}\PY{n}{n} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{;}
+             \PY{n}{h} \PY{p}{=} \PY{p}{(}\PY{n}{b}\PY{o}{\PYZhy{}}\PY{n}{a}\PY{p}{)}\PY{o}{/}\PY{n}{n}\PY{p}{;}
+             \PY{n}{x} \PY{p}{=} \PY{n+nb}{linspace}\PY{p}{(}\PY{n}{a}\PY{p}{,} \PY{n}{b}\PY{p}{,} \PY{n}{n} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{;}
+             
+             \PY{k}{for} \PY{n}{k} \PY{p}{=} \PY{l+m+mi}{1}\PY{p}{:}\PY{n}{n}
+                 \PY{n}{M\PYZus{}local} \PY{p}{=} \PY{n}{h} \PY{o}{*} \PY{p}{[}\PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mi}{3} \PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mi}{6}\PY{p}{;} \PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mi}{6} \PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{;}
+                 \PY{n}{b\PYZus{}local} \PY{p}{=} \PY{p}{(}\PY{n}{h}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{)} \PY{o}{*} \PY{p}{[} \PY{n}{f}\PY{p}{(}\PY{n}{x}\PY{p}{(}\PY{n}{k}\PY{p}{)}\PY{p}{)}\PY{p}{;} \PY{n}{f}\PY{p}{(}\PY{n}{x}\PY{p}{(}\PY{n}{k}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)} \PY{p}{]}\PY{p}{;}
+                 \PY{n}{M}\PY{p}{(}\PY{n}{k}\PY{p}{:}\PY{n}{k} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{k}\PY{p}{:}\PY{n}{k} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)} \PY{p}{=} \PY{n}{M\PYZus{}local} \PY{o}{+} \PY{n}{M}\PY{p}{(}\PY{n}{k}\PY{p}{:}\PY{n}{k} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{k}\PY{p}{:}\PY{n}{k} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{;}
+                 \PY{n}{c}\PY{p}{(}\PY{n}{k}\PY{p}{:}\PY{n}{k} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)} \PY{p}{=} \PY{n}{c}\PY{p}{(}\PY{n}{k}\PY{p}{:}\PY{n}{k} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)} \PY{o}{+} \PY{n}{b\PYZus{}local}\PY{p}{;}
+             \PY{k}{end}
+         \PY{n}{proy} \PY{p}{=} \PY{n}{M}\PY{o}{\PYZbs{}}\PY{n}{c}\PY{p}{;}
+         \PY{c}{\PYZpc{}display(M)}
+         \PY{c}{\PYZpc{}display(c)}
+         \PY{k}{end}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Created file '/home/carlosal1015/GitHub/Finite-element-method-FEM/2018/Notebooks/PL2.m'.
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}15}]:} \PY{c}{\PYZpc{} Corrida de la Proyección L2 de una función}
+         \PY{c}{\PYZpc{} Grabe: run\PYZus{}PL2.m}
+         \PY{n}{a} \PY{p}{=} \PY{l+m+mi}{0}\PY{p}{;}
+         \PY{n}{b} \PY{p}{=} \PY{l+m+mi}{1}\PY{p}{;}
+         \PY{n}{n} \PY{p}{=} \PY{l+m+mi}{250}\PY{p}{;} \PY{c}{\PYZpc{} n puede tomar valores de 100, 250, etc.}
+         \PY{c}{\PYZpc{} f=@(x) 2*x.*sin(2*pi*x)+3;}
+         \PY{c}{\PYZpc{} f=@(x) 0*x+1;}
+         \PY{c}{\PYZpc{} f=@(x) x.\PYZca{}3.*(x\PYZhy{}1).*(1\PYZhy{}2*x);}
+         \PY{n}{epsilon} \PY{p}{=} \PY{l+m+mf}{0.01}\PY{p}{;}
+         \PY{n}{f} \PY{p}{=} \PY{p}{@}\PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{n+nb}{atan}\PY{p}{(} \PY{p}{(}\PY{n}{x}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{)}\PY{o}{/}\PY{n}{epsilon} \PY{p}{)}\PY{p}{;}
+         
+         \PY{p}{[}\PY{n}{x}\PY{p}{,} \PY{n}{proy}\PY{p}{]} \PY{p}{=} \PY{n}{PL2}\PY{p}{(}\PY{n}{f}\PY{p}{,} \PY{n}{a}\PY{p}{,} \PY{n}{b}\PY{p}{,} \PY{n}{n}\PY{p}{)}\PY{p}{;}
+         \PY{n}{hold} \PY{n}{on}\PY{p}{;}
+         \PY{n}{t} \PY{p}{=} \PY{n+nb}{linspace}\PY{p}{(}\PY{n}{a}\PY{p}{,} \PY{n}{b}\PY{p}{,} \PY{l+m+mi}{250}\PY{p}{)}\PY{p}{;}
+         \PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{f}\PY{p}{(}\PY{n}{t}\PY{p}{)}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZhy{}r\PYZsq{}}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{LineWidth\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{;}
+         \PY{n}{shg}\PY{p}{;}
+         \PY{n}{hold} \PY{n}{off}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_36_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
 
     % Add a bibliography block to the postdoc
     
