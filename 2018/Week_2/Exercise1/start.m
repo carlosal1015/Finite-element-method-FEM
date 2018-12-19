@@ -1,7 +1,7 @@
 function start()
 % M is the number of mesh elements in every direction
 % N=(M+1)*(M+1) is the total number of points 
-M = 400; %M = 20 Increase the number of mesh
+M = 100; %M = 20 Increase the number of mesh
 
 % el numero de nodos es M+1
 
