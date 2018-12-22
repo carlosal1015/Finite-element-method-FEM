@@ -1,0 +1,226 @@
+\usepackage{xcolor}
+\usepackage{ngerman}
+\usepackage{lscape,dsfont}
+
+\usepackage{eulervm}
+\usepackage{DejaVuSans}
+\usepackage{tgpagella}
+\usepackage[T1]{fontenc}
+
+
+\usepackage[utf8]{inputenc}% statt latin1 evtl. utf8 probieren
+
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+
+\setlength\parindent{0pt} 
+
+\newcommand{\Oc}{\mathcal{O}}
+\newcommand{\oc}{\mathrm{o}}
+
+\newcommand{\sk}{\bigskip\hrule\bigskip}
+
+
+\newcommand{\LL}{\bigskip ~\hrule ~ \bigskip}
+
+\newcommand{\UB}[2]{%
+\noindent
+Malte Braack, University of Kiel \hfill #2\\
+Carolin Mehlmann, University of Magdeburg\\
+Thomas Richter, University of Magdeburg\\
+
+
+\begin{center}
+  \textbf{Exercise Nr. #1, \emph{Summer School on Finite Elements}}\\
+  \textbf{Universidad Nacional Agraria La Molina}\\  
+  \textbf{December, 2018}
+\end{center}
+\vspace{0.25cm}
+}
+
+\newcommand{\PR}[2]{%
+\noindent
+Institut f"ur Analysis und Numerik \hfill #2\\
+Universit"at Magdeburg\\
+Thomas Richter
+
+\begin{center}
+  \textbf{Programmierprojekt Nr. #1 zur Vorlesung Algorithmische Mathematik I}\\
+  \textbf{Wintersemester 2018/2019}
+\end{center}
+\vspace{0.25cm}
+}
+
+\newcommand{\PraesenzUB}[2]{%
+\noindent
+Institut f"ur Analysis und Numerik \hfill #2\\
+Universit"at Magdeburg\\
+Thomas Richter
+
+
+\begin{center}
+  \textbf{Pr"asenz"ubung Nr. #1 "=  Einf"uhrung in die
+    Numerik}\\  
+  \textbf{Wintersemester 2015/16}
+\end{center}
+\vspace{0.25cm}
+}
+
+
+\newcommand{\LO}[2]{%
+\noindent
+Institut f"ur Analysis und Numerik \hfill #2\\
+Universit"at Magdeburg\\
+Thomas Richter
+
+\begin{center}
+\textbf{L"osung zu: "Ubung Nr. #1 zur Algorithmische Mathematik 2}\\
+\textbf{Sommersemester 2017}
+\end{center}
+\vspace{0.25cm}
+}
+
+
+\newcommand{\Projekt}[2]{%
+  \bigskip
+  \noindent{\textbf{Projekt #1 -  #2} }
+  \medskip
+}
+
+
+\newcommand{\ZusatzAufgabe}[2]{%
+  \bigskip
+  \noindent{\textbf{ Zusatzaufgabe #1: (#2 Bonuspunkte)} }
+  \medskip
+}
+
+\newcommand{\Aufgabe}[2]{%
+  \bigskip
+  \noindent{\textbf{ Aufgabe #1: (#2 Punkte)} }
+  \medskip
+}
+\newcommand{\ProgrammierAufgabe}[2]{%
+  \bigskip
+  \noindent{\textbf{ Programmieraufgabe #1: (#2 Punkte)} }
+  \medskip
+}
+
+
+\newcommand{\Loesung}[1]{%
+  \bigskip
+  \hrule
+  \bigskip
+  \noindent{\textbf{ L"osung #1:} (5 Punkte) }
+  \medskip
+}
+
+\newcommand{\LoesungPraesenz}[1]{%
+  \bigskip
+  \hrule
+  \bigskip
+  \noindent{\textbf{ L"osung Pr"asenzaufgabe #1:} (5 Punkte) }
+  \medskip
+}
+
+\newcommand{\LoesungPunkte}[2]{%
+  \bigskip
+  \hrule
+  \bigskip
+  \noindent{\textbf{ L"osung #1:} (#2 Punkte) }
+  \medskip
+}
+
+\newcommand{\PAufgabe}[2]{%
+  \bigskip
+  \noindent\textbf{ Praktische Aufgabe #1: (#2 Punkte) }
+  \medskip
+}
+
+\newcommand{\Abgabe}[1]{%
+  \bigskip
+  \hrule
+  \bigskip
+
+  \noindent{\textbf{ Abgabe}} der "Ubungen bis {\textbf{ #1}} im
+  Kasten vor Raum 5, Geb"aude 2 oder vorher per Mail an
+  \texttt{algomath@ovgu.de}.  
+
+%  \noindent Ab Blatt 6 Abgabe der theoretischen "Ubungen in
+%  \textbf{festen Zweiergruppen m"oglich.} Die Zweierteams müssen dabei
+%  fest sein und nicht von Blatt zu Blatt wechseln. 
+
+  \medskip
+  Abgabe der praktischen Programmier"ubungen (weiterhin Einzelabgabe)
+  bis {\textbf{#1}} per   Mail an  
+  \texttt{algomath@ovgu.de}.    Den \textbf{Betreff} der Mail bitte
+  mit Name, Nummer des Blattes, z.B.\\
+  \texttt{Blatt 2 - Monika Mustermann}
+
+
+  \medskip
+  Den \textbf{Betreff} der Mail bitte mit Name, Nummer des Blattes,
+  z.B.\\
+  \texttt{Blatt 2 - Monika Mustermann - Programmieraufgabe}
+  
+  \medskip
+  Programme k"onnen einfach in die Mail kopiert werden und müssen
+  nicht als Anhang gesendet werden.
+}
+
+\newcommand{\AbgabeProjekt}[1]{%
+  \bigskip
+  \hrule
+  \bigskip
+
+  \noindent{\textbf{ Abgabe}} des Programmierprojekt bis {\textbf{
+      #1}}. Abgabe eines Programms per Mail an
+  \texttt{algomath@ovgu.de}, Abgabe der (kurzen) Auswertung in den
+  Briefkasten vor Raum 5, Geb"aude 2 - oder ebenso per Mail an
+  \texttt{algomath@ovgu.de}.  
+
+  \medskip
+  Den \textbf{Betreff} der Mail bitte mit Name, Nummer des Projektes
+  und Gruppe.
+
+  \medskip
+  Programme k"onnen einfach in die Mail kopiert werden und müssen
+  nicht als Anhang gesendet werden.
+
+  \medskip
+  \noindent Die Programmierprojekte sollen in einer 3er oder 4er
+  Gruppe bearbeitet werden. In den "Ubungsgruppen am 07. und
+  08. Januar werden die Projekte besprochen. Alle Teilnehmer der
+  Gruppe sollten nat"urlich an den Programmen mitgearbeitet haben und
+  einfache Fragen zu den Programmen beantworten k"onnen. 
+}
+
+\newcommand{\PraesenzAbgabe}[1]{%
+  \bigskip
+  \hrule
+
+  \noindent{\textbf{ Keine Abgabe}} der "Ubungen. Besprechung im Tutorium
+  der  {\textbf{ #1}}.\\
+  \medskip
+}
+
+
+\newcommand{\file}[1]{%
+  \noindent \textsc{Datei:} \texttt{#1}
+
+  \smallskip
+}
+
+\newcommand{\code}[1]{%
+  \texttt{#1}}
+
+\newcommand{\bigcode}[1]{%
+  \texttt{#1}
+}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

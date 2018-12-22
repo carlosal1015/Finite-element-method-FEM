@@ -32,10 +32,16 @@
 
 ## [Cuadernos Jupyter (MATLAB | C++)](https://github.com/carlosal1015/Finite-element-method-FEM/tree/master/2018/Notebooks)
 
+### Semana 1 (10-13, diciembre 2018)
+
 * [Introduction_to_MATLAB](https://nbviewer.jupyter.org/github/carlosal1015/Finite-element-method-FEM/blob/master/2018/Notebooks/Introduction_to_MATLAB.ipynb)
 * [Functions_in_MATLAB_I](https://nbviewer.jupyter.org/github/carlosal1015/Finite-element-method-FEM/blob/master/2018/Notebooks/Functions_in_MATLAB_I.ipynb)
 * [Functions_in_MATLAB_II](https://nbviewer.jupyter.org/github/carlosal1015/Finite-element-method-FEM/blob/master/2018/Notebooks/Functions_in_MATLAB_II.ipynb)
+* [Lista_de_ejercicios](https://nbviewer.jupyter.org/github/carlosal1015/Finite-element-method-FEM/blob/master/2018/Notebooks/Lista_de_ejercicios.ipynb)
 
+### Semana 2 (17-21, diciembre 2018)
+* [Exercise_N_1](https://nbviewer.jupyter.org/github/carlosal1015/Finite-element-method-FEM/blob/master/2018/Notebooks/Exercise_N_1.ipynb)
+* [Exercise_N_1]()
 
 ## [Diapositivas](https://github.com/carlosal1015/Finite-element-method-FEM/tree/master/2018/Slides)
 

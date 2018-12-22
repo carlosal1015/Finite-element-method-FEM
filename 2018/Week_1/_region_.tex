@@ -1,0 +1,23 @@
+\message{ !name(notes1.tex)}\documentclass[a4paper]{memoir}
+\usepackage{amsmath,amssymb,amsthm,bm}
+
+\begin{document}
+
+\message{ !name(notes1.tex) !offset(7) }
+
+Esta serie infinita debe converger a una suma finita. Vectores con longitud finita pueden ser sumados, multiplicados por escales, así ellos forman un espacio vectorial. En este espacio de Hilbert es la forma natural de crecer el número de dimensiones hasta el infinito, y al mismo tiempo mantener la geometría ordinaria de un espacio euclidiano. Las elipses serán elipsoides de dimensión infinita, y rectas perpendiculares serán exactamente como antes. Los vectores $v$ y $w$ son ortogonales cuando su producto interno es cero:
+\begin{equation}
+  \mathbf{Ortogonalidad}\quad v^Tw=v_1w_1+v_2w_2+v_3w_3+\cdots =0
+\end{equation}
+Esta suma está garantizada cuando converge, y para cualesquiera dos vectores debe continuar obedeciendo la desigualdad de Schwarz $|v^Tw|\le \|v\|\|w\|$. El coseno, incluso en espacios de Hilbert, es nunca mayor que $1$.
+
+Existe otra característica notable acerca de este espacio: Se encuentra bajo una gran cantidad de disfraces. Estos ``vectores'' pueden convertirse en funciones, el cual es el segundo punto.
+
+\section{Longitudes y productos internos}
+
+Suponga que $f(x)=\sin x$ sobre el intervalo $0\le x\le 2\pi$. Esta $f$ es como un vector con todas sus componentes continuas, los valores de $\sin x$ a lo largo de todo el intervalo. Para encontrar la longitud de tal vector, usar la regla usual de sumar los cuadrados de las componentes se vuelve imposible. Esta suma es reemplazada, de modo natural e inevitable, por la \emph{integración}:
+\begin{equation}
+  \mathbf{Longitud de }\|\bm{f}\|\mathbf{ la función}\quad\|f\|^2=\int_0^{2\pi}{(f(x))}^2\mathrm{d}x=\int_0^{2\pi}{\sin x}^2\mathrm{d}x=\pi.
+\end{equation}
+\end{document}
+\message{ !name(notes1.tex) !offset(-23) }

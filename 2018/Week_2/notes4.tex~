@@ -1,0 +1,134 @@
+% arara: pdflatex
+% arara: pdflatex
+\documentclass[openany,a4paper,11pt]{memoir}
+\usepackage{amsmath,amssymb,bm,amsthm}
+\usepackage{textcomp}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+
+\newcommand\restr[2]{{% we make the whole thing an ordinary symbol
+  \left.\kern-\nulldelimiterspace % automatically resize the bar with \right
+  #1 % the function
+  \vphantom{\big|} % pretend it's a little taller at normal size
+  \right|_{#2} % this is the delimiter
+}}
+
+\begin{document}
+
+\section{The navier Stokes equation}
+
+\[ \rho(\partial_t v+ (v\cdot \nabla v))-\div=\rho f\quad \div v=0 \]
+
+\begin{itemize}
+\item This term describes the inertia of the fluid in motion.
+  
+\item It tkes a fornce to influence
+  %Falta agregar el signo mas en la ecuacion
+\end{itemize}
+
+
+\begin{itemize}
+\item This term describes the \textit{incompresibility} of the fluid, it is not possible to change the volume.
+  
+\item Not every fluid is incompressible, water is incompressible buy air can be compressed if the force is big.
+  
+\item Meaning of incompresiblility
+  If $V$ is a vvolume then it holds, inflow to $V$ equals to outflow from $V$.
+\end{itemize}
+
+\begin{itemize}
+\item THe term $\div \sigma$ describes the internal forces within the fluid. (friction)
+  
+\item The Navier Stokes stress tensor is given by \[ \signa=\rho\nu(\nabla v+\nabla v^T)-p I\]% rho es kinematic viscositu
+  
+\item $\nu$ is the viscosity of the fluid
+  
+\item $\pho$ is the pressure.
+\end{itemize}
+
+\begin{itemize}
+\item We skip the \textit{inert term}
+  \[ -\nu\Delta v + \nabla p = \rho f\quad \div v=0\]%simply form , no derivative no transportatation
+\item In $2D$: \[ -\nu\Delta v^1+\] $3d$ existes 4 equations.
+\end{itemize}
+
+\[ -\nu\Delta v+\nabla p = \rho f\quad \div v = 0\]
+
+\begin{itemize}
+\item Multplicaiton with test functions $\phi=(\phi^1,\phi^2)$ and $\xi$ and intgration
+  \[ \int_\Omega(-\nu\Delta v^1+\partial_t p)\phi^1\mathrm{d}x=\int_\Omega\rho f^1\phi^1\mathrm{d}x \]% In laplace situation belongs to stokes situation.
+\end{itemize}
+
+\begin{itemize}
+\item The theory of the Stokes equations is very difficult (compared to Lplace)% Laplace is the second order , is elliptic, is positive defined, is non simetry below equation.
+  
+\item But, we can simplift the problem
+
+  If $(v,p)$ is a solution to the Stokes equation its divergence is zzero. \[ \div v=0\]
+
+  We define the space of divergence free functions \[ \mathcal{V}_h=\{\phi\in H^0_1(\Omega)^2\mid \div\varphi=0\} \]
+
+  Every solution $v$ in this space $v\in\mathcal{V}_h$
+
+  Now, we restrict the variational formmulation to this space
+  \[v\in\mathcal{V}_0\colon\quad (\nu\nabla v,\nabla \phi) = (\rho f,\phi) \forall \phi\in \]
+  
+\end{itemize}
+
+\begin{itemize}
+\item It we have the velocity, the pressure is define by the problem \[p\in L^2(\Omega)\quad (\p,\div\phi)=(\nu\nabla b,\nabla\phi)-(\rhof,\phi)\quad\forall\phi\in H^1_0(\Omega)^2 \]
+
+  \begin{theorem}
+    There exists a unique velocity $v\in\mathcal{V}_0$ and a unique pressure $p\in L^2(\Omega)$ and $\inf-\sup$ \textit{condition} holds
+
+    \[ \inf_{p\in L^2(\Omega)}\sup_{v\in H^1_0(\Omega)^2}\frac{(p,\div v)}{\|p\|\|\nabla v\|}\ge\gamma \] with the inf -sup constantan $\gamma>0$
+  \end{theorem}
+\end{itemize}
+
+\begin{itemize}
+\item We discretize the variant
+\end{itemize}
+
+\begin{itemize}
+\item Stationary Navier Stokes equations \[\rho(v\cdot \nabla v-\rho\nu\Delta v+\nabla \rho=\rhof \quad \div v=0 \]
+  
+\item Divide by
+  
+\end{itemize}
+
+\section{Reynolds number}
+
+\[R=\frac{V L}{\gamma} \]
+where $V$ is the velocity, for example: \[ 100=\frac{v\cdot \SI{10}{\meter}}{\unit{10-6}}=\unit{10-5}\cdot V \] $\iff V=\SI{10-7}{\metre\per\second}$.
+
+\[ \mathrm{Re}=\frac{V\cdot L}{\nu}\]
+
+\begin{itemize}
+\item Length of submarine \[ L=\SI{100}{\metre}\]
+  
+\item Velocity of submarine \[V=\frac{\SI{10}{\metre}}s{} \]
+  
+\item Viscosity of eater \[ \nu=\frac{\SI{1.2\cdot10-6}{\metre^2}}{s}\]
+  
+\item Reynolds number \[ \mathrm{Re}=\frac{100\cdot 10}{\SI{1.2\cdot 10-6}}\aprox 833000000\]
+
+\end{itemize}
+
+\begin{itemize}
+\item If the Reynolds number is large we nned very fine meshes \[ h<\sqrt{\frac{1}{\mathrm{Re}}}\]
+  
+\item This is not possible in reality: \[ h< \sqrt{\frac{1}{833000000}}\aprox 0.0000035 \]
+  
+\item If the domain is $\Omega={(\frac{1}{0.000035})}^2\aprox 24041828902976$ elemtns ($M=28 000$)
+  
+\item This is too much, We must stabilize:
+
+  \begin{itemize}
+  \item Artificial diffusion? Stable but too much diffusion
+    
+  \item Streamline diffusion? Stable and good accuracy
+  \end{itemize}
+\end{itemize}
+\end{document}
