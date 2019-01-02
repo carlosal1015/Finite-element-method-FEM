@@ -1,0 +1,14 @@
+% Crear su gráfica de puntos de n datos vs el E(n), el error después de n
+% iteraciones.
+
+% Calcule el máximo error absoluto que se puede cometer al redondear una
+% cantidad a n cifras decimales, considerando que si la siguiente cifra
+% después de la n-ésima es mayor o igual a 5 el redondeo es hacia arriba.
+
+%    $e^x - x = 2$
+
+% Cómo hallar fórmulas de recurrencia.
+
+for i = 0:10
+    x = x - (z - x - 2)/(z -1);
+end

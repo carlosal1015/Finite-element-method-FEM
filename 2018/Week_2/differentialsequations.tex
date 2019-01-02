@@ -1,0 +1,62 @@
+\documentclass{memoir}
+\usepackage{amsmath,amssymb,amsthm}
+
+\begin{document}
+\chapter{Aproximación numérica y errores}
+
+
+\section{Error absoluto}
+
+\[ e_a=|x-x_a| \]
+
+\section{Error relativo}
+
+\[e_r=|\frac{x-x_a}{x}| \]
+
+\section{Concepto de convergencia y estabilidad de un método iterativo}
+
+\section{Método de aproximaciones sucesivas}
+
+Parten de una aproximación inicial $x_0$ a la solución $x$ del problema, y mediante la aplicación reiterada de una o varias fórmulas de recurrencia proporcionan aproximaciones $x_1$, $x_2$, $x_3$, \ldots , $x_n$ a la solución de $x$.
+
+
+\section{Método de paso a paso}
+
+Son aquellas que parten de un valor inicial y se basan también en la aplicación de una fórmula de recurrencia; pero a diferencia de los métodos de aproximaciones sucesivas, se utilizan para obtener aproximaciones a la solución de una sucesión de números, en lugar de un solo valor.
+
+
+Los métodos iterativos no siempre proporcionan aproximaciones aceptables y, en muchos casos, el error que se obtiene al aplicarlos aumenta a medida que se incrementa el número de iteraciones. Dos de las principales causas del aumento del error se explican con los conceptos de \textit{convergencia} y \textit{estabilidad} que a continuación se definen.
+
+
+\section{Convergencia}
+
+Se demuestra que si
+
+\[ |x_n - X_{n-1}|\ge e_a \]
+
+\section{Estabilidad}
+Un sistema es \emph{estable} si para pequeñas variaciones en la entrada, se produce pequeñas variaciones en la salida.
+
+Sea $E(n)$ la función error, que representa el error absoluto en la salida del algoritmo, después de $n$ iteraciones.
+
+Si $E(n)$ se incrementa de modo lineal conforme $n$ aumenta, se dirá que el método es \textit{estable}.
+
+Si $E(n)$ aumenta en forma exponencial o aproximadamente exponencial, se dirá que el método es \textit{inestable}.
+
+
+Vamos a comparar los métodos en base a su eficiencia.
+
+Se dice que el método $A$ es más eficiente que el método $B$ si en general, con $A$ se realizan menos operaciones que con $B$.
+
+Un método se considera más eficiente que otro si en general requiere de menos instrucciones para programarse o utiliza menos cantidad de memoria.
+
+\chapter{Solución numerica de ecuaciones algebraicas y trascendentes}
+
+\section{Método de la bisección}
+
+\section{Método del punto fijo}
+
+
+
+
+\end{document}
