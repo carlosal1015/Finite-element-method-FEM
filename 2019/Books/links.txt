@@ -1,0 +1,8 @@
+https://conan.iwr.uni-heidelberg.de/
+https://conan.iwr.uni-heidelberg.de/data/people/peter/bibliography/bastian-teaching.html
+https://conan.iwr.uni-heidelberg.de/data/teaching/finiteelements_ws2017/uebung00.pdf
+https://www.uni-ulm.de/mawi/mawi-numerik/lehrenumerik/wintersemester-20192020/vorlesung-numerical-finance/
+https://www.uni-muenster.de/AMM/num/Vorlesungen/Programmierkurs_WS08/
+http://www.mathe.tu-freiberg.de/~eiermann/Vorlesungen/ODE/index_ODE.htm
+edX HPFEM01.1x High Performance Finite Element Modeling
+https://www.numerik.mathematik.uni-mainz.de/numerik-gewoehnlicher-differentialgleichungen-wintersemester-2018-19/
