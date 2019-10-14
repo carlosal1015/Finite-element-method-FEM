@@ -7,8 +7,11 @@ Dies ist das Repository des Kurses über die *Finite-Elemente-Methode* an der Na
 #. `Finite-Elemente-Theorie und ihre Implementierung (Dezember, 2018) <https://github.com/carlosal1015/Finite-element-method-FEM/tree/master/2018>`_
 #. `Spring School zur Einführung der numerischen Modellierung von Differentialgleichungen (Oktober, 2019) <https://github.com/carlosal1015/Finite-element-method-FEM/tree/master/2019>`_
 
-* `Link en Google Drive <https://goo.gl/9etAVP>`
-* `CIMAC IX <https://t.me/s/cimacix>`
+* `Link en Google Drive <https://goo.gl/9etAVP>`_
+* `CIMAC IX <https://t.me/s/cimacix>`_
+
+Ein existierendes Repository klonen
+###################################
 
 .. code-block:: bash
 

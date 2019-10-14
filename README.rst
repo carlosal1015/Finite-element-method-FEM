@@ -7,8 +7,12 @@ This is the repository of the *Finite Element Method* course in National Agraria
 #. `Finite element theory and its implementation (December, 2018) <https://github.com/carlosal1015/Finite-element-method-FEM/tree/master/2018>`_
 #. `Spring School on the Introduction on Numerical Modelling of Differential Equations (October, 2019) <https://github.com/carlosal1015/Finite-element-method-FEM/tree/master/2019>`_
 
-* `Link in Google Drive <https://goo.gl/9etAVP>`
-* `CIMAC IX (photos and beamers) <https://t.me/s/cimacix>`
+* `Link in Google Drive <https://goo.gl/9etAVP>`_
+* `CIMAC IX (photos and beamers) <https://t.me/s/cimacix>`_
+
+
+Clone an existing repository
+############################
 
 .. code-block:: bash
 
