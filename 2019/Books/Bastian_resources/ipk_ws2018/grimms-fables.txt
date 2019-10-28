@@ -1,0 +1,532 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<!--
+
+DON'T USE THIS PAGE FOR SCRAPING.
+
+Seriously. You'll only get your IP blocked.
+
+Read http://www.gutenberg.org/feeds/ to learn how to download Project
+Gutenberg metadata much faster than by scraping.
+
+--><html xmlns="http://www.w3.org/1999/xhtml" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:ebook="http://www.gutenberg.org/ebooks/" xmlns:marcrel="http://www.loc.gov/loc.terms/relators/" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" lang="en_US" xml:lang="en_US" version="XHTML+RDFa 1.0">
+
+
+
+
+<head xmlns:og="http://opengraphprotocol.org/schema/" profile="http://a9.com/-/spec/opensearch/1.1/">
+<style type="text/css">
+.icon   { background: transparent url(/pics/sprite.png?1532910333) 0 0 no-repeat; }
+</style>
+<link rel="stylesheet" type="text/css" href="/css/pg-desktop-one.css?1532910333" />
+<script type="text/javascript">//<![CDATA[
+var json_search     = "/ebooks/suggest/";
+var mobile_url      = "//m.gutenberg.org/ebooks/2591.mobile?msg=welcome_stranger";
+var canonical_url   = "http://www.gutenberg.org/ebooks/2591?msg=welcome_stranger";
+var lang            = "en_US";
+var fb_lang         = "en_US"; /* FB accepts only xx_XX */
+var msg_load_more   = "Load More Results…";
+var page_mode       = "screen";
+var dialog_title    = "Welcome";
+var dialog_message  = "Welcome to Project Gutenberg. You'll find here 58,285 ebooks completely free of charge.";
+//]]></script>
+<script type="text/javascript" src="/js/pg-desktop-one.js?1532910333"></script>
+<link rel="shortcut icon" href="/pics/favicon" />
+<link rel="canonical" href="http://www.gutenberg.org/ebooks/2591?msg=welcome_stranger" />
+<link rel="search" type="application/opensearchdescription+xml" title="Search Project Gutenberg" href="//www.gutenberg.org/catalog/osd-books.xml" />
+<link rel="alternate nofollow" type="application/atom+xml;profile=opds-catalog" title="OPDS feed" href="/ebooks/2591.opds?msg=welcome_stranger" />
+<link rel="apple-touch-icon" href="/pics/apple-touch-icon" />
+<meta name="viewport" content="width=device-width" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Language" content="en_US" />
+<meta name="title" content="Grimms' Fairy Tales by Jacob Grimm and Wilhelm Grimm" />
+<meta name="description" content="Free kindle book and epub digitized and proofread by Project Gutenberg." />
+<meta name="keywords" content="ebook, ebooks, free ebooks, free books, book, books, audio books" />
+<meta name="classification" content="public" />
+<meta property="og:title" content="Grimms' Fairy Tales by Jacob Grimm and Wilhelm Grimm" />
+<meta property="og:description" content="Free kindle book and epub digitized and proofread by Project Gutenberg." />
+<meta property="og:type" content="book" />
+<meta property="og:image" content="http://www.gutenberg.org/pics/logo-144x144.png" />
+<meta property="og:url" content="http://www.gutenberg.org/ebooks/2591?msg=welcome_stranger" />
+<meta property="og:site_name" content="Project Gutenberg" />
+<meta property="fb:app_id" content="115319388529183" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@gutenberg_new" />
+<title>Grimms' Fairy Tales by Jacob Grimm and Wilhelm Grimm - Free Ebook</title>
+<link rel="alternate nofollow" type="application/rdf+xml" href="/ebooks/2591.rdf" />
+<style type="text/css">
+.qrcode { background: transparent url(//www.gutenberg.org/cache/epub/2591/pg2591.qrcode.png) 0 0 no-repeat; }
+</style>
+<meta name="google" content="notranslate" />
+</head>
+<body>
+<div id="mw-head-dummy" class="noprint"></div>
+<div id="content" itemscope="itemscope" itemtype="http://schema.org/Book">
+<div class="breadcrumbs noprint">
+<ul>
+<li class="breadcrumb first" itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+<span class="breadcrumb-separator"></span>
+<a href="/" title="Go to the Main page." itemprop="url"><span itemprop="title">Project Gutenberg</span></a>
+</li>
+<li class="breadcrumb next" itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+<span class="breadcrumb-separator"></span>
+<a href="/ebooks/" title="Start a new search." itemprop="url"><span itemprop="title">58,285 free ebooks</span></a>
+</li>
+<li class="breadcrumb next" itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+<span class="breadcrumb-separator"></span>
+<a href="/ebooks/author/971" title="Find more ebooks by the same author." itemprop="url"><span itemprop="title">23 by Jacob Grimm</span></a>
+</li>
+<li class="breadcrumb next" itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+<span class="breadcrumb-separator"></span>
+<a href="/ebooks/author/972" title="Find more ebooks by the same author." itemprop="url"><span itemprop="title">23 by Wilhelm Grimm</span></a>
+</li>
+</ul>
+</div>
+<div class="header">
+<h1 itemprop="name">Grimms' Fairy Tales by Jacob Grimm and Wilhelm Grimm</h1>
+</div>
+<div class="body">
+<div property="dcterms:publisher" itemprop="publisher" content="Project Gutenberg"></div>
+<div itemprop="bookFormat" content="EBook"></div>
+<div id="cover-social-wrapper">
+<div id="no-cover">
+<div class="icon icon_book"></div>
+<div class="text">No cover available</div>
+</div>
+<div id="social" class="noprint">
+<ul>
+<li>
+<!-- share without javascript -->
+<div class="social-button gplus-share-button">
+<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.gutenberg.org%2Febooks%2F2591%3Fmsg%3Dwelcome_stranger" title="Share on Google+" onclick="open_share_popup(this.href, this.target, 640, 320)" target="_gplus_share_popup">
+<span class="icon icon_gplus"></span>
+</a>
+</div>
+</li>
+<li>
+<!-- tweet without javascript -->
+<div class="social-button twitter-share-button">
+<a href="https://twitter.com/share?related=gutenberg_new%3AProject%20Gutenberg%20New%20Books&amp;url=http%3A%2F%2Fwww.gutenberg.org%2Febooks%2F2591%3Fmsg%3Dwelcome_stranger&amp;count=none&amp;text=Grimms%27%20Fairy%20Tales%20by%20Jacob%20Grimm%20and%20Wilhelm%20Grimm&amp;lang=en" title="Share on Twitter" onclick="open_share_popup(this.href, this.target, 640, 320)" target="_tw_share_popup">
+<span class="icon icon_twitter"></span>
+</a>
+</div>
+</li>
+<li>
+<a onclick="printpage ()" title="Print this page"><span class="icon icon_print"></span></a>
+</li>
+</ul>
+</div>
+<div id="qr">
+<span class="qrcode qrcode-desktop noscreen"></span>
+<span class="qrcode qrcode-mobile noprint" title="Go to our mobile site."></span>
+</div>
+</div>
+<div id="tabs-wrapper">
+<div id="tabs">
+<ul class="noprint">
+<li><a href="#download">Download</a></li>
+<li><a href="#bibrec">Bibrec</a></li>
+</ul>
+<div id="bibrec">
+<div typeof="pgterms:ebook" about="[ebook:2591]">
+<h2>Bibliographic Record <span>
+<a href="/wiki/Gutenberg:Help_on_Bibliographic_Record_Page#Table:_Bibliographic_Record" title="Explain Table: Bibliographic Record."><span class="icon icon_help noprint"></span></a>
+</span></h2>
+<table class="bibrec" summary="Bibliographic data of author and book.">
+<colgroup>
+<col class="narrow" />
+<col />
+</colgroup>
+<tr>
+<th>Author</th>
+<td>
+<a href="/ebooks/author/971" rel="marcrel:aut" about="/authors/971" typeof="pgterms:agent" itemprop="creator">Grimm, Jacob, 1785-1863</a></td>
+</tr><tr>
+<th>Author</th>
+<td>
+<a href="/ebooks/author/972" rel="marcrel:aut" about="/authors/972" typeof="pgterms:agent" itemprop="creator">Grimm, Wilhelm, 1786-1859</a></td>
+</tr>
+<tr>
+<th>Title</th>
+<td itemprop="headline">
+Grimms' Fairy Tales
+</td>
+</tr><tr>
+<th>Contents</th>
+<td>
+The golden bird -- Hans in luck -- Jorinda and Jorindel -- The travelling musicians -- Old Sultan -- The straw, the coal, and the bean -- Briar Rose -- The dog and the sparrow -- The twelve dancing princesses -- The fisherman and his wife -- The willow-wren and the bear -- The frog-prince -- Cat and mouse in partnership -- The goose-girl -- The adventures of Chanticleer and Partlet -- Rapunzel -- Fundevogel -- The valiant little tailor -- Hansel and Gretel -- The mouse, the bird, and the sausage -- Mother Holle -- Little Red-Cap [Little Red Riding Hood] -- The robber bridegroom -- Tom Thumb -- Rumpelstiltskin -- Clever Gretel -- The old man and his grandson -- The little peasant -- Frederick and Catherine -- Sweetheart Roland -- Snowdrop -- The pink -- Clever Elsie -- The miser in the bush -- Ashputtel -- The white snake -- The wolf and the seven little kids -- The queen bee -- The elves and the shoemaker -- The juniper-tree -- The turnip -- Clever Hans -- The three languages -- The fox and the cat -- The four clever brothers -- Lily and the lion -- The fox and the horse -- The blue light -- The raven -- The golden goose -- The water of life -- The twelve huntsmen -- The king of the golden mountain -- Doctor Knowall -- The seven ravens -- The wedding of Mrs Fox -- The salad -- The story of the youth who went forth to learn what fear was -- King grisly-beard -- Iron Hans -- Cat-skin -- Snow-white and Rose-red.
+</td>
+</tr>
+<tr property="dcterms:language" datatype="dcterms:RFC4646" itemprop="inLanguage" content="en">
+<th>Language</th>
+<td>English</td>
+</tr>
+<tr property="dcterms:subject" datatype="dcterms:LCC" content="PT">
+<th>LoC Class</th>
+<td>
+<a href="/browse/loccs/pt">PT: Language and Literatures: Germanic, Scandinavian, and Icelandic literatures</a>
+</td>
+</tr>
+<tr>
+<th>Subject</th>
+<td property="dcterms:subject" datatype="dcterms:LCSH">
+<a class="block" href="/ebooks/subject/4203">
+Fairy tales -- Germany
+</a>
+</td>
+</tr>
+<tr>
+<th>Category</th>
+<td property="dcterms:type" datatype="dcterms:DCMIType">Text</td>
+</tr>
+<tr>
+<th>EBook-No.</th>
+<td>2591</td>
+</tr>
+<tr property="dcterms:issued" datatype="xsd:date" content="2001-04-01T00:00:00+00:00">
+<th>Release Date</th>
+<td itemprop="datePublished">Apr 1, 2001</td>
+</tr>
+<tr>
+<th>Copyright Status</th>
+<td property="dcterms:rights">Public domain in the USA.</td>
+</tr>
+<tr>
+<th>Downloads</th>
+<td itemprop="interactionCount">11042 downloads in the last 30 days.</td>
+</tr>
+<tr itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer">
+<th>Price</th>
+<td><span itemprop="priceCurrency" content="USD"></span><span itemprop="price">$0.00</span><span itemprop="availability" href="http://schema.org/InStock" content="In Stock"></span></td>
+</tr>
+</table>
+</div>
+<div id="more_stuff">
+<h2 class="header">Similar Books</h2>
+<div class="noprint navlink grayed">
+<a rel="nofollow" href="/ebooks/2591/also/" accesskey="1">
+<span class="cell leftcell">
+<span class="icon icon_suggestion"></span>
+</span>
+<span class="cell content">
+<span class="title">Readers also downloaded…</span>
+</span>
+<span class="hstrut"></span>
+</a>
+</div>
+</div> <!-- more stuff -->
+</div>
+<div id="download">
+<div about="[ebook:2591]" rel="dcterms:hasFormat" rev="dcterms:isFormatOf">
+<h2>Download This eBook</h2>
+<table class="files" summary="Table of available file types and sizes.">
+<colgroup>
+<col class="narrow" />
+<col />
+<col />
+<col class="narrow noprint" />
+<col class="narrow noprint" />
+<col class="narrow noprint" />
+</colgroup>
+<tr>
+<th></th>
+<th>Format <span>
+<a href="/wiki/Gutenberg:Help_on_Bibliographic_Record_Page#Format" title="Explain Format."><span class="icon icon_help noprint"></span></a>
+</span></th>
+<th class="noscreen">Url</th>
+<th class="right">Size</th>
+<th class="noprint"><span>
+<a href="/wiki/Gutenberg:Help_on_Bibliographic_Record_Page#Dropbox" title="Explain Dropbox."><span class="icon icon_help noprint"></span></a>
+</span></th>
+<th class="noprint"><span>
+<a href="/wiki/Gutenberg:Help_on_Bibliographic_Record_Page#Google_Drive" title="Explain Google Drive."><span class="icon icon_help noprint"></span></a>
+</span></th>
+<th class="noprint"><span>
+<a href="/wiki/Gutenberg:Help_on_Bibliographic_Record_Page#OneDrive" title="Explain OneDrive."><span class="icon icon_help noprint"></span></a>
+</span></th>
+</tr>
+<tr class="even" about="//www.gutenberg.org/files/2591/2591-h/2591-h.htm" typeof="pgterms:file">
+<td><span class="icon icon_book"></span></td>
+<td property="dcterms:format" content="text/html; charset=utf-8" datatype="dcterms:IMT" class="unpadded icon_save"><a href="//www.gutenberg.org/files/2591/2591-h/2591-h.htm" type="text/html; charset=utf-8" class="link" title="Download">Read this book online: HTML</a></td>
+<td class="noscreen">//www.gutenberg.org/files/2591/2591-h/2591-h.htm</td>
+<td class="right" property="dcterms:extent" content="661470">646 kB</td>
+<td class="noprint">
+</td>
+<td class="noprint">
+</td>
+<td class="noprint">
+<a href="/ebooks/send/megaupload/2591.html" title="Send to MegaUpload." rel="nofollow"></a>
+</td>
+</tr><tr class="even" about="//www.gutenberg.org/ebooks/2591.epub.images?session_id=b2cfda10c4ce5cfda7bdf1805ebbcfc7ab801798" typeof="pgterms:file">
+<td><span class="icon icon_book"></span></td>
+<td property="dcterms:format" content="application/epub+zip" datatype="dcterms:IMT" class="unpadded icon_save"><a href="//www.gutenberg.org/ebooks/2591.epub.images?session_id=b2cfda10c4ce5cfda7bdf1805ebbcfc7ab801798" type="application/epub+zip" class="link" title="Download">EPUB (with images)</a></td>
+<td class="noscreen">//www.gutenberg.org/ebooks/2591.epub.images?session_id=b2cfda10c4ce5cfda7bdf1805ebbcfc7ab801798</td>
+<td class="right" property="dcterms:extent" content="210848">206 kB</td>
+<td class="noprint">
+<a href="/ebooks/send/dropbox/2591.epub.images" title="Send to Dropbox." rel="nofollow"><span class="icon icon_dropbox"></span></a>
+</td>
+<td class="noprint">
+<a href="/ebooks/send/gdrive/2591.epub.images" title="Send to Google Drive." rel="nofollow"><span class="icon icon_gdrive"></span></a>
+</td>
+<td class="noprint">
+<a href="/ebooks/send/msdrive/2591.epub.images" title="Send to OneDrive." rel="nofollow"><span class="icon icon_msdrive"></span></a>
+</td>
+</tr><tr class="odd" about="//www.gutenberg.org/ebooks/2591.epub.noimages?session_id=b2cfda10c4ce5cfda7bdf1805ebbcfc7ab801798" typeof="pgterms:file">
+<td><span class="icon icon_book"></span></td>
+<td property="dcterms:format" content="application/epub+zip" datatype="dcterms:IMT" class="unpadded icon_save"><a href="//www.gutenberg.org/ebooks/2591.epub.noimages?session_id=b2cfda10c4ce5cfda7bdf1805ebbcfc7ab801798" type="application/epub+zip" class="link" title="Download">EPUB (no images)</a></td>
+<td class="noscreen">//www.gutenberg.org/ebooks/2591.epub.noimages?session_id=b2cfda10c4ce5cfda7bdf1805ebbcfc7ab801798</td>
+<td class="right" property="dcterms:extent" content="210848">206 kB</td>
+<td class="noprint">
+<a href="/ebooks/send/dropbox/2591.epub.noimages" title="Send to Dropbox." rel="nofollow"><span class="icon icon_dropbox"></span></a>
+</td>
+<td class="noprint">
+<a href="/ebooks/send/gdrive/2591.epub.noimages" title="Send to Google Drive." rel="nofollow"><span class="icon icon_gdrive"></span></a>
+</td>
+<td class="noprint">
+<a href="/ebooks/send/msdrive/2591.epub.noimages" title="Send to OneDrive." rel="nofollow"><span class="icon icon_msdrive"></span></a>
+</td>
+</tr><tr class="even" about="//www.gutenberg.org/ebooks/2591.kindle.images?session_id=b2cfda10c4ce5cfda7bdf1805ebbcfc7ab801798" typeof="pgterms:file">
+<td><span class="icon icon_book"></span></td>
+<td property="dcterms:format" content="application/x-mobipocket-ebook" datatype="dcterms:IMT" class="unpadded icon_save"><a href="//www.gutenberg.org/ebooks/2591.kindle.images?session_id=b2cfda10c4ce5cfda7bdf1805ebbcfc7ab801798" type="application/x-mobipocket-ebook" class="link" title="Download">Kindle (with images)</a></td>
+<td class="noscreen">//www.gutenberg.org/ebooks/2591.kindle.images?session_id=b2cfda10c4ce5cfda7bdf1805ebbcfc7ab801798</td>
+<td class="right" property="dcterms:extent" content="870548">850 kB</td>
+<td class="noprint">
+<a href="/ebooks/send/dropbox/2591.kindle.images" title="Send to Dropbox." rel="nofollow"><span class="icon icon_dropbox"></span></a>
+</td>
+<td class="noprint">
+<a href="/ebooks/send/gdrive/2591.kindle.images" title="Send to Google Drive." rel="nofollow"><span class="icon icon_gdrive"></span></a>
+</td>
+<td class="noprint">
+<a href="/ebooks/send/msdrive/2591.kindle.images" title="Send to OneDrive." rel="nofollow"><span class="icon icon_msdrive"></span></a>
+</td>
+</tr><tr class="odd" about="//www.gutenberg.org/ebooks/2591.kindle.noimages?session_id=b2cfda10c4ce5cfda7bdf1805ebbcfc7ab801798" typeof="pgterms:file">
+<td><span class="icon icon_book"></span></td>
+<td property="dcterms:format" content="application/x-mobipocket-ebook" datatype="dcterms:IMT" class="unpadded icon_save"><a href="//www.gutenberg.org/ebooks/2591.kindle.noimages?session_id=b2cfda10c4ce5cfda7bdf1805ebbcfc7ab801798" type="application/x-mobipocket-ebook" class="link" title="Download">Kindle (no images)</a></td>
+<td class="noscreen">//www.gutenberg.org/ebooks/2591.kindle.noimages?session_id=b2cfda10c4ce5cfda7bdf1805ebbcfc7ab801798</td>
+<td class="right" property="dcterms:extent" content="870540">850 kB</td>
+<td class="noprint">
+<a href="/ebooks/send/dropbox/2591.kindle.noimages" title="Send to Dropbox." rel="nofollow"><span class="icon icon_dropbox"></span></a>
+</td>
+<td class="noprint">
+<a href="/ebooks/send/gdrive/2591.kindle.noimages" title="Send to Google Drive." rel="nofollow"><span class="icon icon_gdrive"></span></a>
+</td>
+<td class="noprint">
+<a href="/ebooks/send/msdrive/2591.kindle.noimages" title="Send to OneDrive." rel="nofollow"><span class="icon icon_msdrive"></span></a>
+</td>
+</tr><tr class="even" about="//www.gutenberg.org/files/2591/2591-pdf.pdf?session_id=b2cfda10c4ce5cfda7bdf1805ebbcfc7ab801798" typeof="pgterms:file">
+<td><span class="icon icon_book"></span></td>
+<td property="dcterms:format" content="application/pdf" datatype="dcterms:IMT" class="unpadded icon_save"><a href="//www.gutenberg.org/files/2591/2591-pdf.pdf?session_id=b2cfda10c4ce5cfda7bdf1805ebbcfc7ab801798" type="application/pdf" class="link" title="Download">PDF</a></td>
+<td class="noscreen">//www.gutenberg.org/files/2591/2591-pdf.pdf?session_id=b2cfda10c4ce5cfda7bdf1805ebbcfc7ab801798</td>
+<td class="right" property="dcterms:extent" content="922293">901 kB</td>
+<td class="noprint">
+<a href="/ebooks/send/dropbox/2591.pdf" title="Send to Dropbox." rel="nofollow"><span class="icon icon_dropbox"></span></a>
+</td>
+<td class="noprint">
+<a href="/ebooks/send/gdrive/2591.pdf" title="Send to Google Drive." rel="nofollow"><span class="icon icon_gdrive"></span></a>
+</td>
+<td class="noprint">
+<a href="/ebooks/send/msdrive/2591.pdf" title="Send to OneDrive." rel="nofollow"><span class="icon icon_msdrive"></span></a>
+</td>
+</tr><tr class="even" about="//www.gutenberg.org/files/2591/2591-0.txt" typeof="pgterms:file">
+<td><span class="icon icon_book"></span></td>
+<td property="dcterms:format" content="text/plain; charset=utf-8" datatype="dcterms:IMT" class="unpadded icon_save"><a href="//www.gutenberg.org/files/2591/2591-0.txt" type="text/plain; charset=utf-8" charset="utf-8" class="link" title="Download">Plain Text UTF-8</a></td>
+<td class="noscreen">//www.gutenberg.org/files/2591/2591-0.txt</td>
+<td class="right" property="dcterms:extent" content="560166">547 kB</td>
+<td class="noprint">
+</td>
+<td class="noprint">
+</td>
+<td class="noprint">
+</td>
+</tr>
+<tr class="even">
+<td><span class="icon icon_folder"></span></td>
+<td class="unpadded icon_file"><a href="/files/2591/" class="link">More Files…</a></td>
+<td class="noscreen">http://www.gutenberg.org/files/2591/</td>
+<td></td>
+<td class="noprint"></td>
+<td class="noprint"></td>
+<td class="noprint"></td>
+</tr>
+</table>
+</div>
+</div> <!-- download -->
+</div>
+</div>
+</div>
+<div id="dialog" class="hidden">
+</div>
+<div class="footer">
+</div>
+</div>
+<div id="fb-root"></div>
+<div id="print-head" class="noscreen">
+<div class="center">http://www.gutenberg.org/ebooks/2591?msg=welcome_stranger<br /><br />Project Gutenberg offers 58,285 free ebooks to download.</div>
+</div>
+<div id="screen-head" class="noprint">
+<table>
+<tr>
+<td rowspan="2" id="logo">
+<a href="/wiki/Main_Page" title="Go to the Main Page.">
+<span id="id5512" class="icon icon_logo"></span>
+</a>
+</td>
+<td id="tagline-badges" colspan="2">
+<table>
+<tr>
+<td id="tagline">Project Gutenberg offers 58,285 free ebooks to download.</td>
+<td id="paypal-badge" class="badge">
+<form class="paypal-button" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<div>
+<input lang="en" xml:lang="en" type="hidden" name="cmd" value="_s-xclick" />
+<input lang="en" xml:lang="en" type="hidden" name="hosted_button_id" value="XKAL6BZL3YPSN" />
+<input type="image" name="submit" src="//www.gutenberg.org/pics/paypal/en_US.gif" title="Send us money through PayPal." />
+</div>
+</form>
+</td>
+<td id="flattr-badge" class="badge">
+<a class="flattr-button" target="_blank" href="https://flattr.com/thing/509045/Project-Gutenberg" title="Send us money through Flattr.">
+<span class="icon icon_flattr"></span>
+</a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr id="menubar-search">
+<td id="menubar">
+<a id="menubar-first" tabindex="11" accesskey="1" title="Start a new search." href="/ebooks/">Search</a>
+<a tabindex="22" title="Our latest releases." href="/ebooks/search/?sort_order=release_date">Latest</a>
+<a tabindex="31" title="Read the Project Gutenberg terms of use." href="/terms_of_use/">Terms of Use</a>
+<a tabindex="32" href="/wiki/Gutenberg:Project_Gutenberg_Needs_Your_Donation" title="Learn why we need some money.">Donate?</a>
+<a tabindex="33" accesskey="m" href="//m.gutenberg.org/ebooks/2591.mobile?msg=welcome_stranger" title="Go to our mobile site.">Mobile</a>
+</td>
+<td id="search">
+<form method="get" action="/ebooks/search/" enctype="multipart/form-data">
+<table class="borderless">
+<tr>
+<td id="search-button-cell">
+<button id="search-button" type="submit" title="Execute the search. &lt;enter&gt;">
+<span class="icon icon_smsearch"></span>
+</button>
+</td>
+<td id="search-input-cell">
+<input id="search-input" name="query" type="text" title="Search Project Gutenberg. &lt;s&gt;" accesskey="s" value="" />
+</td>
+<td id="help-button-cell">
+<button id="help-button" type="button" title="Open the help menu. &lt;h&gt;" accesskey="h">Help</button>
+</td>
+</tr>
+</table>
+</form>
+</td>
+</tr>
+</table>
+<div id="helpbox" class="hide">
+<div>
+<p>Enter your search terms separated by spaces,
+then press &lt;Enter&gt;.
+Avoid punctuation except as indicated below:</p>
+<table class="helpbox">
+<tr>
+<th>Suffixes</th>
+<th lang="en" xml:lang="en">.</th>
+<td>exact match</td>
+</tr>
+<tr>
+<th rowspan="7">Prefixes</th>
+<th lang="en" xml:lang="en">a.</th>
+<td>author</td>
+</tr>
+<tr>
+<th lang="en" xml:lang="en">t.</th>
+<td>title</td>
+</tr>
+<tr>
+<th lang="en" xml:lang="en">s.</th>
+<td>subject</td>
+</tr>
+<tr>
+<th lang="en" xml:lang="en">l.</th>
+<td>language</td>
+</tr>
+<tr>
+<th lang="en" xml:lang="en">#</th>
+<td>ebook no.</td>
+</tr>
+<tr>
+<th lang="en" xml:lang="en">n.</th>
+<td>ebook no.</td>
+</tr>
+<tr>
+<th lang="en" xml:lang="en">cat.</th>
+<td>category</td>
+</tr>
+<tr>
+<th rowspan="3" style="width: 8em">
+Operators
+<small>Always put spaces around these.</small>
+</th>
+<th lang="en" xml:lang="en">|</th>
+<td>or</td>
+</tr>
+<tr>
+<th lang="en" xml:lang="en">!</th>
+<td>not</td>
+</tr>
+<tr>
+<th lang="en" xml:lang="en">( )</th>
+<td>grouping</td>
+</tr>
+</table>
+<table class="helpbox">
+<tr>
+<th>this query</th>
+<th>finds</th>
+</tr>
+<tr>
+<td lang="en" xml:lang="en">shakespeare hamlet</td>
+<td>"Hamlet" by Shakespeare</td>
+</tr>
+<tr>
+<td lang="en" xml:lang="en">qui.</td>
+<td>"qui", not "Quixote"</td>
+</tr>
+<tr>
+<td lang="en" xml:lang="en">love stories</td>
+<td>love stories</td>
+</tr>
+<tr>
+<td lang="en" xml:lang="en">a.shakespeare</td>
+<td>by Shakespeare</td>
+</tr>
+<tr>
+<td lang="en" xml:lang="en">s.shakespeare</td>
+<td>about Shakespeare</td>
+</tr>
+<tr>
+<td lang="en" xml:lang="en">#74</td>
+<td>ebook no. 74</td>
+</tr>
+<tr>
+<td lang="en" xml:lang="en">juvenile l.german</td>
+<td>juvenile lit in German</td>
+</tr>
+<tr>
+<td lang="en" xml:lang="en">verne ( l.fr | l.it )</td>
+<td>by Verne in French or Italian</td>
+</tr>
+<tr>
+<td lang="en" xml:lang="en">love stories ! austen</td>
+<td>love stories not by Austen</td>
+</tr>
+<tr>
+<td lang="en" xml:lang="en">jane austen cat.audio</td>
+<td>audio books by Jane Austen</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</body>
+</html>
