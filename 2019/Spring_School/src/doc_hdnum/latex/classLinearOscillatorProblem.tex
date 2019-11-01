@@ -1,0 +1,61 @@
+\hypertarget{classLinearOscillatorProblem}{}\doxysection{Linear\+Oscillator\+Problem$<$ T, N $>$ Class Template Reference}
+\label{classLinearOscillatorProblem}\index{LinearOscillatorProblem$<$ T, N $>$@{LinearOscillatorProblem$<$ T, N $>$}}
+
+
+Example class for a differential equation model.  
+
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classLinearOscillatorProblem_a55fe38a238ff8baee5fbf6ee8e6d76d9}\label{classLinearOscillatorProblem_a55fe38a238ff8baee5fbf6ee8e6d76d9}} 
+typedef std\+::size\+\_\+t \mbox{\hyperlink{classLinearOscillatorProblem_a55fe38a238ff8baee5fbf6ee8e6d76d9}{size\+\_\+type}}
+\begin{DoxyCompactList}\small\item\em export size\+\_\+type \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classLinearOscillatorProblem_ac43ed86ca73bbcd67bef05cec297d903}\label{classLinearOscillatorProblem_ac43ed86ca73bbcd67bef05cec297d903}} 
+typedef T \mbox{\hyperlink{classLinearOscillatorProblem_ac43ed86ca73bbcd67bef05cec297d903}{time\+\_\+type}}
+\begin{DoxyCompactList}\small\item\em export time\+\_\+type \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classLinearOscillatorProblem_a423b94cfeeda443cb88d23ea5dd441f7}\label{classLinearOscillatorProblem_a423b94cfeeda443cb88d23ea5dd441f7}} 
+typedef N \mbox{\hyperlink{classLinearOscillatorProblem_a423b94cfeeda443cb88d23ea5dd441f7}{number\+\_\+type}}
+\begin{DoxyCompactList}\small\item\em export number\+\_\+type \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classLinearOscillatorProblem_ab3baebe1acaad99efb68759e058b011b}\label{classLinearOscillatorProblem_ab3baebe1acaad99efb68759e058b011b}} 
+\mbox{\hyperlink{classLinearOscillatorProblem_ab3baebe1acaad99efb68759e058b011b}{Linear\+Oscillator\+Problem}} ()
+\begin{DoxyCompactList}\small\item\em constructor \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classLinearOscillatorProblem_a03949e2187665b11fc8c4ab823306d0f}\label{classLinearOscillatorProblem_a03949e2187665b11fc8c4ab823306d0f}} 
+std\+::size\+\_\+t \mbox{\hyperlink{classLinearOscillatorProblem_a03949e2187665b11fc8c4ab823306d0f}{size}} () const
+\begin{DoxyCompactList}\small\item\em return number of components for the model \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classLinearOscillatorProblem_af6c2e922eabc8e764b8cc6dcc958ce20}\label{classLinearOscillatorProblem_af6c2e922eabc8e764b8cc6dcc958ce20}} 
+void \mbox{\hyperlink{classLinearOscillatorProblem_af6c2e922eabc8e764b8cc6dcc958ce20}{initialize}} (T \&t0, hdnum\+::\+Vector$<$ N $>$ \&u) const
+\begin{DoxyCompactList}\small\item\em set initial state including time value \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classLinearOscillatorProblem_a7e8686c001f784befad7fb846ed320d4}\label{classLinearOscillatorProblem_a7e8686c001f784befad7fb846ed320d4}} 
+void \mbox{\hyperlink{classLinearOscillatorProblem_a7e8686c001f784befad7fb846ed320d4}{f}} (const T \&t, const hdnum\+::\+Vector$<$ N $>$ \&u, hdnum\+::\+Vector$<$ N $>$ \&result) const
+\begin{DoxyCompactList}\small\item\em model evaluation \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classLinearOscillatorProblem_ae6b1728941db6abcf1ff6f4c04ced634}\label{classLinearOscillatorProblem_ae6b1728941db6abcf1ff6f4c04ced634}} 
+void \mbox{\hyperlink{classLinearOscillatorProblem_ae6b1728941db6abcf1ff6f4c04ced634}{f\+\_\+x}} (const T \&t, const hdnum\+::\+Vector$<$ N $>$ \&x, hdnum\+::\+Dense\+Matrix$<$ N $>$ \&result) const
+\begin{DoxyCompactList}\small\item\em jacobian evaluation needed for implicit solvers \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class T, class N = T$>$\newline
+class Linear\+Oscillator\+Problem$<$ T, N $>$}
+
+Example class for a differential equation model. 
+
+The model is
+
+u\+\_\+0\textquotesingle{}(t) = -\/u\+\_\+1(t), t$>$=t\+\_\+0, u\+\_\+0(t\+\_\+0) = U\+\_\+0 u\+\_\+1\textquotesingle{}(t) = u\+\_\+0(t), t$>$=t\+\_\+0, u\+\_\+1(t\+\_\+0) = U\+\_\+1
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & a type representing time values \\
+\hline
+{\em N} & a type representing components of states and f-\/values \\
+\hline
+\end{DoxyTemplParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+linearoscillator.\+cc\end{DoxyCompactItemize}

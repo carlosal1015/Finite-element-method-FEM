@@ -1,0 +1,43 @@
+\hypertarget{classVanDerPolProblem}{}\doxysection{Van\+Der\+Pol\+Problem$<$ T, N $>$ Class Template Reference}
+\label{classVanDerPolProblem}\index{VanDerPolProblem$<$ T, N $>$@{VanDerPolProblem$<$ T, N $>$}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classVanDerPolProblem_ac3a0e5fff88a68a4248e02e981f93f76}\label{classVanDerPolProblem_ac3a0e5fff88a68a4248e02e981f93f76}} 
+typedef std\+::size\+\_\+t \mbox{\hyperlink{classVanDerPolProblem_ac3a0e5fff88a68a4248e02e981f93f76}{size\+\_\+type}}
+\begin{DoxyCompactList}\small\item\em export size\+\_\+type \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classVanDerPolProblem_a80f9fe9a9c617eb65658023e46099e4c}\label{classVanDerPolProblem_a80f9fe9a9c617eb65658023e46099e4c}} 
+typedef T \mbox{\hyperlink{classVanDerPolProblem_a80f9fe9a9c617eb65658023e46099e4c}{time\+\_\+type}}
+\begin{DoxyCompactList}\small\item\em export time\+\_\+type \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classVanDerPolProblem_a5b0716ab9865d0c7ea775797a4316c66}\label{classVanDerPolProblem_a5b0716ab9865d0c7ea775797a4316c66}} 
+typedef N \mbox{\hyperlink{classVanDerPolProblem_a5b0716ab9865d0c7ea775797a4316c66}{number\+\_\+type}}
+\begin{DoxyCompactList}\small\item\em export number\+\_\+type \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classVanDerPolProblem_a1ff95bfed38efbd0b7990feae814bf94}\label{classVanDerPolProblem_a1ff95bfed38efbd0b7990feae814bf94}} 
+\mbox{\hyperlink{classVanDerPolProblem_a1ff95bfed38efbd0b7990feae814bf94}{Van\+Der\+Pol\+Problem}} ()
+\begin{DoxyCompactList}\small\item\em constructor stores parameter lambda \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classVanDerPolProblem_a2b6d6a69579876f215c402a32a4fc9b5}\label{classVanDerPolProblem_a2b6d6a69579876f215c402a32a4fc9b5}} 
+{\bfseries Van\+Der\+Pol\+Problem} (N eps\+\_\+)
+\item 
+\mbox{\Hypertarget{classVanDerPolProblem_aea253ad0ab4e566a79d5ae91d8820bd5}\label{classVanDerPolProblem_aea253ad0ab4e566a79d5ae91d8820bd5}} 
+std\+::size\+\_\+t \mbox{\hyperlink{classVanDerPolProblem_aea253ad0ab4e566a79d5ae91d8820bd5}{size}} () const
+\begin{DoxyCompactList}\small\item\em return number of componentes for the model \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classVanDerPolProblem_a4e4ae99052b34aa069d066ac7161fc6a}\label{classVanDerPolProblem_a4e4ae99052b34aa069d066ac7161fc6a}} 
+void \mbox{\hyperlink{classVanDerPolProblem_a4e4ae99052b34aa069d066ac7161fc6a}{initialize}} (T \&t0, Vector$<$ N $>$ \&x0) const
+\begin{DoxyCompactList}\small\item\em set initial state including time value \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classVanDerPolProblem_aa10cce7de898bcde2536c423ca74e918}\label{classVanDerPolProblem_aa10cce7de898bcde2536c423ca74e918}} 
+void \mbox{\hyperlink{classVanDerPolProblem_aa10cce7de898bcde2536c423ca74e918}{f}} (const T \&t, const Vector$<$ N $>$ \&x, Vector$<$ N $>$ \&result) const
+\begin{DoxyCompactList}\small\item\em model evaluation \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classVanDerPolProblem_a110d7fa09b556aacaf4f3242420a5d3c}\label{classVanDerPolProblem_a110d7fa09b556aacaf4f3242420a5d3c}} 
+void \mbox{\hyperlink{classVanDerPolProblem_a110d7fa09b556aacaf4f3242420a5d3c}{f\+\_\+x}} (const T \&t, const Vector$<$ N $>$ \&x, Dense\+Matrix$<$ N $>$ \&result) const
+\begin{DoxyCompactList}\small\item\em model evaluation \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classVanDerPolProblem_a46237ab32f6841fb4370e2c46f78689a}\label{classVanDerPolProblem_a46237ab32f6841fb4370e2c46f78689a}} 
+\mbox{\hyperlink{classVanDerPolProblem_ac3a0e5fff88a68a4248e02e981f93f76}{size\+\_\+type}} {\bfseries get\+\_\+count} () const
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+vanderpol.\+cc\end{DoxyCompactItemize}

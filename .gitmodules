@@ -4,3 +4,6 @@
 [submodule "2018/matlab-schemer"]
 	path = 2018/matlab-schemer
 	url = https://github.com/scottclowe/matlab-schemer
+[submodule "2019/Spring_School/src/hdnum"]
+	path = 2019/Spring_School/src/hdnum
+	url = https://parcomp-git.iwr.uni-heidelberg.de/Teaching/hdnum.git
