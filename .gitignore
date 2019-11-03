@@ -572,3 +572,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# For website branch
+Pipfile.lock
+node_modules/
+output/
+plugins/
+plugins_community/
+themes/
