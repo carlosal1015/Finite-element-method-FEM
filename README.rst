@@ -15,7 +15,7 @@ This is the repository of the *Finite Element Method* course in National Agraria
 Clone an existing repository
 ############################
 
-Be patient, the download may take a few minutes (~ 0.9 GiB) in net size.
+Be patient, the download may take a few minutes (~0.9 GiB) in net size.
 
 .. code-block:: bash
 
