@@ -9,10 +9,14 @@ Dies ist das Repository des Kurses über die *Finite-Elemente-Methode* an der Na
 
 * `Link in Google Drive <https://goo.gl/9etAVP>`_
 * `CIMAC IX <https://t.me/s/cimacix>`_
+* `Webseite <https://carlosal1015.github.io/Finite-element-method-FEM/>`_
 
 Ein existierendes Repository klonen
 ###################################
 
+Seien Sie geduldig, der Download kann einige Minuten dauern (~ 0.9 GiB).
+
 .. code-block:: bash
 
     $ git clone https://github.com/carlosal1015/Finite-element-method-FEM.git
+    $ git submodule update --init --recursive

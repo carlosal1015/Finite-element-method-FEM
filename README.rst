@@ -9,11 +9,15 @@ This is the repository of the *Finite Element Method* course in National Agraria
 
 * `Link in Google Drive <https://goo.gl/9etAVP>`_
 * `CIMAC IX (photos and beamers) <https://t.me/s/cimacix>`_
+* `Website <https://carlosal1015.github.io/Finite-element-method-FEM/>`_
 
 
 Clone an existing repository
 ############################
 
+Be patient, the download may take a few minutes (~ 0.9 GiB) in net size.
+
 .. code-block:: bash
 
     $ git clone https://github.com/carlosal1015/Finite-element-method-FEM.git
+    $ git submodule update --init --recursive
