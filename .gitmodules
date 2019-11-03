@@ -1,0 +1,9 @@
+[submodule "themes"]
+	path = themes
+	url = https://github.com/getpelican/pelican-themes
+[submodule "plugins"]
+	path = plugins
+	url = https://github.com/getpelican/pelican-plugins.git
+[submodule "plugins_community/latex-prerender"]
+	path = plugins_community/latex-prerender
+	url = https://gitlab.com/thousandyardstare/pelican-latex-prerender.git
