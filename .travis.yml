@@ -14,7 +14,6 @@ install:
 
 script:
   - ex -s -c '7i|<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.css" integrity="sha384-bsHo4/LA+lkZv61JspMDQB9QP1TtO4IgOf2yYS+J6VdAYLVyx1c3XKcsHh0Vy8Ws" crossorigin="anonymous">' -c x themes/elegant/templates/base.html
-  # - ex -s -c '19i|<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.css" integrity="sha384-bsHo4/LA+lkZv61JspMDQB9QP1TtO4IgOf2yYS+J6VdAYLVyx1c3XKcsHh0Vy8Ws" crossorigin="anonymous">' -c x themes/aboutwilson/templates/base.html
   - pelican content -s publishconf.py
   - ghp-import output -b gh-pages
 
