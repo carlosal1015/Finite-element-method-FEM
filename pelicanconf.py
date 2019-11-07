@@ -39,7 +39,7 @@ NOTEBOOK_DIR = './downloads/notebooks'
 
 IPYNB_USE_METACELL = True
 
-STATIC_PATHS = ['downloads']
+STATIC_PATHS = ['downloads', 'images']
 
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
