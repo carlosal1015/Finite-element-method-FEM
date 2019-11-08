@@ -128,11 +128,12 @@ Por defecto, tenemos el proyecto con un solo archivo `main.cpp` y el automática
 Target es un ejecutable o una biblioteca que se creará utilizando un script CMake. Puede definir múltiples objetivos de compilación en un solo script.
 
 Por ahora, nuestro proyecto de prueba tiene solo un objetivo de compilación, cmake_testapp. Al cargar el primer proyecto, CLion agrega automáticamente una configuración de Ejecutar/Depurar asociada con este objetivo:
-<img src="/images/cl_cmake_addfile_reload.png" alt="default configuration for a new cmake project"/>
+
+![default configuration for a new cmake project]({static}/images/cl_cmake_addfile_reload.png)
 
 Click en **Editar configuración** en el cambiador o seleccione **Correr|Editar configuraciones** del menú principal para ver los detalles. El nombre del objetivo y el nombre del ejecutable fueron tomados directamente del `CMakeLists.txt`:
 
-![alt text](./../images/cl_cmake_defaultconf1.png "details of the default configuration for a new cmake project")
+![details of the default configuration for a new cmake project]({static}/images/cl_cmake_defaultconf1.png)
 
 Note que antes del área **antes de lanzar** de este diálogo: **Construya** está fijado como un paso antes de lanzar, por defecto. Así, podemos usar esta configuración no solo para depurar o correr nuestro objetivo, sino también para mejorar la construcción.
 
@@ -142,25 +143,25 @@ Ahora vamos a agregar otro archivo fuente `calc.cpp` y crearemos un nuevo ejecut
 
 Click derecho en el folder raíz en el árbol del proyecto y seleccione **Nuevo|C/C++ código fuente**. CLion espera agregar el archivo a un objetivo existente:
 
-![alt text](./../images/cl_cmake_newfile_addtotargets.png "add a new source file")
+![add a new source file]({static}/images/cl_cmake_newfile_addtotargets.png)
 
 Dado que nuestro logro principal es crear un nuevo objetivo, limpiaremos la cajita check **agregar objetivo**. De acuerdo con esto, CLion nos notificará que el nuevo archivo actualmente no pertenece a cualquier objetivo.
 
-![alt text](./../images/cl_cmake_notbelong_warning.png "file not belonging to the project")
+![file not belonging to the project]({static}/images/cl_cmake_notbelong_warning.png)
 
 Ahora, declararemos un nuevo objetivo manualmente en el `CMakeLists.txt`. Note que CLion trata los archivos **CMake scripts como códigos regulares**, así podemos usar las características del código existente como el **resaltado de sintáxis**, **autocompletado** y **navegación**.
 
-![alt text](./../images/cl_cmakelists_completion.png "completion in cmake script")
+![completion in cmake script]({static}/images/cl_cmakelists_completion.png)
 
 Cuando hacemos cambios en `CMakeLists.txt`, CLion necesita recargar este con el fin de actualizar la estructura del proyecto.
 
-![alt text](./../images/cl_cmake_addfile_reload.png "reload cmake project after adding a new target")
+![reload cmake project after adding a new target]({static}/images/cl_cmake_addfile_reload.png)
 
 Podemos recargar el proyecto una vez (**recargar cambios**) o habilitar automáticamente para dejar que CLion silenciosamente aplique todos los cambios en `CMakeLists.txt`. La opción para habilitar/deshabilitar la auto recarga está también disponible en **Configuración/Preferencias|Construir,Ejecutar,Desarrollo|CMake**.
 
 Después de recargar el proyecto, CLion añade a la configuración Correr/Depurar para el nuevo objetivo:
 
-![alt text](./../images/cl_cmake_addtarget_conf.png "configuration for the newly added target")
+![configuration for the newly added target]({static}/images/cl_cmake_addtarget_conf.png)
 
 ## Objetivos librería
 
@@ -172,7 +173,7 @@ add_library (test_library STATIC calc.cpp)
 
 Así también para los ejecutables, CLion añade a la configuración Correr/Depurar para la librería objetivo después de recargar el proyecto:
 
-![alt text](./../images/cl_cmake_addlibrary_conf.png "configuration for the newly added library target")
+![configuration for the newly added library target]({static}/images/cl_cmake_addlibrary_conf.png)
 
 Sin embargo, esta es una configuración no ejecutable, así que si intentamos correrlo o depurarlo, obtendremos un mensaje de error *Executable not specified*.
 
@@ -184,13 +185,13 @@ Todas las configuraciones Correr/Depurar por las lejanas configuraciones *Depura
 
 Por ejemplo, para separar las construcciones de *Depurar* y de *lanzamiento*, necesitamos agregar un `+` perfil de CMake en **Configuración/Preferencias|Construir, Ejecución, Desarrollo|CMake** y fijar este tipo de construcción como **lanzamiento**.
 
-![alt text](./../images/cl_cmake_addprofile.png "adding a cmake profile")
+![adding a cmake profile]({static}/images/cl_cmake_addprofile.png)
 
 Note que el campo **ruta de generación** que especifica la ubicación de los resultados de construcción. Las carpetas por defecto son `cmake-build-debug` para los perfiles de depurar y `cmake-build-release` para los perfiles de lanzamiento. Siempre puede fijar otras ubicaciones de tu elección.
 
 Ahora el cambiador configuración Correr/Depurar muestra dos perfiles disponibles:
 
-![alt text](./../images/cl_cmake_profiles_configs.png "cmake profiles in the configuration switcher")
+![cmake profiles in the configuration switcher]({static}/images/cl_cmake_profiles_configs.png)
 
 Cambiando las configuraciones o perfiles de CMake podrían afectar las definiciones del preprocesador usadas mientras resuelve el código. Por ejemplo, cuando existen banderas separadas para construir depurar y lanzamiento, o cuando existen algunas variables que podrían tomar diferentes valores dependiendo en el tipo de construcción. Esto es llamado contexto de resolución.
 
@@ -198,8 +199,7 @@ Contexto de resolución define cómo CLion desempeña el resaltado de sintáxis 
 
 # 5. Agregar directorios incluidos
 
-Para poder usar cabezeras adicionales ubicados en directorios separados, necesitamos agregarlos a todos los objetivos o a algunos específicos.
-
+Para poder usar cabezeras adicionales ubicados en directorios separados, necesitamos agregarlos a todos los objetivos o algunos específicos.
 
 
 	In [1]: import numpy as np
