@@ -128,8 +128,7 @@ Por defecto, tenemos el proyecto con un solo archivo `main.cpp` y el automática
 Target es un ejecutable o una biblioteca que se creará utilizando un script CMake. Puede definir múltiples objetivos de compilación en un solo script.
 
 Por ahora, nuestro proyecto de prueba tiene solo un objetivo de compilación, cmake_testapp. Al cargar el primer proyecto, CLion agrega automáticamente una configuración de Ejecutar/Depurar asociada con este objetivo:
-
-![alt text](./../images/cl_cmake_addfile_reload.png "default configuration for a new cmake project")
+<img src="/images/cl_cmake_addfile_reload.png" alt="default configuration for a new cmake project"/>
 
 Click en **Editar configuración** en el cambiador o seleccione **Correr|Editar configuraciones** del menú principal para ver los detalles. El nombre del objetivo y el nombre del ejecutable fueron tomados directamente del `CMakeLists.txt`:
 
