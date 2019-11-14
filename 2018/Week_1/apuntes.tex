@@ -1,25 +1,38 @@
-\documentclass[b5paper]{article}
+% arara: clean: {
+% arara: --> extensions:
+% arara: --> ['log','aux']
+% arara: --> }
+% arara: lualatex: {
+% arara: --> shell: no,
+% arara: --> synctex: no,
+% arara: --> interaction: batchmode
+% arara: --> }
+% arara: clean: {
+% arara: --> extensions:
+% arara: --> ['log','aux']
+% arara: --> }
+\documentclass[
+	b5paper,
+	11pt,
+	oneside
+]{scrartcl}
+\usepackage{mathpazo}
+\usepackage{fontspec}
+\setmainfont{TeX Gyre Pagella}
+
 \usepackage{amsmath,amssymb}
+
 \begin{document}
-$$\sum_{k=1}^{n}\frac{1}{k^{2}+1}$$
+\[ \sum_{k=1}^{n}\frac{1}{k^{2}+1}. \]
 
-$$
-S_{n}=\sum_{k=1}^{n}a_{k}=0+a_{1}+a_{2}+a_{3}+\cdots+a_{n}
-$$
+\[ S_{n}=\sum_{k=1}^{n}a_{k}=0+a_{1}+a_{2}+a_{3}+\cdots+a_{n}. \]
 
-$$
-S = 0
-$$
+\[ S=0. \]
 
-$$
-S= S+a_{1}
-$$
+\[ S=S+a_{1}. \]
 
-$$
-S=S+a_{2}
-$$
+\[ S=S+a_{2}. \]
 
-$$z=1$$
-
+\[ z=1. \]
 
 \end{document}

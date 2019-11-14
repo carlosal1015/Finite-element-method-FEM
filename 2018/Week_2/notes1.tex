@@ -1,78 +1,107 @@
-% arara: pdflatex
-% arara: pdflatex
-\documentclass[openany,a4paper,11pt]{memoir}
-\usepackage{amsmath,amssymb,bm,amsthm}
+% arara: clean: {
+% arara: --> extensions:
+% arara: --> ['log','aux','synctex.gz','out']
+% arara: --> }
+% arara: lualatex: { draft: yes }
+% arara: lualatex: {
+% arara: --> shell: yes,
+% arara: --> synctex: yes,
+% arara: --> interaction: batchmode
+% arara: --> }
+% arara: clean: {
+% arara: --> extensions:
+% arara: --> ['log','aux','synctex.gz','out']
+% arara: --> }
+\documentclass[
+	a4paper,
+	11pt,
+	oneside
+]{scrreprt}
+
+\usepackage{mathpazo}
+\usepackage{fontspec}
+\setmainfont{TeX Gyre Pagella}
+\usepackage{amsmath,amssymb,amsthm,bm}
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
 \newtheorem{theorem}{Theorem}
 
 \newcommand\restr[2]{{% we make the whole thing an ordinary symbol
-  \left.\kern-\nulldelimiterspace % automatically resize the bar with \right
-  #1 % the function
-  \vphantom{\big|} % pretend it's a little taller at normal size
-  \right|_{#2} % this is the delimiter
-  }}
+		\left.\kern-\nulldelimiterspace % automatically resize the bar with \right
+		#1 % the function
+		\vphantom{\big|} % pretend it's a little taller at normal size
+		\right|_{#2} % this is the delimiter
+}}
+
+\usepackage[
+	colorlinks,
+	citecolor=blue,
+	linkcolor=red,
+	pdfpagelabels
+]{hyperref}
+
+\hypersetup{pageanchor=false}
 
 \begin{document}
 
 \chapter{Laplace Equation}
 
-If does not have boundary conditions, ill-possed problem. The equation needs two conditions. It is very easy to partition the interval $[a,b]$.
+If does not have boundary conditions, ill-possed problem. The equation needs two conditions. It is very easy to partition the interval $\left[a,b\right]$.
 
-\begin{definition}
-  We call $\Omega\subset\mathbb{R}^d$ for $d=1,2,3$ a \textbf{domain} if
-  \begin{enumerate}
-  \item $\Omega$ is open.
-  \item $\Omega$ is connected. It has no holes. It must be smooth.
-  \end{enumerate}
+\begin{definition}[Domain]
+We call $\Omega\subset\mathbb{R}^d$ for $d=1,2,3$ a \textbf{domain} iff
+\begin{enumerate}
+	\item $\Omega$ is open.
+	\item $\Omega$ is connected. It has no holes. It must be smooth.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Boundary]
+We call $\Gamma=\partial\Omega$ the \textbf{boundary} of the domain $\Omega$.
+\end{definition}
+
+\begin{definition}[Unit normal vector]
+By $\vec{n}$ we denote the \textbf{unit normal vector} (facing outwards) on the boundary.
 \end{definition}
 
 \begin{definition}
-  We call $\Gamma=\partial\Omega$ the \textbf{boundary} of the domain $\Omega$.
+We define \textbf{function space of differentiable functions} \[ C^{m}(\Omega)=\left\{f\colon\Omega\rightarrow\mathbb{R}\mid f\left(x_1.x_2,\ldots, x_d\right)\right\}. \]
 \end{definition}
 
 \begin{definition}
-  By $\vec{n}$ we denote the \textbf{unit normal vector} (facing outwards) on the boundary.
-\end{definition}
-
-\begin{definition}
-  We define \textbf{function space of differentiable functions} \[ C^m(\Omega)=\left\{ f\colon\Omega\rightarrow\mathbb{R}\mid f\left(x_1.x_2,\ldots, x_d\right) \right\}. \]
-\end{definition}
-
-\begin{definition}
-  We define \textbf{laplace operator}
+We define the \textbf{Laplace operator}
 \end{definition}
 
 \begin{itemize}
-\item Let $f\in C^{0}(\Omega)$ be the \textbf{right hand side function}.
-\item Let $g\in C^0(\Gamma)$ be the \textbf{boundary value function}.
-\item \textbf{Dirichtlet Problem} we are looking for $u\in C^2(\Omega)$ such that \[ -\Delta u=f\text{ in }. \]
-\item Let $\Omega$ be the unit sphere \[ \Omega=\left\{ \bm{x} = (x,y)\in\mathbb{R}^2\mid x^2+y^2\le 1 \right\}. \]
-\item Let $f=1$ and $g=0$.
-\item There is \textbf{no solution} to the Dirichlet Problem \[-\Delta u=1 \text{ in } u=0 \text{ on }\Gamma. \] which is $2$ times differentiable.
+	\item Let $f\in C^{0}\left(\Omega\right)$ be the \textbf{right hand side function}.
+	\item Let $g\in C^{0}\left(\Gamma\right)$ be the \textbf{boundary value function}.
+	\item \textbf{Dirichtlet Problem} we are looking for $u\in C^{2}(\Omega)$ such that \[ -\Delta u=f\text{ in }. \]
+	\item Let $\Omega$ be the unit sphere \[ \Omega=\left\{\bm{x}=\left(x,y\right)\in\mathbb{R}^{2}\mid x^{2}+y^{2}\le 1\right\}. \]
+	\item Let $f=1$ and $g=0$.
+	\item There is \textbf{no solution} to the Dirichlet Problem \[-\Delta u=1\text{ in }u=0\text{ on }\Gamma \] which is $2$ times differentiable.
 \end{itemize}
 
 \section{The variational formulation}
 
 \begin{itemize}
-\item Assume that $u\in C^2(\Omega)$ is a solution to the Laplace problem \[-\Delta u(x,y)=f(x,y) \text{ in }\Omega\text{ with }u=0\text{ on }\Gamma.\]
-\item Then, we can multiply this equation with a \textbf{test function} $\phi$ \[ -\Delta u(x,y)\cdot \phi(x,y)=f(x,y)\cdot\phi(x,y)\text{ in }\Omega.\] 
-\item Then, we can \textbf{integrate by parts over the domain} \[-\int_{D}\Delta u(x,y)\cdot\phi(x,y)\mathrm{d}x\mathrm{d}y=\int_{\Omega}f(x,y)\cdot\phi(x,y)\mathrm{d}x\mathrm{d}y \]
-\item We assume that the test function is differentiable $\phi\in C^1(\Omega)$. Then, we can \textbf{integrate by parts} \[\int_{\Omega}\nabla u(x,y)\cdot\phi(x,y)\mathrm{d}x\mathrm{d}y-\int_\Gamma(\vec{n}\cdot\nabla)u\cdot\phi\mathrm{d}S=\int_{\Omega}f(x,y)\cdot\phi(x,y)\mathrm{d}x\mathrm{d}y \]
-\item We assume that the test function is zero on the boundary. Then \[\int_\Omega\nabla u(x,y)\cdot\nabla\phi(x,y)\mathrm{d}x\mathrm{d}y=\int_\Omega f(x,y)\cdot\phi(x,y)\mathrm{d}x\mathrm{d}y.\]
+	\item Assume that $u\in C^{2}(\Omega)$ is a solution to the Laplace problem \[-\Delta u\left(x,y\right)=f\left(x,y\right)\text{ in }\Omega\text{ with }u=0\text{ on }\Gamma.\]
+	\item Then, we can multiply this equation with a \textbf{test function} $\phi$ \[ -\Delta u\left(x,y\right)\cdot\phi\left(x,y\right)=f\left(x,y\right)\cdot\phi\left(x,y\right)\text{ in }\Omega. \]
+	\item Then, we can \textbf{integrate by parts over the domain} \[ -\int_{D}\Delta u\left(x,y\right)\cdot\phi\left(x,y\right)\mathrm{d}x\mathrm{d}y=\int_{\Omega}f\left(x,y\right)\cdot\phi\left(x,y\right)\mathrm{d}x\mathrm{d}y. \]
+	\item We assume that the test function is differentiable $\phi\in C^{1}(\Omega)$. Then, we can \textbf{integrate by parts} \[\int_{\Omega}\nabla u\left(x,y\right)\cdot\phi\left(x,y\right)\mathrm{d}x\mathrm{d}y-\int_{\Gamma}\left(\vec{n}\cdot\nabla\right)u\cdot\phi\mathrm{d}S=\int_{\Omega}f\left(x,y\right)\cdot\phi\left(x,y\right)\mathrm{d}x\mathrm{d}y. \]
+	\item We assume that the test function is zero on the boundary. Then \[ \int_{\Omega}\nabla u\left(x,y\right)\cdot\nabla\phi\left(x,y\right)\mathrm{d}x\mathrm{d}y=\int_{\Omega}f\left(x,y\right)\cdot\phi\left(x,y\right)\mathrm{d}x\mathrm{d}y. \]
 \end{itemize}
 
-If the boundary is given by he graph of a function in $C^2$, then there exists a classical solution $u\in C^2(\Omega)$.
+If the boundary is given by he graph of a function in $C^{2}$, then there exists a classical solution $u\in C^{2}\left(\Omega\right)$.
 \begin{itemize}
-\item We introduce $L^2$ scalar product
-\begin{align*}
-  (u,\phi)=\int_\Omega 
-\end{align*}
+	\item We introduce $L^{2}$ scalar product.
+	\begin{align*}
+	\left(u,\phi\right)=\int_{\Omega}.
+	\end{align*}
 \end{itemize}
 
 \begin{theorem}
-  Let $\Omega\subset\mathbb{R}^d$ for $d=1,2,3$ be a domain and $f\in L^2(\Omega)$. Then, there exists a solution \[ u\in\mathcal{V} = H^1_0(\Omega) \] to the \textit{Laplace problem} in variational formulation.
+Let $\Omega\subset\mathbb{R}^{d}$ for $d=1,2,3$ be a domain and $f\in L^{2}\left(\Omega\right)$. Then, there exists a solution \[ u\in\mathcal{V}=H^{1}_{0}\left(\Omega\right) \] to the \textit{Laplace problem} in variational formulation.
 \end{theorem}
 
 \chapter{Finite Element Method}
@@ -80,17 +109,17 @@ If the boundary is given by he graph of a function in $C^2$, then there exists a
 \textbf{Steps for a finit element discretization}
 
 \begin{enumerate}
-\item We discretize the domain $\Omega$ by a mesh $\Omega_h$.
-\item On $\Omega_h$ we discretize the function space $\mathcal{V}=H^1_0(\Omega)$ by a finite element space $V_h$.
-\item We restrict the variational formulation to $V_h$ \[u_h\in V_h \left(\nabla u_h,\nabla \phi_h\right)=\left(f,\phi_h\right)\quad\forall \phi_h.\]
-\item We solve a linear system of equations.
+	\item We discretize the domain $\Omega$ by a mesh $\Omega_{h}$.
+	\item On $\Omega_{h}$ we discretize the function space $\mathcal{V}=H^{1}_{0}\left(\Omega\right)$ by a finite element space $V_{h}$.
+	\item We restrict the variational formulation to $V_{h}$ \[u_{h}\in V_{h} \left(\nabla u_{h},\nabla \phi_{h}\right)=\left(f,\phi_{h}\right)\quad\forall \phi_{h}. \]
+	\item We solve a linear system of equations.
 \end{enumerate}
 
 \section{Construction}
 
 \begin{itemize}
-\item We discretize the domain $\Omega$ by splitting it into simple \textbf{open elements}, e.g, triangles, quadrilaterals (in $2D$) or tetrahedras, prisms, hexaedras, pyramids (in $3D$)
-\item The \textbf{finite element mesh} $\Omega_h$.
+	\item We discretize the domain $\Omega$ by splitting it into simple \textbf{open elements}, e.g, triangles, quadrilaterals (in $2D$) or tetrahedras, prisms, hexaedras, pyramids (in $3D$)
+	\item The \textbf{finite element mesh} $\Omega_{h}$.
 \end{itemize}
 
 \section{Some examples}
@@ -100,37 +129,38 @@ If the boundary is given by he graph of a function in $C^2$, then there exists a
 \subsection{Local Finite Element space}
 
 \begin{itemize}
-\item On every element $T\in\Omega_h$ define the basis functions of a simple polynomial space.
-\item \textbf{bi-linear finite elments}
-\item Let $T$ be and quadrilateral with the points $x^{(1)}=(0,0)$, $x^{(2)}=(h,0)$, $x^{(3)}=(o,h)$, $x^{(4)}=(h,h)$.
-\item $\phi^{(1)}(x,y)=(1-\frac{x}{h})(1-\frac{y}{h})$, $\phi^{(2)}(x,y)=\frac{x}{h}(1-\frac{y}{h})$, $\phi^{(3)}(x,y)=(1-\frac{x}{h})\frac{y}{h}$, $\phi^{(1)}(x,y)=\frac{xy}{h^2}$
+	\item On every element $T\in\Omega_{h}$ define the basis functions of a simple polynomial space.
+	\item \textbf{bi-linear finite elements}.
+	\item Let $T$ be and quadrilateral with the points $x^{(1)}=\left(0,0\right)$, $x^{(2)}=\left(h,0\right)$, $x^{(3)}=\left(o,h\right)$, $x^{(4)}=\left(h,h\right)$.
+	\item $\phi^{(1)}\left(x,y\right)=\left(1-\frac{x}{h}\right)\left(1-\frac{y}{h}\right)$, $\phi^{(2)}\left(x,y\right)=\frac{x}{h}\left(1-\frac{y}{h}\right)$, $\phi^{(3)}\left(x,y\right)=\left(1-\frac{x}{h}\right)\frac{y}{h}$, $\phi^{(1)}\left(x,y\right)=\frac{xy}{h^{2}}$.
 \end{itemize}
 
 \begin{itemize}
-\item The Lagrange basis of the finite element space is given as \[ V_h=\left\{\phi_h\in C\left(\Omega\right)\mid\restr{\phi}{T}\in Q^1=\mathrm{span}\left(\phi^{(1)}_h,\phi^{(2)}_h,\phi^{(3)}_h,\phi^{(4)}_h\right) \right\}\]
+\item The Lagrange basis of the finite element space is given as \[ V_{h}=\left\{\phi_{h}\in C\left(\Omega\right)\mid\restr{\phi}{T}\in Q^{1}=\operatorname{span}\left(\phi^{(1)}_{h},\phi^{(2)}_{h},\phi^{(3)}_{h},\phi^{(4)}_{h}\right)\right\}. \]
 \item The \textbf{Lagrange basis} of \textbf{nodal basis} is given by \[ V. \]
 \end{itemize}
 
 \begin{itemize}
-\item Starting point: weak formulation of Laplace equation \[u\in\mathcal{V}. \]
-\item \[u_h\in V_h \left(\nabla u_h,\nabla\phi_h\right)=\left(f,\phi_h\right)\quad\forall\phi_h\in V_h. \]
-\item The finite element is given by a local basis \[V_h=\text{span}\left\{\phi^{(1)}_h,\ldots,\phi^{(N)}_h\right\}\quad\forall i=1,\ldots, N. \]
-\item We write the unknown solution $u_h\in V_h$.
+	\item Starting point: weak formulation of Laplace equation \[ u\in\mathcal{V}. \]
+	\item \[ u_{h}\in V_{h}\left(\nabla u_{h},\nabla\phi_{h}\right)=\left(f,\phi_{h}\right)\quad\forall\phi_{h}\in V_{h}. \]
+	\item The finite element is given by a local basis \[V_{h}=\operatorname{span}\left\{\phi^{(1)}_{h},\ldots,\phi^{(N)}_{h}\right\}\quad\forall i=1,\ldots, N. \]
+	\item We write the unknown solution $u_{h}\in V_{h}$.
 \end{itemize}
 
 \section{Assembling the matrix}
 
 \begin{itemize}
-\item We must compute the matrix entries \[A_{ij}\left(\nabla\phi_h^{(j)}, \nabla\phi_h^{(i)}\right)=\int_\Omega\nabla\phi_h^{(j)}\cdot\nabla\phi_h^{(i)}\mathrm{d}x=\sum_{T\subset\Omega_h}\int_T\nabla\phi_h^{(j)}\cdot\nabla\phi_h^{(i)}\mathrm{d}x. \]
-\item For every \textbf{nodal} \ldots
+	\item We must compute the matrix entries \[ A_{ij}\left(\nabla\phi_h^{(j)}, \nabla\phi_h^{(i)}\right)=\int_{\Omega}\nabla\phi_h^{(j)}\cdot\nabla\phi_h^{(i)}\mathrm{d}x=\sum_{T\subset\Omega_h}\int_{T}\nabla\phi_h^{(j)}\cdot\nabla\phi_h^{(i)}\mathrm{d}x. \]
+	\item For every \textbf{nodal}\ldots.
 \end{itemize}
 
 \begin{itemize}
-\item We combine the result in a \textbf{stencil} \[S=\begin{bmatrix}s_{31} & s_{32} & s_{33}\\s_{21} & s_{22} & s_{23}\\s_{11} & s_{12} & s_{13}\end{bmatrix}.\]
-\item The finite element matrix on a small mesh with $16=4\cdot 4$ nodes like \[A=\frac{1}{3}\begin{bmatrix}1\end{bmatrix}.\]
+	\item We combine the result in a \textbf{stencil} \[ S=\begin{bmatrix}s_{31} & s_{32} & s_{33}\\s_{21} & s_{22} & s_{23}\\s_{11} & s_{12} & s_{13}\end{bmatrix}. \]
+	\item The finite element matrix on a small mesh with $16=4\cdot4$ nodes like \[ A=\frac{1}{3}\begin{bmatrix}1\end{bmatrix}. \]
 \end{itemize}
 
 \begin{itemize}
-\item The main difference between $1D$ and $2D$ (or $3D$).
+	\item The main difference between $1D$ and $2D$ (or $3D$).
 \end{itemize}
+
 \end{document}

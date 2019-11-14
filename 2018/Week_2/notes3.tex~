@@ -1,8 +1,0 @@
-
-\section{Existence and uniqueness for scalar convection-difussion problem}
-
-\subsection{Continuity}
-
-\subsection{Coercivity}
-
-\[ A(u,u)=(\sigma u + (\beta\cdot \nabla) u,u)+\varepsilon\|\nabla u\|^2 \]

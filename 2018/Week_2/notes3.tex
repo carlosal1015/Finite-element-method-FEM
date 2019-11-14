@@ -1,182 +1,178 @@
-% arara: pdflatex
-% arara: pdflatex
-\documentclass[openany,a4paper,11pt]{memoir}
-\usepackage{amsmath,amssymb,bm,amsthm}
-\usepackage{textcomp}
+% arara: clean: {
+% arara: --> extensions:
+% arara: --> ['log','aux','synctex.gz','out']
+% arara: --> }
+% arara: lualatex: { draft: yes }
+% arara: lualatex: {
+% arara: --> shell: yes,
+% arara: --> synctex: yes,
+% arara: --> interaction: batchmode
+% arara: --> }
+% arara: clean: {
+% arara: --> extensions:
+% arara: --> ['log','aux','synctex.gz','out']
+% arara: --> }
+\documentclass[
+	a4paper,
+	11pt,
+	oneside
+]{scrreprt}
+
+\usepackage{mathpazo}
+\usepackage{fontspec}
+\setmainfont{TeX Gyre Pagella}
+\usepackage{amsmath,amssymb,amsthm,bm}
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
 \newtheorem{theorem}{Theorem}
 
 \newcommand\restr[2]{{% we make the whole thing an ordinary symbol
-  \left.\kern-\nulldelimiterspace % automatically resize the bar with \right
-  #1 % the function
-  \vphantom{\big|} % pretend it's a little taller at normal size
-  \right|_{#2} % this is the delimiter
-  }}
+		\left.\kern-\nulldelimiterspace % automatically resize the bar with \right
+		#1 % the function
+		\vphantom{\big|} % pretend it's a little taller at normal size
+		\right|_{#2} % this is the delimiter
+}}
+
+\usepackage[
+	colorlinks,
+	citecolor=blue,
+	linkcolor=red,
+	pdfpagelabels
+]{hyperref}
+
+\hypersetup{pageanchor=false}
 
 \begin{document}
 
-\section{Existence and uniqueness for scalar convection-difussion problem}
+\section{Existence and uniqueness for scalar convection-diffusion problem}
 
 \subsection{Continuity}
 
 \subsection{Coercivity}
 
-\[ A(u,u)=(\sigma u + (\beta\cdot \nabla) u,u)+\varepsilon\|\nabla u\|^2 \]
+\[ A\left(u,u\right)=\left(\sigma u+\left(\beta\cdot\nabla\right) u,u\right)+\varepsilon{\|\nabla u\|}^{2}. \]
 
 Reformulation of the convective part:
 
 \begin{align*}
-  ((\beta\cdot\nabla)u,u) &=\int_{\Omega}\nabla u\cdot()\mathrm{d}u
+	\left(\left(\beta\cdot\nabla\right)u,u\right)&=\int_{\Omega}\nabla u\cdot\left(\right)\mathrm{d}u.
 \end{align*}
 
 \section{Where is the problem for discrete (FE) schemes?}
 
 \begin{itemize}
-\item Lax-Milgram also applies to the discrete standard FE scheme.
-  
-\item Existence and uniqueness of discrete solutions.
-  
-\item Cea's lemma:
-  \[ \|u-u_h\|+ \|\nabla(u-u_h)\|\leq \frac{\alpha_1}{\alpha_2}\inf_{v_h\in V_h}(\|u-v_h\|+\|\nabla(u-v_h)\|)\]
-  
-\item But:\[ 2 \]
+	\item Lax-Milgram also applies to the discrete standard FE scheme.
+	\item Existence and uniqueness of discrete solutions.
+	\item Cea's lemma: \[ \|u-u_{h}\|+\|\nabla\left(u-u_{h}\right)\|\leq\frac{\alpha_{1}}{\alpha_{2}}\inf_{v_{h}\in V_{h}}\left(\|u-v_{h}\|+\|\nabla(u-v_{h})\|\right). \]
+	\item But: \[ 2. \]
 \end{itemize}
 
 \section{Standard Galerkin formulation}
 
-Standard Galerkin formulation. Seek $u_h\in V_h$ such that \[ A(u_h,\phi)=(f,\phi) \forall \phi\in V_h \]
+Standard Galerkin formulation. Seek $u_{h}\in V_{h}$ such that \[ A\left(u_{h},\phi\right)=\left(f,\phi\right)\forall\phi\in V_{h}. \]
 
 \section{Instabilities of the pure Galerkin formulation}
 
-Standard Galerkin formulation: Seek $u_h\in V_h$ such that \[ A(u_h,\phi)=(f,\phi)\forall \phi\in V_h \]
+Standard Galerkin formulation: Seek $u_{h}\in V_{h}$ such that \[ A\left(u_{h},\phi\right)=\left(f,\phi\right)\forall\phi\in V_{h}. \]
 
-A priori estimate in the norm \[\|u_h\| \]
-
+A priori estimate in the norm \[\|u_h\|. \]
 
 \section{Numerical diffusion with FEM}
 
 \begin{itemize}
-\item Similar strategies as for FD possible with FEM: Adding the term \[ (h\nabla u_h,\nabla\phi) \]
-  to the bilinear form $A(\cdot,\cdot)$.
-  
-\item Diffusion in streamline direction only: Adding \[ (h(\beta\cdot\nabla)u_h,(\beta\cdot\nabla)\phi)\] Only 1. order!
-
-  
+	\item Similar strategies as for FD possible with FEM: Adding the term \[ \left(h\nabla u_{h},\nabla\phi\right) \] to the bilinear form $A\left(\cdot,\cdot\right)$.
+	\item Diffusion in streamline direction only: Adding \[ \left(h\left(\beta\cdot\nabla\right)u_{h},\left(\beta\cdot\nabla\right)\phi\right)\] Only 1. order!
 \item Accuracy of 1. order methods can we worse than pure Galer (see Brooks \& Hughs).
 \end{itemize}
 
 \section{3.4 Stabilized finite elements}
 
-\[A(u,\phi)=(\sigma u + (\beta\cdot\nabla)u,\phi) + (\varepsilon\nabla u,\nabla \phi) \]
+\[ A\left(u,\phi\right)=\left(\sigma u+\left(\beta\cdot\nabla\right)u,\phi\right)+\left(\varepsilon\nabla u,\nabla \phi\right). \]
+
 \begin{itemize}
-\item Stabilized form: \[  u_h\in V_h: A(u_h,\phi) + S_h(u_h,\phi)=(F_h,\phi) \forall\phi\in V_h\]
-  
-\item Such stabilization
-  
+	\item Stabilized form: \[ u_{h}\in V_{h}: A\left(u_{h},\phi\right)+S_{h}\left(u_{h},\phi\right)=\left(F_{h},\phi\right)\forall\phi\in V_{h}. \]
+	\item Such stabilization.
 \end{itemize}
 
 \section{3.4 Streamline Upwind Petrov Galerkin (SUPG)}
 
 \begin{itemize}
-\item Add a diffusion term in direction of the streamline, i.e. $\beta$ \[ ((\beta\cdot\nabla)u_h , ) \]
+	\item Add a diffusion term in direction of the streamline, i.e. $\beta$ \[ \left(\left(\beta\cdot\nabla\right)u_{h},\right). \]
 \end{itemize}
 
 \section{SUPG for convection-diffusion problems}
 
 \begin{itemize}
-\item Idea: Add a consistent diffusion term in direction if the flow:
-  \begin{align*}
-    S_h(u_h,\phi)=\sum_{T\in T_h}
-  \end{align*}
+	\item Idea: Add a consistent diffusion term in direction if the flow:
+	\begin{align*}
+	S_{h}\left(u_{h},\phi\right)&=\sum_{T\in T_{h}}.
+	\end{align*}
 \end{itemize}
 
 \section{Coercivity of the SUPG stabilization form}
 
-For $P_1$ elements ($u_h$ cell-wise linear)
-\[ S_h(u_h,u_h)=\sum_{T\in T_h}\delta_T(\|(\beta\cdot\nabla)_{u_j}\|^2_T - \|\sigma u_h\|^2_T) \]
+For $P_{1}$ elements ($u_{h}$ cell-wise linear) \[ S_{h}\left(u_{h},u_{h}\right)=\sum_{T\in T_{h}}\delta_{T}\left({\|{\left(\beta\cdot\nabla\right)}_{u_j}\|}^{2}_{T}-{\|\sigma u_{h}\|}^{2}_{T}\right) \] with
 
-with
+\section{Optimal choice for $\delta_{t}$}
 
-\section{Optimal choice for $\delta_t$}
-
-Local Peclet number \[ Pe_T =\frac{h_T\|\beta\|_{L=T}}{\varepsilon}\]
+Local Peclet number \[ Pe_{T}=\frac{h_{T}{\|\beta\|}_{L=T}}{\varepsilon}. \]
 
 \section{A priori estimate for SUPG}
 
-\[ \|u\|^2_T = \sigma\|u\|^2+\varepsilon\|\nabla u\| ^2+\sum_{T\in T_h}\delta_T\|(\beta\cdot\nabla)\|\]
+\[ {\|u\|}^{2}_{T}=\sigma{\|u\|}^{2}+\varepsilon{\|\nabla u\|}^{2}+\sum_{T\in T_{h}}\delta_{T}\|\left(\beta\cdot\nabla\right)\|. \]
 
 \section{Proof}
 
 \begin{itemize}
-\item Aim: Bound the discretization error by a multiple of \[ H_h(u)=\sum_{T\in T_h}a_Th^\prime_T|u|_{H^{r+1}}(T) \]
-  
-\item Splitting the error in \textbf{interpolation error}
-  % Not depends of h value
-
-  \begin{align*}
-    2
-  \end{align*}
-
-
-  
-\item Individual bounds
-  
-\item e.g. for the Galerking terms arising in $A(\eta_h,\xi_h)$
-  
-\item With a priori bounds in $\|\eta_g\|$, $\|\nabla\\eta_h\|$
-  
-\item Rhe order term $|S_h|$
+	\item Aim: Bound the discretization error by a multiple of \[ H_{h}\left(u\right)=\sum_{T\in T_{h}}a_{T}h^{\prime}_{T}{\left|u\right|}_{H^{r+1}}\left(T\right). \]
+	\item Splitting the error in \textbf{interpolation error}.
+%TODO: Not depends of h value
+\begin{align*}
+2
+\end{align*}
+\item Individual bounds.
+\item e.g. for the Galerkin terms arising in $A\left(\eta_{h},\xi_{h}\right)$.
+\item With a priori bounds in $\|\eta_g\|$, $\|\nabla\eta_{h}\|$.
+\item The order term $\left|S_{h}\right|$.
 \end{itemize}
 
 \section{Effect of SUPG stabilization}
 
-
 \begin{itemize}
-\item Diffusion $\varepsilon = 0.01$, convection $\beta=(1,1)^T$
-  
-\item The SUPG formulation stabilizes much earlier
-  
-\item Over-and undershots still remain on coarse
+	\item Diffusion $\varepsilon=0.01$, convection $\beta={\left(1,1\right)}^{T}$.
+	\item The SUPG formulation stabilizes much earlier.
+	\item Over-and undershots still remain on coarse.
 \end{itemize}
 
 \section{Drawbacks of SPUG}
 
 \begin{enumerate}
-\item Troublemsome in the parabolic case (details belows
-  
-\item Computation of second derivatives necessary for $r\ge2$ and $Q_1$-elements on arbitrary quadrilateral (or herxahedral) elements.
-
-  
-\item 
+\item Troublemsome in the parabolic case (details belows).
+\item Computation of second derivatives necessary for $r\ge2$ and $Q_{1}$--elements on arbitrary quadrilateral (or hexahedral) elements.
+\item .
 \end{enumerate}
 
 \section{3.4.2 SUPG for parabolic problems}
 
 \begin{itemize}
-\item Time-dependent convection-diffusion system
-  \begin{align*}
-    \partial_tu+(\beta\cdot\nabla)u-\varepsilon\Delta u= f\quad\text{in }U
-  \end{align*}
+	\item Time-dependent convection-diffusion system.
+	\begin{align*}
+	\partial_{t}u+\left(\beta\cdot\nabla\right)u-\varepsilon\Delta u&=f\quad\text{in }U.
+	\end{align*}
 \end{itemize}
 
 \section{SUPG with and implicit Euler}
 
-With time step $\mathcal{T}=t_n-t_{n-1}$:
-
-\[(\tau^{-1}u_n,\phi)+((\beta\cdot\nabla)u,\phi)  \]
-
-\[ \sum_{T\in \mathcal{T}_h}\delta_T(\tau^{-1}u_n+(\beta\cdot\nabla)u+\cdots,(\beta\cdot\nabla)\phi)_T = (\tau^{-1}u_{n-1},\phi)+\cdots \]
-
+With time step $\mathcal{T}=t_{n}-t_{n-1}$: \[ \left(\tau^{-1}u_{n},\phi\right)+\left(\left(\beta\cdot\nabla\right)u,\phi\right).  \] \[ \sum_{T\in \mathcal{T}_{h}}\delta_{T}{\left(\tau^{-1}u_{n}+\left(\beta\cdot\nabla\right)u+\cdots,\left(\beta\cdot\nabla\right)\phi\right)}_{T}=\left(\tau^{-1}u_{n-1},\phi\right)+\cdots. \]
 \begin{itemize}
-\item 
+\item .
 \end{itemize}
 
 \section{SUPG for convection-diffusion problems}
 
 \begin{itemize}
-\item Idea: Add a consistent diffusion term in direction of the flow \[ S_h(u_h,\phi)\]
+	\item Idea: Add a consistent diffusion term in direction of the flow \[ S_{h}\left(u_{h},\phi\right). \]
 \end{itemize}
 
 \end{document}

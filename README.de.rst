@@ -14,7 +14,7 @@ Dies ist das Repository des Kurses über die *Finite-Elemente-Methode* an der Na
 Ein existierendes Repository klonen
 ###################################
 
-Seien Sie geduldig, der Download kann einige Minuten dauern (~0.9 GiB).
+Seien Sie geduldig, der Download kann einige Minuten dauern (~1.3 GiB).
 
 .. code-block:: bash
 
