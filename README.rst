@@ -6,6 +6,7 @@ This is the repository of the *Finite Element Method* course in National Agraria
 #. `Numerical analysis of finite elements (August, 2017) <https://github.com/carlosal1015/Finite-element-method-FEM/tree/master/2017>`_
 #. `Finite element theory and its implementation (December, 2018) <https://github.com/carlosal1015/Finite-element-method-FEM/tree/master/2018>`_
 #. `Spring School on the Introduction on Numerical Modelling of Differential Equations (October, 2019) <https://github.com/carlosal1015/Finite-element-method-FEM/tree/master/2019>`_
+#. `Introductory Autumn School on Scientific Computing (March, 2020) <https://github.com/carlosal1015/Finite-element-method-FEM/tree/master/2020>`_
 
 * `Link in Google Drive <https://goo.gl/9etAVP>`_
 * `CIMAC IX (photos and beamers) <https://t.me/s/cimacix>`_
@@ -20,4 +21,5 @@ Be patient, the download may take a few minutes (~1.3 GiB) in net size.
 .. code-block:: bash
 
     $ git clone https://github.com/carlosal1015/Finite-element-method-FEM.git
+    $ cd Finite-element-method-FEM
     $ git submodule update --init --recursive
