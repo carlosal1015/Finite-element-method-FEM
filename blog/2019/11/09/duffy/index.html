@@ -1,0 +1,2643 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.css" integrity="sha384-bsHo4/LA+lkZv61JspMDQB9QP1TtO4IgOf2yYS+J6VdAYLVyx1c3XKcsHh0Vy8Ws" crossorigin="anonymous">
+        <meta name="author" content="Duffy" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="numeric, fdm, c++, " />
+
+<meta property="og:title" content="Duffy 3 "/>
+<meta property="og:url" content="https://carlosal1015.github.io/Finite-element-method-FEM/blog/2019/11/09/duffy/" />
+<meta property="og:description" content="C++ Fundamentals and My First Option Class¶ Introduction and objectives¶In this chapter we design and implement our first real working C++ code. Our goal is to model a European option by a C++ class. We know that a class has a member data and member functions in general and in this case we model the following option attributes:" />
+<meta property="og:site_name" content="Finite element method" />
+<meta property="og:article:author" content="Duffy" />
+<meta property="og:article:published_time" content="2019-11-09T12:00:00-05:00" />
+<meta property="og:article:modified_time" content="2019-11-24T22:12:00-05:00" />
+<meta name="twitter:title" content="Duffy 3 ">
+<meta name="twitter:description" content="C++ Fundamentals and My First Option Class¶ Introduction and objectives¶In this chapter we design and implement our first real working C++ code. Our goal is to model a European option by a C++ class. We know that a class has a member data and member functions in general and in this case we model the following option attributes:">
+
+        <title>Duffy 3  · Finite element method
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="https://carlosal1015.github.io/Finite-element-method-FEM/theme/css/pygments.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://carlosal1015.github.io/Finite-element-method-FEM/theme/tipuesearch/tipuesearch.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://carlosal1015.github.io/Finite-element-method-FEM/theme/css/elegant.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://carlosal1015.github.io/Finite-element-method-FEM/theme/css/admonition.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://carlosal1015.github.io/Finite-element-method-FEM/theme/css/custom.css" media="screen">
+
+        <link href="https://carlosal1015.github.io/Finite-element-method-FEM/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Finite element method - Full Atom Feed" />
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://carlosal1015.github.io/Finite-element-method-FEM/"><span class=site-name>Finite element method</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://carlosal1015.github.io/Finite-element-method-FEM
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://carlosal1015.github.io/Finite-element-method-FEM/categories">Categories</a></li>
+                                <li ><a href="https://carlosal1015.github.io/Finite-element-method-FEM/tags">Tags</a></li>
+                                <li ><a href="https://carlosal1015.github.io/Finite-element-method-FEM/archives">Archives</a></li>
+                                <li><form class="navbar-search" action="https://carlosal1015.github.io/Finite-element-method-FEM/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+    <h1><a href="https://carlosal1015.github.io/Finite-element-method-FEM/blog/2019/11/09/duffy/"> Duffy 3  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            <p id="list-of-translations">
+This post is also available in:
+    <a href="https://carlosal1015.github.io/Finite-element-method-FEM/blog/2019/11/08/duffy/">en</a>,     <a href="https://carlosal1015.github.io/Finite-element-method-FEM/blog/2019/11/12/duffy/">en</a> and    <a href="https://carlosal1015.github.io/Finite-element-method-FEM/blog/2019/10/09/duffy/">en</a></p>
+
+            <style type="text/css">/*!
+*
+* IPython notebook
+*
+*/
+/* CSS font colors for translated ANSI escape sequences */
+/* The color values are a mix of
+   http://www.xcolors.net/dl/baskerville-ivorylight and
+   http://www.xcolors.net/dl/euphrasia */
+.ansi-black-fg {
+  color: #3E424D;
+}
+.ansi-black-bg {
+  background-color: #3E424D;
+}
+.ansi-black-intense-fg {
+  color: #282C36;
+}
+.ansi-black-intense-bg {
+  background-color: #282C36;
+}
+.ansi-red-fg {
+  color: #E75C58;
+}
+.ansi-red-bg {
+  background-color: #E75C58;
+}
+.ansi-red-intense-fg {
+  color: #B22B31;
+}
+.ansi-red-intense-bg {
+  background-color: #B22B31;
+}
+.ansi-green-fg {
+  color: #00A250;
+}
+.ansi-green-bg {
+  background-color: #00A250;
+}
+.ansi-green-intense-fg {
+  color: #007427;
+}
+.ansi-green-intense-bg {
+  background-color: #007427;
+}
+.ansi-yellow-fg {
+  color: #DDB62B;
+}
+.ansi-yellow-bg {
+  background-color: #DDB62B;
+}
+.ansi-yellow-intense-fg {
+  color: #B27D12;
+}
+.ansi-yellow-intense-bg {
+  background-color: #B27D12;
+}
+.ansi-blue-fg {
+  color: #208FFB;
+}
+.ansi-blue-bg {
+  background-color: #208FFB;
+}
+.ansi-blue-intense-fg {
+  color: #0065CA;
+}
+.ansi-blue-intense-bg {
+  background-color: #0065CA;
+}
+.ansi-magenta-fg {
+  color: #D160C4;
+}
+.ansi-magenta-bg {
+  background-color: #D160C4;
+}
+.ansi-magenta-intense-fg {
+  color: #A03196;
+}
+.ansi-magenta-intense-bg {
+  background-color: #A03196;
+}
+.ansi-cyan-fg {
+  color: #60C6C8;
+}
+.ansi-cyan-bg {
+  background-color: #60C6C8;
+}
+.ansi-cyan-intense-fg {
+  color: #258F8F;
+}
+.ansi-cyan-intense-bg {
+  background-color: #258F8F;
+}
+.ansi-white-fg {
+  color: #C5C1B4;
+}
+.ansi-white-bg {
+  background-color: #C5C1B4;
+}
+.ansi-white-intense-fg {
+  color: #A1A6B2;
+}
+.ansi-white-intense-bg {
+  background-color: #A1A6B2;
+}
+.ansi-default-inverse-fg {
+  color: #FFFFFF;
+}
+.ansi-default-inverse-bg {
+  background-color: #000000;
+}
+.ansi-bold {
+  font-weight: bold;
+}
+.ansi-underline {
+  text-decoration: underline;
+}
+/* The following styles are deprecated an will be removed in a future version */
+.ansibold {
+  font-weight: bold;
+}
+.ansi-inverse {
+  outline: 0.5px dotted;
+}
+/* use dark versions for foreground, to improve visibility */
+.ansiblack {
+  color: black;
+}
+.ansired {
+  color: darkred;
+}
+.ansigreen {
+  color: darkgreen;
+}
+.ansiyellow {
+  color: #c4a000;
+}
+.ansiblue {
+  color: darkblue;
+}
+.ansipurple {
+  color: darkviolet;
+}
+.ansicyan {
+  color: steelblue;
+}
+.ansigray {
+  color: gray;
+}
+/* and light for background, for the same reason */
+.ansibgblack {
+  background-color: black;
+}
+.ansibgred {
+  background-color: red;
+}
+.ansibggreen {
+  background-color: green;
+}
+.ansibgyellow {
+  background-color: yellow;
+}
+.ansibgblue {
+  background-color: blue;
+}
+.ansibgpurple {
+  background-color: magenta;
+}
+.ansibgcyan {
+  background-color: cyan;
+}
+.ansibggray {
+  background-color: gray;
+}
+div.cell {
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border-radius: 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent;
+  width: 100%;
+  padding: 5px;
+  /* This acts as a spacer between cells, that is outside the border */
+  margin: 0px;
+  outline: none;
+  position: relative;
+  overflow: visible;
+}
+div.cell:before {
+  position: absolute;
+  display: block;
+  top: -1px;
+  left: -1px;
+  width: 5px;
+  height: calc(100% +  2px);
+  content: '';
+  background: transparent;
+}
+div.cell.jupyter-soft-selected {
+  border-left-color: #E3F2FD;
+  border-left-width: 1px;
+  padding-left: 5px;
+  border-right-color: #E3F2FD;
+  border-right-width: 1px;
+  background: #E3F2FD;
+}
+@media print {
+  div.cell.jupyter-soft-selected {
+    border-color: transparent;
+  }
+}
+div.cell.selected,
+div.cell.selected.jupyter-soft-selected {
+  border-color: #ababab;
+}
+div.cell.selected:before,
+div.cell.selected.jupyter-soft-selected:before {
+  position: absolute;
+  display: block;
+  top: -1px;
+  left: -1px;
+  width: 5px;
+  height: calc(100% +  2px);
+  content: '';
+  background: #42A5F5;
+}
+@media print {
+  div.cell.selected,
+  div.cell.selected.jupyter-soft-selected {
+    border-color: transparent;
+  }
+}
+.edit_mode div.cell.selected {
+  border-color: #66BB6A;
+}
+.edit_mode div.cell.selected:before {
+  position: absolute;
+  display: block;
+  top: -1px;
+  left: -1px;
+  width: 5px;
+  height: calc(100% +  2px);
+  content: '';
+  background: #66BB6A;
+}
+@media print {
+  .edit_mode div.cell.selected {
+    border-color: transparent;
+  }
+}
+.prompt {
+  /* This needs to be wide enough for 3 digit prompt numbers: In[100]: */
+  min-width: 14ex;
+  /* This padding is tuned to match the padding on the CodeMirror editor. */
+  padding: 0.4em;
+  margin: 0px;
+  font-family: monospace;
+  text-align: right;
+  /* This has to match that of the the CodeMirror class line-height below */
+  line-height: 1.21429em;
+  /* Don't highlight prompt number selection */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* Use default cursor */
+  cursor: default;
+}
+@media (max-width: 540px) {
+  .prompt {
+    text-align: left;
+  }
+}
+div.inner_cell {
+  min-width: 0;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  /* Old browsers */
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  /* Modern browsers */
+  flex: 1;
+}
+/* input_area and input_prompt must match in top border and margin for alignment */
+div.input_area {
+  border: 1px solid #cfcfcf;
+  border-radius: 2px;
+  background: #f7f7f7;
+  line-height: 1.21429em;
+}
+/* This is needed so that empty prompt areas can collapse to zero height when there
+   is no content in the output_subarea and the prompt. The main purpose of this is
+   to make sure that empty JavaScript output_subareas have no height. */
+div.prompt:empty {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+div.unrecognized_cell {
+  padding: 5px 5px 5px 0px;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+div.unrecognized_cell .inner_cell {
+  border-radius: 2px;
+  padding: 5px;
+  font-weight: bold;
+  color: red;
+  border: 1px solid #cfcfcf;
+  background: #eaeaea;
+}
+div.unrecognized_cell .inner_cell a {
+  color: inherit;
+  text-decoration: none;
+}
+div.unrecognized_cell .inner_cell a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+@media (max-width: 540px) {
+  div.unrecognized_cell > div.prompt {
+    display: none;
+  }
+}
+div.code_cell {
+  /* avoid page breaking on code cells when printing */
+}
+@media print {
+  div.code_cell {
+    page-break-inside: avoid;
+  }
+}
+/* any special styling for code cells that are currently running goes here */
+div.input {
+  page-break-inside: avoid;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+@media (max-width: 540px) {
+  div.input {
+    /* Old browsers */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-box-align: stretch;
+    display: -moz-box;
+    -moz-box-orient: vertical;
+    -moz-box-align: stretch;
+    display: box;
+    box-orient: vertical;
+    box-align: stretch;
+    /* Modern browsers */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+/* input_area and input_prompt must match in top border and margin for alignment */
+div.input_prompt {
+  color: #303F9F;
+  border-top: 1px solid transparent;
+}
+div.input_area > div.highlight {
+  margin: 0.4em;
+  border: none;
+  padding: 0px;
+  background-color: transparent;
+}
+div.input_area > div.highlight > pre {
+  margin: 0px;
+  border: none;
+  padding: 0px;
+  background-color: transparent;
+}
+/* The following gets added to the <head> if it is detected that the user has a
+ * monospace font with inconsistent normal/bold/italic height.  See
+ * notebookmain.js.  Such fonts will have keywords vertically offset with
+ * respect to the rest of the text.  The user should select a better font.
+ * See: https://github.com/ipython/ipython/issues/1503
+ *
+ * .CodeMirror span {
+ *      vertical-align: bottom;
+ * }
+ */
+.CodeMirror {
+  line-height: 1.21429em;
+  /* Changed from 1em to our global default */
+  font-size: 14px;
+  height: auto;
+  /* Changed to auto to autogrow */
+  background: none;
+  /* Changed from white to allow our bg to show through */
+}
+.CodeMirror-scroll {
+  /*  The CodeMirror docs are a bit fuzzy on if overflow-y should be hidden or visible.*/
+  /*  We have found that if it is visible, vertical scrollbars appear with font size changes.*/
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+.CodeMirror-lines {
+  /* In CM2, this used to be 0.4em, but in CM3 it went to 4px. We need the em value because */
+  /* we have set a different line-height and want this to scale with that. */
+  /* Note that this should set vertical padding only, since CodeMirror assumes
+       that horizontal padding will be set on CodeMirror pre */
+  padding: 0.4em 0;
+}
+.CodeMirror-linenumber {
+  padding: 0 8px 0 4px;
+}
+.CodeMirror-gutters {
+  border-bottom-left-radius: 2px;
+  border-top-left-radius: 2px;
+}
+.CodeMirror pre {
+  /* In CM3 this went to 4px from 0 in CM2. This sets horizontal padding only,
+    use .CodeMirror-lines for vertical */
+  padding: 0 0.4em;
+  border: 0;
+  border-radius: 0;
+}
+.CodeMirror-cursor {
+  border-left: 1.4px solid black;
+}
+@media screen and (min-width: 2138px) and (max-width: 4319px) {
+  .CodeMirror-cursor {
+    border-left: 2px solid black;
+  }
+}
+@media screen and (min-width: 4320px) {
+  .CodeMirror-cursor {
+    border-left: 4px solid black;
+  }
+}
+/*
+
+Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>
+Adapted from GitHub theme
+
+*/
+.highlight-base {
+  color: #000;
+}
+.highlight-variable {
+  color: #000;
+}
+.highlight-variable-2 {
+  color: #1a1a1a;
+}
+.highlight-variable-3 {
+  color: #333333;
+}
+.highlight-string {
+  color: #BA2121;
+}
+.highlight-comment {
+  color: #408080;
+  font-style: italic;
+}
+.highlight-number {
+  color: #080;
+}
+.highlight-atom {
+  color: #88F;
+}
+.highlight-keyword {
+  color: #008000;
+  font-weight: bold;
+}
+.highlight-builtin {
+  color: #008000;
+}
+.highlight-error {
+  color: #f00;
+}
+.highlight-operator {
+  color: #AA22FF;
+  font-weight: bold;
+}
+.highlight-meta {
+  color: #AA22FF;
+}
+/* previously not defined, copying from default codemirror */
+.highlight-def {
+  color: #00f;
+}
+.highlight-string-2 {
+  color: #f50;
+}
+.highlight-qualifier {
+  color: #555;
+}
+.highlight-bracket {
+  color: #997;
+}
+.highlight-tag {
+  color: #170;
+}
+.highlight-attribute {
+  color: #00c;
+}
+.highlight-header {
+  color: blue;
+}
+.highlight-quote {
+  color: #090;
+}
+.highlight-link {
+  color: #00c;
+}
+/* apply the same style to codemirror */
+.cm-s-ipython span.cm-keyword {
+  color: #008000;
+  font-weight: bold;
+}
+.cm-s-ipython span.cm-atom {
+  color: #88F;
+}
+.cm-s-ipython span.cm-number {
+  color: #080;
+}
+.cm-s-ipython span.cm-def {
+  color: #00f;
+}
+.cm-s-ipython span.cm-variable {
+  color: #000;
+}
+.cm-s-ipython span.cm-operator {
+  color: #AA22FF;
+  font-weight: bold;
+}
+.cm-s-ipython span.cm-variable-2 {
+  color: #1a1a1a;
+}
+.cm-s-ipython span.cm-variable-3 {
+  color: #333333;
+}
+.cm-s-ipython span.cm-comment {
+  color: #408080;
+  font-style: italic;
+}
+.cm-s-ipython span.cm-string {
+  color: #BA2121;
+}
+.cm-s-ipython span.cm-string-2 {
+  color: #f50;
+}
+.cm-s-ipython span.cm-meta {
+  color: #AA22FF;
+}
+.cm-s-ipython span.cm-qualifier {
+  color: #555;
+}
+.cm-s-ipython span.cm-builtin {
+  color: #008000;
+}
+.cm-s-ipython span.cm-bracket {
+  color: #997;
+}
+.cm-s-ipython span.cm-tag {
+  color: #170;
+}
+.cm-s-ipython span.cm-attribute {
+  color: #00c;
+}
+.cm-s-ipython span.cm-header {
+  color: blue;
+}
+.cm-s-ipython span.cm-quote {
+  color: #090;
+}
+.cm-s-ipython span.cm-link {
+  color: #00c;
+}
+.cm-s-ipython span.cm-error {
+  color: #f00;
+}
+.cm-s-ipython span.cm-tab {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAAAXNSR0IArs4c6QAAAGFJREFUSMft1LsRQFAQheHPowAKoACx3IgEKtaEHujDjORSgWTH/ZOdnZOcM/sgk/kFFWY0qV8foQwS4MKBCS3qR6ixBJvElOobYAtivseIE120FaowJPN75GMu8j/LfMwNjh4HUpwg4LUAAAAASUVORK5CYII=);
+  background-position: right;
+  background-repeat: no-repeat;
+}
+div.output_wrapper {
+  /* this position must be relative to enable descendents to be absolute within it */
+  position: relative;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  z-index: 1;
+}
+/* class for the output area when it should be height-limited */
+div.output_scroll {
+  /* ideally, this would be max-height, but FF barfs all over that */
+  height: 24em;
+  /* FF needs this *and the wrapper* to specify full width, or it will shrinkwrap */
+  width: 100%;
+  overflow: auto;
+  border-radius: 2px;
+  -webkit-box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
+  display: block;
+}
+/* output div while it is collapsed */
+div.output_collapsed {
+  margin: 0px;
+  padding: 0px;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+div.out_prompt_overlay {
+  height: 100%;
+  padding: 0px 0.4em;
+  position: absolute;
+  border-radius: 2px;
+}
+div.out_prompt_overlay:hover {
+  /* use inner shadow to get border that is computed the same on WebKit/FF */
+  -webkit-box-shadow: inset 0 0 1px #000;
+  box-shadow: inset 0 0 1px #000;
+  background: rgba(240, 240, 240, 0.5);
+}
+div.output_prompt {
+  color: #D84315;
+}
+/* This class is the outer container of all output sections. */
+div.output_area {
+  padding: 0px;
+  page-break-inside: avoid;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+div.output_area .MathJax_Display {
+  text-align: left !important;
+}
+div.output_area 
+div.output_area 
+div.output_area img,
+div.output_area svg {
+  max-width: 100%;
+  height: auto;
+}
+div.output_area img.unconfined,
+div.output_area svg.unconfined {
+  max-width: none;
+}
+div.output_area .mglyph > img {
+  max-width: none;
+}
+/* This is needed to protect the pre formating from global settings such
+   as that of bootstrap */
+.output {
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+@media (max-width: 540px) {
+  div.output_area {
+    /* Old browsers */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-box-align: stretch;
+    display: -moz-box;
+    -moz-box-orient: vertical;
+    -moz-box-align: stretch;
+    display: box;
+    box-orient: vertical;
+    box-align: stretch;
+    /* Modern browsers */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+div.output_area pre {
+  margin: 0;
+  padding: 1px 0 1px 0;
+  border: 0;
+  vertical-align: baseline;
+  color: black;
+  background-color: transparent;
+  border-radius: 0;
+}
+/* This class is for the output subarea inside the output_area and after
+   the prompt div. */
+div.output_subarea {
+  overflow-x: auto;
+  padding: 0.4em;
+  /* Old browsers */
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  /* Modern browsers */
+  flex: 1;
+  max-width: calc(100% - 14ex);
+}
+div.output_scroll div.output_subarea {
+  overflow-x: visible;
+}
+/* The rest of the output_* classes are for special styling of the different
+   output types */
+/* all text output has this class: */
+div.output_text {
+  text-align: left;
+  color: #000;
+  /* This has to match that of the the CodeMirror class line-height below */
+  line-height: 1.21429em;
+}
+/* stdout/stderr are 'text' as well as 'stream', but execute_result/error are *not* streams */
+div.output_stderr {
+  background: #fdd;
+  /* very light red background for stderr */
+}
+div.output_latex {
+  text-align: left;
+}
+/* Empty output_javascript divs should have no height */
+div.output_javascript:empty {
+  padding: 0;
+}
+.js-error {
+  color: darkred;
+}
+/* raw_input styles */
+div.raw_input_container {
+  line-height: 1.21429em;
+  padding-top: 5px;
+}
+pre.raw_input_prompt {
+  /* nothing needed here. */
+}
+input.raw_input {
+  font-family: monospace;
+  font-size: inherit;
+  color: inherit;
+  width: auto;
+  /* make sure input baseline aligns with prompt */
+  vertical-align: baseline;
+  /* padding + margin = 0.5em between prompt and cursor */
+  padding: 0em 0.25em;
+  margin: 0em 0.25em;
+}
+input.raw_input:focus {
+  box-shadow: none;
+}
+p.p-space {
+  margin-bottom: 10px;
+}
+div.output_unrecognized {
+  padding: 5px;
+  font-weight: bold;
+  color: red;
+}
+div.output_unrecognized a {
+  color: inherit;
+  text-decoration: none;
+}
+div.output_unrecognized a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+.rendered_html {
+  color: #000;
+  /* any extras will just be numbers: */
+}
+
+
+
+.rendered_html :link {
+  text-decoration: underline;
+}
+.rendered_html :visited {
+  text-decoration: underline;
+}
+
+
+
+
+
+
+.rendered_html h1:first-child {
+  margin-top: 0.538em;
+}
+.rendered_html h2:first-child {
+  margin-top: 0.636em;
+}
+.rendered_html h3:first-child {
+  margin-top: 0.777em;
+}
+.rendered_html h4:first-child {
+  margin-top: 1em;
+}
+.rendered_html h5:first-child {
+  margin-top: 1em;
+}
+.rendered_html h6:first-child {
+  margin-top: 1em;
+}
+.rendered_html ul:not(.list-inline),
+.rendered_html ol:not(.list-inline) {
+  padding-left: 2em;
+}
+
+
+
+
+
+
+
+
+.rendered_html * + ul {
+  margin-top: 1em;
+}
+.rendered_html * + ol {
+  margin-top: 1em;
+}
+
+
+
+
+
+.rendered_html pre,
+
+
+
+
+.rendered_html tr,
+.rendered_html th,
+
+
+.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+.rendered_html * + table {
+  margin-top: 1em;
+}
+
+.rendered_html * + p {
+  margin-top: 1em;
+}
+
+.rendered_html * + img {
+  margin-top: 1em;
+}
+.rendered_html img,
+
+.rendered_html img.unconfined,
+
+
+.rendered_html * + .alert {
+  margin-top: 1em;
+}
+[dir="rtl"] 
+div.text_cell {
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+@media (max-width: 540px) {
+  div.text_cell > div.prompt {
+    display: none;
+  }
+}
+div.text_cell_render {
+  /*font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;*/
+  outline: none;
+  resize: none;
+  width: inherit;
+  border-style: none;
+  padding: 0.5em 0.5em 0.5em 0.4em;
+  color: #000;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+a.anchor-link:link {
+  text-decoration: none;
+  padding: 0px 20px;
+  visibility: hidden;
+}
+h1:hover .anchor-link,
+h2:hover .anchor-link,
+h3:hover .anchor-link,
+h4:hover .anchor-link,
+h5:hover .anchor-link,
+h6:hover .anchor-link {
+  visibility: visible;
+}
+.text_cell.rendered .input_area {
+  display: none;
+}
+.text_cell.rendered 
+.text_cell.rendered .rendered_html tr,
+.text_cell.rendered .rendered_html th,
+.text_cell.rendered 
+.text_cell.unrendered .text_cell_render {
+  display: none;
+}
+.text_cell .dropzone .input_area {
+  border: 2px dashed #bababa;
+  margin: -1px;
+}
+.cm-header-1,
+.cm-header-2,
+.cm-header-3,
+.cm-header-4,
+.cm-header-5,
+.cm-header-6 {
+  font-weight: bold;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.cm-header-1 {
+  font-size: 185.7%;
+}
+.cm-header-2 {
+  font-size: 157.1%;
+}
+.cm-header-3 {
+  font-size: 128.6%;
+}
+.cm-header-4 {
+  font-size: 110%;
+}
+.cm-header-5 {
+  font-size: 100%;
+  font-style: italic;
+}
+.cm-header-6 {
+  font-size: 100%;
+  font-style: italic;
+}
+</style>
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mb { color: #666666 } /* Literal.Number.Bin */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sa { color: #BA2121 } /* Literal.String.Affix */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .dl { color: #BA2121 } /* Literal.String.Delimiter */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #0000FF } /* Name.Function.Magic */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .vm { color: #19177C } /* Name.Variable.Magic */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style><body><div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="C++-Fundamentals-and-My-First-Option-Class">C++ Fundamentals and My First Option Class<a class="anchor-link" href="#C++-Fundamentals-and-My-First-Option-Class">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Introduction-and-objectives">Introduction and objectives<a class="anchor-link" href="#Introduction-and-objectives">&#182;</a></h2><p>In this chapter we design and implement our first real working C++ code. Our goal is to model  a European option by a C++ class. We know that a class has a member data and member functions in general and in this case we model the following option attributes:</p>
+<ul>
+<li>Strike price</li>
+<li>Volatility</li>
+<li>Risk-free interest rate</li>
+<li>Expiry date
+as member data. Furthermore, we are interested in designing call and put options as well as modelling some of their interesting properties, namely option price and option sensitivities, for example:</li>
+<li>Option delta</li>
+<li>Option gamma</li>
+<li>Other option sensitivities (for more options, see Haug, 1998)
+We set up basic infraestructure by implementing the software in two files. First, we define the <code>EuropeanOption</code> class in a so-called <em>header file</em>. This means that we declare the option's member data and member functions in this file. It can be seen as a specification of the class. Second, we implement the functions that were declared in the header file and this is done in a so-called <em>code file</em>. Together, these two files describe the class. It is possible to use just one file but we prefer using two files because the code is easier to maintain in this case.</li>
+</ul>
+<p>We take a well-known example, in this case a European Option. We implement it in C++ and in this way the reader will become familiar with C++ syntax and the object-oriented way of thinking as soon as possible. In later chapters we shall add more functionality to this class. This is the best way to learn, namely step-by-step.</p>
+<p>The following topics will be discussed in this chapter:</p>
+<ul>
+<li>Creating my first C++ class: separating class design issues from class implementation.</li>
+<li>Member data and member functions in C++; the different categories of member functions.</li>
+<li>Determining accessibility levels in a class.</li>
+<li>Using the <code>EuropeanOption</code> class in test programs and applications.</li>
+</ul>
+<p>After having studied this chapter you will have gained a good understanding of a basic C++ class. Having understood the topics in this chapter we then proceed to more advanced functionality in chapter four. In particular, we discuss a number of C++ features in more detail.</p>
+<p>The C++ class that we introduce in this chapter implements the closed form solution for the Black-Scholes equation and it will be used in later chapters to test the accuracy of approximate methods such as the binomial method and finite difference schemes.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Class-==-member-data-+-member-functions">Class <code>==</code> member data <code>+</code> member functions<a class="anchor-link" href="#Class-==-member-data-+-member-functions">&#182;</a></h2><p>In general, programming any class involves -- <em>grosso modo</em> -- determining its member functions and member data. We are working in Financial Engineering and in order to reduce the scope here we examine European options.</p>
+<p>C++ is an example of a <em>class-based object-oriented language</em>. A class is a description of a group of related attributes and operations. In C++ we use the synonyms <em>member data</em> for attributes and member functions*<em> for operations. The member data and member functions are closely related. This feature is called </em>encapsulation*. In short, the class's functions know which attributes to use. Let us take an example of a class implementing European options for stocks. The defining parameters for the European option will be designed in C++ as the following member data:</p>
+<ul>
+<li>The risk-free interest rate: $r$.</li>
+<li>The volatility of the relative price change: $\sigma$.</li>
+<li>The strike price: $K$.</li>
+<li>The time to expiration (in years): $T$.</li>
+<li>The stock price: $S$ (or $U$ depending on the underlying).</li>
+<li>The cost-of-carry: $b$.
+The cost-of-carry for the Black-Scholes model has the same value as $r$ but will have different values depending on the type of underlying asset (for example, $b=0$ for a future option), see Haug, 1998). We must define the data types of the member data. In this case we usually design them as <code>double</code> precision number although C++ allows us to design classes with so-called <em>generic data types</em>. This means that the member data can be customized with different <em>specific data types</em> depending on the current requirements. Having defined the member data we now must decide what to do with the data. To this end, we introduce the concept of <em>object</em> (or <em>instance</em> of a class). A class is abstract in the sense that is member data have not been instantiated (or <em>instance</em> of a class). A class is abstract in the sense that is member data have not been instantiated (they are just abstract descriptions of data) while an object is tangible and all its member data have been initialised. For example, the following assignments describe a European option on an index (Haug, 1998, p. 15):</li>
+<li>Underlying value (stock price index) $U=500$.</li>
+<li>Volatility $\sigma = 0.15$.</li>
+<li>Strike Price $K=490$.</li>
+<li>Time to expiry $T=0.25$ ($3$ months).</li>
+<li>Risk-free interest rate $r=0.08$.</li>
+<li>Cost-of-carry $b=0.03$.
+Having discussed member data we now describe the functionality of classes and objects. In general, a class has member functions that model the lifecycle of an object. The main categories in general are:</li>
+<li>Member functions (<em>constructors</em>) for creation of objetcs.</li>
+<li>Member functions that modify the member data (<em>modifiers</em>).</li>
+<li>Member functions that perform calculations on the member data (<em>selectors</em>).</li>
+<li>A member function (<em>destructor</em>) that deletes an object when no longer needed.
+There are various ways to create an object using constructors. For example, it is possible to create an instance of a European option class by initialising its member data. Two other constructors deserve mention: first, the <em>default constructor</em> creates an object with default member data while the <em>copy constructor</em> creates an object as a deep copy of some other object. The destructor is the other extreme; it removes the object from memory when the object is no longer needed. We note that the names of constructors and of the destructor are the same as the name of their corresponding class.</li>
+</ul>
+<p>We now discuss the member functions that operate on an object after it has been constructed and before it is destructed. Again, we concentrate on the class for European options.</p>
+<p>C++ is based on the <em>message-passing paradigm</em>. This means that client code sends a message to an object by calling its member functions. For example, here is a piece of code that calculates the price of the index put option that we introduced earlier (we assume that the member data have been initialised):</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="The-header-file-(function-prototypes)">The header file (function prototypes)<a class="anchor-link" href="#The-header-file-(function-prototypes)">&#182;</a></h2><p>In general, the code that is needed for a complete description of a class in C++ is contained in two files: first, the header file (this section) and this contains the formal descriptions of the member data and member functions in the class. Second, the code file contains the body of each declared member function. In other words, each member function declaration in the header file must have a corresponding entry in the code file.</p>
+<p>We now discuss the details of the header file. First, there are two regions or parts called <em>private</em> and <em>public</em>, respectively. Both parts may contain member data and member functions. Members that are declared in the private part are not accessible from outside the class and may only be accessed by members in the class itself while public members may be accessed by any C++ code. In general, all data should be declared in the private part because this tends to change; however, in this chapter we place the data that represents the structure of an option in the public area. This is for convenience only.</p>
+<p>The public member functions in the options class can be categorised as follows (see the code below):</p>
+<ul>
+<li>Constructors: the different ways of creating instances of option class.</li>
+<li>Destructors: deleting an object when it is no longer needed (automatically taken care of by the runtime system).</li>
+<li>Assignment operator: the ability to assign one object to another object (this is a 'deepy' copy).</li>
+<li>'Core business' functions: these are the functions that calculate the price and the delta for the option, for example.</li>
+<li>Other functions: for example, it is possible to switch a call option to a put option (and viceversa). Of course, the price and delta will be different!</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="o">!</span><span class="n">cat</span> <span class="n">EuropeanOption</span><span class="p">.</span><span class="n">hpp</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>// EuropeanOption2.hpp
+//
+// Class that represents  solutions to European options. This is
+// an implementation using basic C++ syntax only. It has been 
+// written for pedagogical reasons
+//
+// (C) Datasim Component Technology BV 2003-2006
+//
+
+#ifndef EuropeanOption_hpp
+#define EuropeanOption_hpp
+
+#include &lt;cmath&gt;
+#include &lt;string&gt;
+
+class EuropeanOption
+{
+public:				// For TEST purposes only
+
+	void init();	// Initialise all default values
+	void copy(const EuropeanOption&amp; o2);
+
+	// &#39;Kernel&#39; functions for option calculations
+	double CallPrice() const;
+	double PutPrice() const;
+	double CallDelta() const;
+	double PutDelta() const;
+	double CallGamma() const;
+	double PutGamma() const;
+	double CallVega() const;
+	double PutVega() const;
+	
+	// Gaussian functions
+	double n(double x) const;
+	double N(double x) const;
+
+
+	double r;		// Interest rate
+	double sig;	// Volatility
+	double K;		// Strike price
+	double T;		// Expiry date
+	double U;		// Current underlying price (e.g. stock, forward)
+	double b;		// Cost of carry
+
+	std::string optType;	// Option name (call, put)
+	std::string unam;	// Name of underlying asset
+
+
+public:	// Public functions
+	EuropeanOption();							// Default call option
+	EuropeanOption(const EuropeanOption&amp; option2);	// Copy constructor
+	EuropeanOption (const std::string&amp; optionType);	// Create option type
+	virtual ~EuropeanOption();	
+
+	EuropeanOption&amp; operator = (const EuropeanOption&amp; option2);
+
+	// Functions that calculate option price and sensitivities
+	double Price() const;
+	double Delta() const;
+
+	// Modifier functions
+	void toggle();		// Change option type (C/P, P/C)
+
+
+};
+
+#endif</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="The-class-body-(code-file)">The class body (code file)<a class="anchor-link" href="#The-class-body-(code-file)">&#182;</a></h2><p>Having discussed the function prototypes for the option class, we need to describe how to fill in the body of the code for these functions. To this end, there are two major issues to be addresed. First, we must include the header file and other headers of libraries that are needed by the code. In this case, this leads to:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;EuropeanOption.hpp&quot; //Declarations of functions</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;cmath&gt; // For mathematical functions, e.g. exp()</span><span class="cp"></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="kt">double</span> <span class="n">EuropeanOption</span><span class="o">::</span><span class="n">PutPrice</span><span class="p">()</span> <span class="k">const</span>
+<span class="p">{</span>
+    <span class="kt">double</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">sig</span> <span class="o">*</span> <span class="n">std</span><span class="o">::</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">);</span>
+    
+    <span class="kt">double</span> <span class="n">d1</span> <span class="o">=</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">log</span><span class="p">(</span><span class="n">U</span><span class="o">/</span><span class="n">K</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">b</span> <span class="o">+</span> <span class="p">(</span><span class="n">sig</span><span class="o">*</span><span class="n">sig</span><span class="p">)</span><span class="o">*</span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="n">T</span><span class="p">)</span><span class="o">/</span><span class="n">tmp</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">d2</span> <span class="o">=</span> <span class="n">d1</span> <span class="o">-</span> <span class="n">tmp</span><span class="p">;</span>
+    
+    <span class="k">return</span> <span class="p">(</span><span class="n">K</span> <span class="o">*</span> <span class="n">std</span><span class="o">::</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">r</span><span class="o">*</span><span class="n">T</span><span class="p">)</span><span class="o">*</span> <span class="n">N</span><span class="p">(</span><span class="o">-</span><span class="n">d2</span><span class="p">))</span> <span class="o">-</span> <span class="p">(</span><span class="n">U</span><span class="o">*</span><span class="n">std</span><span class="o">::</span><span class="n">exp</span><span class="p">((</span><span class="n">b</span> <span class="o">-</span> <span class="n">r</span><span class="p">)</span><span class="o">*</span><span class="n">T</span><span class="p">)</span><span class="o">*</span> <span class="n">N</span><span class="p">(</span><span class="o">-</span><span class="n">d1</span><span class="p">));</span>
+        
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="o">!</span><span class="n">cat</span> <span class="n">EuropeanOption</span><span class="p">.</span><span class="n">cpp</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>// EurpeanOption.cpp
+//
+//	Author: Daniel Duffy
+//
+// (C) Datasim Component Technology BV 2003
+//
+
+#ifndef EuropeanOption_cpp
+#define EuropeanOption_cpp
+
+
+#include &#34;EuropeanOption.hpp&#34;
+
+//////////// Gaussian functions /////////////////////////////////
+
+double EuropeanOption::n(double x) const
+{ 
+
+	double A = 1.0/std::sqrt(2.0 * 3.1415);
+	return A * std::exp(-x*x*0.5);
+
+}
+
+double EuropeanOption::N(double x) const
+{ // The approximation to the cumulative normal distribution
+
+
+	double a1 = 0.4361836;
+	double a2 = -0.1201676;
+	double a3 = 0.9372980;
+
+	double k = 1.0/(1.0 + (0.33267 * x));
+	
+	if (x &gt;= 0.0)
+	{
+		return 1.0 - n(x)* (a1*k + (a2*k*k) + (a3*k*k*k));
+	}
+	else
+	{
+		return 1.0 - N(-x);
+	}
+
+}
+
+
+// Kernel Functions (Haug)
+double EuropeanOption::CallPrice() const
+{
+
+	double tmp = sig * std::sqrt(T);
+
+	double d1 = ( std::log(U/K) + (b+ (sig*sig)*0.5 ) * T )/ tmp;
+	double d2 = d1 - tmp;
+
+
+	return (U * std::exp((b-r)*T) * N(d1)) - (K * std::exp(-r * T)* N(d2));
+
+}
+
+double EuropeanOption::PutPrice() const
+{
+
+	double tmp = sig * std::sqrt(T);
+
+	double d1 = ( std::log(U/K) + (b+ (sig*sig)*0.5 ) * T )/ tmp;
+	double d2 = d1 - tmp;
+
+	return (K * std::exp(-r * T)* N(-d2)) - (U * std::exp((b-r)*T) * N(-d1));
+
+}
+
+double EuropeanOption::CallDelta() const
+{
+	double tmp = sig * sqrt(T);
+
+	double d1 = ( std::log(U/K) + (b+ (sig*sig)*0.5 ) * T )/ tmp;
+
+
+	return std::exp((b-r)*T) * N(d1);
+}
+
+double EuropeanOption::PutDelta() const
+{
+	double tmp = sig * std::sqrt(T);
+
+	double d1 = ( std::log(U/K) + (b+ (sig*sig)*0.5 ) * T )/ tmp;
+
+	return std::exp((b-r)*T) * (N(d1) - 1.0);
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+void EuropeanOption::init()
+{	// Initialise all default values
+
+	// Default values
+	r = 0.08;
+	sig= 0.30;
+	K = 65.0;
+	T = 0.25;
+	U = 60.0;		// U == stock in this case
+	b = r;			// Black and Scholes stock option model (1973)
+
+	optType = &#34;C&#34;;		// European Call Option (this is the default type)
+
+
+
+}
+
+void EuropeanOption::copy(const EuropeanOption&amp; o2)
+{
+
+	r	= o2.r;
+	sig = o2.sig;	
+	K	= o2.K;
+	T	= o2.T;
+	U	= o2.U;
+	b	= o2.b;
+	
+	optType = o2.optType;
+
+
+	
+}
+
+EuropeanOption::EuropeanOption() 
+{ // Default call option
+
+	init();
+}
+
+EuropeanOption::EuropeanOption(const EuropeanOption&amp; o2)
+{ // Copy constructor
+
+	copy(o2);
+}
+
+EuropeanOption::EuropeanOption (const std::string&amp; optionType)
+{	// Create option type
+
+	init();
+	optType = optionType;
+
+	if (optType == &#34;c&#34;)
+		optType = &#34;C&#34;;
+
+}
+
+
+
+EuropeanOption::~EuropeanOption()
+{
+
+}
+
+
+EuropeanOption&amp; EuropeanOption::operator = (const EuropeanOption&amp; option2)
+{
+
+	if (this == &amp;option2) return *this;
+
+	copy (option2);
+
+	return *this;
+}
+
+// Functions that calculate option price and sensitivities
+double EuropeanOption::Price() const 
+{
+
+	if (optType == &#34;C&#34;)
+	{
+		return CallPrice();
+	}
+	else
+		return PutPrice();
+
+}
+
+double EuropeanOption::Delta() const 
+{
+	if (optType == &#34;C&#34;)
+		return CallDelta();
+	else
+		return PutDelta();
+
+}
+
+
+
+// Modifier functions
+void EuropeanOption::toggle()
+{ // Change option type (C/P, P/C)
+
+	if (optType == &#34;C&#34;)
+		optType = &#34;P&#34;;
+	else
+		optType = &#34;C&#34;;
+}
+
+#endif
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Using-the-class">Using the class<a class="anchor-link" href="#Using-the-class">&#182;</a></h2><p>The code file is compiled and syntax errors should be resolved. We then need to write a program to test the class. The corresponding file is then compiled and linked with the other code to form an executable unit.</p>
+<p>In this section we give an example of a test program. The object-oriented paradigm is based on the <em>message-passing metaphor</em>. Here we mean that client software sends messages to an object (by means of member function calls) by using the so-called <em>dot notation</em>. For example, to calculate the price of an existing option instance we code as follows:</p>
+<div class="highlight"><pre><span></span><span class="kt">double</span> <span class="n">option_price</span> <span class="o">=</span> <span class="n">myOption</span><span class="p">.</span><span class="n">Price</span><span class="p">();</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="o">!</span><span class="n">cat</span> <span class="n">TestEuropeanOption</span><span class="p">.</span><span class="n">cpp</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>// TestEuropeanOption.cpp
+//
+// Test program for the exact solutions of European options. 
+// Check answers with Haug 1998
+//
+// (C) Datasim Component Technology BV 2003-2006
+//
+
+#include &#34;EuropeanOption.hpp&#34;
+#include &lt;iostream&gt;
+
+int main()
+{ // All options are European
+
+	// Call option on a stock
+	EuropeanOption callOption;
+	std::cout &lt;&lt; &#34;Call option on a stock: &#34; &lt;&lt; callOption.Price() &lt;&lt; std::endl;
+	
+	// Put option on a stock index
+	EuropeanOption indexOption;
+	indexOption.optType = &#34;P&#34;;
+	indexOption.U = 100.0;
+	indexOption.K = 95.0;
+	indexOption.T = 0.5;
+	indexOption.r = 0.10;
+	indexOption.sig = 0.20;
+
+	double q = 0.05;		// Dividend yield
+	indexOption.b = indexOption.r - q;
+
+	std::cout &lt;&lt; &#34;Put option on an index: &#34; &lt;&lt; indexOption.Price() &lt;&lt; std::endl;
+
+	// Call and put options on a future
+	EuropeanOption futureOption;
+	futureOption.optType = &#34;P&#34;;
+	futureOption.U = 19.0;
+	futureOption.K = 19.0;
+	futureOption.T = 0.75;
+	futureOption.r = 0.10;
+	futureOption.sig = 0.28;
+
+	futureOption.b = 0.0;
+
+	std::cout &lt;&lt; &#34;Put option on a future: &#34; &lt;&lt; futureOption.Price() &lt;&lt; std::endl;
+
+	// Now change over to a call on the option
+	futureOption.toggle();
+	std::cout &lt;&lt; &#34;Call option on a future: &#34; &lt;&lt; futureOption.Price() &lt;&lt; std::endl;
+
+
+	// Call option on currency
+	EuropeanOption currencyOption;
+	currencyOption.optType = &#34;C&#34;;
+	currencyOption.U = 1.56;
+	currencyOption.K = 1.60;
+	currencyOption.T = 0.5;
+	currencyOption.r = 0.06;
+	currencyOption.sig = 0.12;
+
+	double rf = 0.08;		// risk-free rate of foreign currency
+	currencyOption.b = currencyOption.r - rf;
+
+	std::cout &lt;&lt; std::endl &lt;&lt; &#34;** Other pricing examples **&#34; &lt;&lt; std::endl &lt;&lt; std::endl;
+
+	std::cout &lt;&lt; &#34;Call option on a currency: &#34; &lt;&lt; currencyOption.Price() &lt;&lt; std::endl;
+
+	////////   NOW CALCULATIONS OF SENSITIVITIES //////////////////////////////////
+
+	// Call and put options on a future: Delta and Elasticity
+	EuropeanOption futureOption2;
+	futureOption2.optType = &#34;P&#34;;
+	futureOption2.U = 105.0;
+	futureOption2.K = 100.0;
+	futureOption2.T = 0.5;
+	futureOption2.r = 0.10;
+	futureOption2.sig = 0.36;
+
+	futureOption2.b = 0.0;
+
+	std::cout &lt;&lt; &#34;Delta on a put future: &#34; &lt;&lt; futureOption2.Delta() &lt;&lt; std::endl;
+
+	// Now change over to a call on the option
+	futureOption2.toggle();
+	std::cout &lt;&lt; &#34;Delta on a call future: &#34; &lt;&lt; futureOption2.Delta() &lt;&lt; std::endl;
+
+	
+	// Stock Option: Gamma
+	EuropeanOption stockOption;
+	stockOption.optType = &#34;C&#34;;
+	stockOption.U = 55.0;
+	stockOption.K = 60.0;
+	stockOption.T = 0.75;
+	stockOption.r = 0.10;
+	stockOption.sig = 0.30;
+
+	stockOption.b = stockOption.r;
+
+
+	stockOption.toggle();
+
+	// Calculating theta of a European stock index
+	EuropeanOption indexOption2;
+	indexOption2.optType = &#34;P&#34;;
+	indexOption2.U = 430.0;
+	indexOption2.K = 405.0;
+	indexOption2.T = 0.0833;	// One month expiration
+	indexOption2.r = 0.07;
+	indexOption2.sig = 0.20;
+
+	double divYield = 0.05;		// Dividend yield, 5% per annum
+	indexOption2.b = indexOption2.r - divYield;
+
+
+	// Stock Option: Rho
+	EuropeanOption stockOption2;
+	stockOption2.optType = &#34;C&#34;;
+	stockOption2.U = 72.0;
+	stockOption2.K = 75.0;
+	stockOption2.T = 1.0;
+	stockOption2.r = 0.09;
+	stockOption2.sig = 0.19;
+
+	stockOption2.b = stockOption2.r;
+
+	// Calculating Cost of Carry of a European stock index
+	EuropeanOption indexOption3;
+	indexOption3.optType = &#34;P&#34;;
+	indexOption3.U = 500.0;
+	indexOption3.K = 490.0;
+	indexOption3.T = 0.222225;
+	indexOption3.r = 0.08;
+	indexOption3.sig = 0.15;
+
+	double divYield3 = 0.05;		// Dividend yield, 5% per annum
+	indexOption3.b = indexOption3.r - divYield3 ;
+
+	return 0;
+}
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;EuropeanOption.cpp&quot;</span><span class="cp"></span>
+<span class="p">{</span>
+    <span class="n">EuropeanOption</span> <span class="n">callOption</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Call option on a stock: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">callOption</span><span class="p">.</span><span class="n">Price</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    
+    <span class="c1">// Put option on a stock index</span>
+    <span class="n">EuropeanOption</span> <span class="n">indexOption</span><span class="p">;</span>
+    <span class="n">indexOption</span><span class="p">.</span><span class="n">optType</span> <span class="o">=</span> <span class="s">&quot;P&quot;</span><span class="p">;</span>
+    <span class="n">indexOption</span><span class="p">.</span><span class="n">U</span> <span class="o">=</span> <span class="mf">100.0</span><span class="p">;</span>
+    <span class="n">indexOption</span><span class="p">.</span><span class="n">K</span> <span class="o">=</span> <span class="mf">95.0</span><span class="p">;</span>
+    <span class="n">indexOption</span><span class="p">.</span><span class="n">T</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>
+    <span class="n">indexOption</span><span class="p">.</span><span class="n">r</span> <span class="o">=</span> <span class="mf">0.10</span><span class="p">;</span>
+    <span class="n">indexOption</span><span class="p">.</span><span class="n">sig</span> <span class="o">=</span> <span class="mf">0.20</span><span class="p">;</span>
+    
+    <span class="kt">double</span> <span class="n">q</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">;</span> <span class="c1">// Dividend yield</span>
+    <span class="n">indexOption</span><span class="p">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">indexOption</span><span class="p">.</span><span class="n">r</span> <span class="o">-</span> <span class="n">q</span><span class="p">;</span>
+    
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Put option on an index: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">indexOption</span><span class="p">.</span><span class="n">Price</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+    <span class="c1">// Call and put options on a future</span>
+	<span class="n">EuropeanOption</span> <span class="n">futureOption</span><span class="p">;</span>
+	<span class="n">futureOption</span><span class="p">.</span><span class="n">optType</span> <span class="o">=</span> <span class="s">&quot;P&quot;</span><span class="p">;</span>
+	<span class="n">futureOption</span><span class="p">.</span><span class="n">U</span> <span class="o">=</span> <span class="mf">19.0</span><span class="p">;</span>
+	<span class="n">futureOption</span><span class="p">.</span><span class="n">K</span> <span class="o">=</span> <span class="mf">19.0</span><span class="p">;</span>
+	<span class="n">futureOption</span><span class="p">.</span><span class="n">T</span> <span class="o">=</span> <span class="mf">0.75</span><span class="p">;</span>
+	<span class="n">futureOption</span><span class="p">.</span><span class="n">r</span> <span class="o">=</span> <span class="mf">0.10</span><span class="p">;</span>
+	<span class="n">futureOption</span><span class="p">.</span><span class="n">sig</span> <span class="o">=</span> <span class="mf">0.28</span><span class="p">;</span>
+
+	<span class="n">futureOption</span><span class="p">.</span><span class="n">b</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Put option on a future: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">futureOption</span><span class="p">.</span><span class="n">Price</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+	<span class="c1">// Now change over to a call on the option</span>
+	<span class="n">futureOption</span><span class="p">.</span><span class="n">toggle</span><span class="p">();</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Call option on a future: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">futureOption</span><span class="p">.</span><span class="n">Price</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+
+	<span class="c1">// Call option on currency</span>
+	<span class="n">EuropeanOption</span> <span class="n">currencyOption</span><span class="p">;</span>
+	<span class="n">currencyOption</span><span class="p">.</span><span class="n">optType</span> <span class="o">=</span> <span class="s">&quot;C&quot;</span><span class="p">;</span>
+	<span class="n">currencyOption</span><span class="p">.</span><span class="n">U</span> <span class="o">=</span> <span class="mf">1.56</span><span class="p">;</span>
+	<span class="n">currencyOption</span><span class="p">.</span><span class="n">K</span> <span class="o">=</span> <span class="mf">1.60</span><span class="p">;</span>
+	<span class="n">currencyOption</span><span class="p">.</span><span class="n">T</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>
+	<span class="n">currencyOption</span><span class="p">.</span><span class="n">r</span> <span class="o">=</span> <span class="mf">0.06</span><span class="p">;</span>
+	<span class="n">currencyOption</span><span class="p">.</span><span class="n">sig</span> <span class="o">=</span> <span class="mf">0.12</span><span class="p">;</span>
+
+	<span class="kt">double</span> <span class="n">rf</span> <span class="o">=</span> <span class="mf">0.08</span><span class="p">;</span>		<span class="c1">// risk-free rate of foreign currency</span>
+	<span class="n">currencyOption</span><span class="p">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">currencyOption</span><span class="p">.</span><span class="n">r</span> <span class="o">-</span> <span class="n">rf</span><span class="p">;</span>
+
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;** Other pricing examples **&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Call option on a currency: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">currencyOption</span><span class="p">.</span><span class="n">Price</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+	<span class="c1">////////   NOW CALCULATIONS OF SENSITIVITIES //////////////////////////////////</span>
+
+	<span class="c1">// Call and put options on a future: Delta and Elasticity</span>
+	<span class="n">EuropeanOption</span> <span class="n">futureOption2</span><span class="p">;</span>
+	<span class="n">futureOption2</span><span class="p">.</span><span class="n">optType</span> <span class="o">=</span> <span class="s">&quot;P&quot;</span><span class="p">;</span>
+	<span class="n">futureOption2</span><span class="p">.</span><span class="n">U</span> <span class="o">=</span> <span class="mf">105.0</span><span class="p">;</span>
+	<span class="n">futureOption2</span><span class="p">.</span><span class="n">K</span> <span class="o">=</span> <span class="mf">100.0</span><span class="p">;</span>
+	<span class="n">futureOption2</span><span class="p">.</span><span class="n">T</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>
+	<span class="n">futureOption2</span><span class="p">.</span><span class="n">r</span> <span class="o">=</span> <span class="mf">0.10</span><span class="p">;</span>
+	<span class="n">futureOption2</span><span class="p">.</span><span class="n">sig</span> <span class="o">=</span> <span class="mf">0.36</span><span class="p">;</span>
+
+	<span class="n">futureOption2</span><span class="p">.</span><span class="n">b</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Delta on a put future: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">futureOption2</span><span class="p">.</span><span class="n">Delta</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+	<span class="c1">// Now change over to a call on the option</span>
+	<span class="n">futureOption2</span><span class="p">.</span><span class="n">toggle</span><span class="p">();</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Delta on a call future: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">futureOption2</span><span class="p">.</span><span class="n">Delta</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+	
+	<span class="c1">// Stock Option: Gamma</span>
+	<span class="n">EuropeanOption</span> <span class="n">stockOption</span><span class="p">;</span>
+	<span class="n">stockOption</span><span class="p">.</span><span class="n">optType</span> <span class="o">=</span> <span class="s">&quot;C&quot;</span><span class="p">;</span>
+	<span class="n">stockOption</span><span class="p">.</span><span class="n">U</span> <span class="o">=</span> <span class="mf">55.0</span><span class="p">;</span>
+	<span class="n">stockOption</span><span class="p">.</span><span class="n">K</span> <span class="o">=</span> <span class="mf">60.0</span><span class="p">;</span>
+	<span class="n">stockOption</span><span class="p">.</span><span class="n">T</span> <span class="o">=</span> <span class="mf">0.75</span><span class="p">;</span>
+	<span class="n">stockOption</span><span class="p">.</span><span class="n">r</span> <span class="o">=</span> <span class="mf">0.10</span><span class="p">;</span>
+	<span class="n">stockOption</span><span class="p">.</span><span class="n">sig</span> <span class="o">=</span> <span class="mf">0.30</span><span class="p">;</span>
+
+	<span class="n">stockOption</span><span class="p">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">stockOption</span><span class="p">.</span><span class="n">r</span><span class="p">;</span>
+
+
+	<span class="n">stockOption</span><span class="p">.</span><span class="n">toggle</span><span class="p">();</span>
+
+	<span class="c1">// Calculating theta of a European stock index</span>
+	<span class="n">EuropeanOption</span> <span class="n">indexOption2</span><span class="p">;</span>
+	<span class="n">indexOption2</span><span class="p">.</span><span class="n">optType</span> <span class="o">=</span> <span class="s">&quot;P&quot;</span><span class="p">;</span>
+	<span class="n">indexOption2</span><span class="p">.</span><span class="n">U</span> <span class="o">=</span> <span class="mf">430.0</span><span class="p">;</span>
+	<span class="n">indexOption2</span><span class="p">.</span><span class="n">K</span> <span class="o">=</span> <span class="mf">405.0</span><span class="p">;</span>
+	<span class="n">indexOption2</span><span class="p">.</span><span class="n">T</span> <span class="o">=</span> <span class="mf">0.0833</span><span class="p">;</span>	<span class="c1">// One month expiration</span>
+	<span class="n">indexOption2</span><span class="p">.</span><span class="n">r</span> <span class="o">=</span> <span class="mf">0.07</span><span class="p">;</span>
+	<span class="n">indexOption2</span><span class="p">.</span><span class="n">sig</span> <span class="o">=</span> <span class="mf">0.20</span><span class="p">;</span>
+
+	<span class="kt">double</span> <span class="n">divYield</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">;</span>		<span class="c1">// Dividend yield, 5% per annum</span>
+	<span class="n">indexOption2</span><span class="p">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">indexOption2</span><span class="p">.</span><span class="n">r</span> <span class="o">-</span> <span class="n">divYield</span><span class="p">;</span>
+
+
+	<span class="c1">// Stock Option: Rho</span>
+	<span class="n">EuropeanOption</span> <span class="n">stockOption2</span><span class="p">;</span>
+	<span class="n">stockOption2</span><span class="p">.</span><span class="n">optType</span> <span class="o">=</span> <span class="s">&quot;C&quot;</span><span class="p">;</span>
+	<span class="n">stockOption2</span><span class="p">.</span><span class="n">U</span> <span class="o">=</span> <span class="mf">72.0</span><span class="p">;</span>
+	<span class="n">stockOption2</span><span class="p">.</span><span class="n">K</span> <span class="o">=</span> <span class="mf">75.0</span><span class="p">;</span>
+	<span class="n">stockOption2</span><span class="p">.</span><span class="n">T</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+	<span class="n">stockOption2</span><span class="p">.</span><span class="n">r</span> <span class="o">=</span> <span class="mf">0.09</span><span class="p">;</span>
+	<span class="n">stockOption2</span><span class="p">.</span><span class="n">sig</span> <span class="o">=</span> <span class="mf">0.19</span><span class="p">;</span>
+
+	<span class="n">stockOption2</span><span class="p">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">stockOption2</span><span class="p">.</span><span class="n">r</span><span class="p">;</span>
+
+	<span class="c1">// Calculating Cost of Carry of a European stock index</span>
+	<span class="n">EuropeanOption</span> <span class="n">indexOption3</span><span class="p">;</span>
+	<span class="n">indexOption3</span><span class="p">.</span><span class="n">optType</span> <span class="o">=</span> <span class="s">&quot;P&quot;</span><span class="p">;</span>
+	<span class="n">indexOption3</span><span class="p">.</span><span class="n">U</span> <span class="o">=</span> <span class="mf">500.0</span><span class="p">;</span>
+	<span class="n">indexOption3</span><span class="p">.</span><span class="n">K</span> <span class="o">=</span> <span class="mf">490.0</span><span class="p">;</span>
+	<span class="n">indexOption3</span><span class="p">.</span><span class="n">T</span> <span class="o">=</span> <span class="mf">0.222225</span><span class="p">;</span>
+	<span class="n">indexOption3</span><span class="p">.</span><span class="n">r</span> <span class="o">=</span> <span class="mf">0.08</span><span class="p">;</span>
+	<span class="n">indexOption3</span><span class="p">.</span><span class="n">sig</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">;</span>
+
+	<span class="kt">double</span> <span class="n">divYield3</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">;</span>		<span class="c1">// Dividend yield, 5% per annum</span>
+	<span class="n">indexOption3</span><span class="p">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">indexOption3</span><span class="p">.</span><span class="n">r</span> <span class="o">-</span> <span class="n">divYield3</span> <span class="p">;</span>
+    
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Call option on a stock: 2.13293
+Put option on an index: 2.4648
+Put option on a future: 1.70118
+Call option on a future: 1.70118
+
+** Other pricing examples **
+
+Call option on a currency: 0.0290937
+Delta on a put future: -0.356609
+Delta on a call future: 0.59462
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Examining-the-class-in-detail">Examining the class in detail<a class="anchor-link" href="#Examining-the-class-in-detail">&#182;</a></h2><p>The code implements the class for a plain one-factor option has been discussed in some detail in the previous section. We have not done justice to all the detaills but our objective was to create <code>working</code> code as soon as possible in the book. Furthermore, we shall discuss the syntax in greater detail in later chapters, especially Chapter 4.</p>
+<p>Nonetheless, it is advisable at this stage to say something about the syntax that we use here. In this sense we avoid forward references.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Accessibility-issues">Accessibility issues<a class="anchor-link" href="#Accessibility-issues">&#182;</a></h2><p>A class contains of members in general. A member is either a member data or a member function. All members in a class are accessible from any other members of the class. However, a class can decide to <code>expose</code> certain members to outside clients just as it can decide to keep some members <code>hidden</code> from the outside world. To this end, we can define <em>private</em> and <em>public</em> member areas:</p>
+<ul>
+<li>Public member: any client can access it.</li>
+<li>Private member: not accessible to clients, only to member of the class.</li>
+</ul>
+<p>In general, data and functions are tightly coupled and this principle is called encapsulation. In general, it is advisable to define data to be private because this feature seems to be the most volatile part of a class interface. In this chapter the member data are public but this is for convenience only.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Using-standard-libraries">Using standard libraries<a class="anchor-link" href="#Using-standard-libraries">&#182;</a></h2><p>In later chapters we shall introduce the Standard Template Library (STL), a library of template classes or containers, algorithms that operate on those containers and so-called iterators that allow us to navigate in the containers.</p>
+<p>Some important data containers are:</p>
+<ul>
+<li>Vectors.</li>
+<li>Lists.</li>
+<li>Maps (or dictionaries).</li>
+</ul>
+<p>It is important to note at this stage that it is not necessary to create your own data containers and corresponding algorithms.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="The-scope-resolution-::">The scope resolution <code>::</code><a class="anchor-link" href="#The-scope-resolution-::">&#182;</a></h3><p>Contrary to C and other procedural languages, C++ allows us to define member functions as elements of a class. To make this relationship explicit we use the so-called scope resolution operator <code>::</code>, for example:</p>
+<div class="highlight"><pre><span></span><span class="kt">double</span> <span class="n">EuropeanOption</span><span class="o">::</span><span class="n">Price</span><span class="p">()</span> <span class="k">const</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">optType</span> <span class="o">==</span> <span class="s">&quot;C&quot;</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">CallPrice</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+        <span class="k">return</span> <span class="n">PutPrice</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+<p>In this case the pricing function belongs to the given option class.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Virtual-destructor:-better-safe-than-sorry">Virtual destructor: better safe than sorry<a class="anchor-link" href="#Virtual-destructor:-better-safe-than-sorry">&#182;</a></h3><p>We start with a conclusion:</p>
+<blockquote><p>Declare all destructors to be virtual.</p>
+</blockquote>
+<p>The reason why this is so will discussed in a later chapter. Failing to declare a destructor to be virtual <em>may</em> result in memory problems, so we play safe.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Other-paradigms">Other paradigms<a class="anchor-link" href="#Other-paradigms">&#182;</a></h3><p>The first example in this chapter was a C++ class that models plain one-factor options. This is a good application of the object-oriented paradigm: we encapsulate tightly-coupled data representing an option's parameter and we then create member functions that act on that data. Before we go overboad by thinking that everything in sight <em>must</em> be a class or object we mention that there are other paradigms that are just as effective and that can be used in conjunction with, or as a competitor to, the object-oriented paradigm. To this end, we show how modular programming techniques can be used in Quantitative Finance by taking some simple examples of interest rate calculations (see Fabozzi 1993; Hull, 2006). The examples are not difficult but we use them because they elaborate on a number of coding issues that will be needed in this book.</p>
+<p>We have created a number of functions for the following kinds of calculations:</p>
+<ul>
+<li>Calculating the future value of a sum of money (paid once per year, $m$ times a year and continous compounding).</li>
+<li>Future value of an ordinary annuity.</li>
+<li>Simple present value calculations.</li>
+<li>Present value of a series of future values.</li>
+<li>Present value of an ordinary annuity.
+As usual, we create two files, one (the header) containing function declarations and the other one containing code. The header file is given by:</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="o">!</span><span class="n">cat</span> <span class="n">SimpleBondPricing</span><span class="p">.</span><span class="n">hpp</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>// SimpleBondPricing.hpp
+//
+// Simple functions for interest rate calcuations.
+//
+// (C) Datasim Education BV 2006
+//
+
+#ifndef SimpleBondPricing_HPP
+#define SimpleBondPricing_HPP
+
+#include &lt;vector&gt;
+#include &lt;cmath&gt;
+#include &lt;cassert&gt;
+
+namespace Chapter3CPPBook // Logical grouping of functions and others
+{
+
+	// Handy shorthand synonyms
+	typedef std::vector&lt;double&gt; Vector;
+
+	// Recursive function to calculate power of a number. This 
+	// function calls itself, either directly or indirectly
+	double power(double d, long n);
+
+	// Future value of a sum of money invested today
+	double FutureValue(double P0, long nPeriods, double r);
+
+	// Future value of a sum of money invested today, m periods 
+	// per year. r is annual interest rate
+	double FutureValue(double P0, long nPeriods, double r, long m);
+
+	// Continuous compounding, i.e. limit as m -&gt; INFINITY
+	double FutureValueContinuous(double P0, long nPeriods, double r);
+
+	// Future value of an ordinary annuity
+	double OrdinaryAnnuity(double A, long nPeriods, double r);
+
+	// Present Value
+	double PresentValue(double Pn, long nPeriods, double r);
+
+	// Present Value of a series of future values
+	double PresentValue(const Vector&amp; prices, long nPeriods, double r);
+
+	// Present Value of an ordinary annuity
+	double PresentValueOrdinaryAnnuity(double A, long nPeriods, double r);
+
+}
+
+#endif</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="o">!</span><span class="n">cat</span> <span class="n">SimpleBondPricing</span><span class="p">.</span><span class="n">cpp</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>// SimpleBondPricing.cpp
+//
+// Simple functions for interest rate calcuations.
+//
+// Last Modfication dates:
+// 
+// 2006-2-21 DD Kick-off
+// 2006-2-22 DD Small bug removed
+//
+// (C) Datasim Education BV 2006
+//
+
+#ifndef SimpleBondPricing_CPP
+#define SimpleBondPricing_CPP
+
+#include &#34;SimpleBondPricing.hpp&#34;
+
+namespace Chapter3CPPBook 
+{
+
+	// Recursive function to calculate power of a number. This 
+	// function calls itself, either directly or indirectly
+	double power(double d, long n)
+	{
+		if (n == 0) return 1.0;
+		if (n == 1) return d;
+
+		double result = d;
+		for (long j = 1; j &lt; n; j++)
+		{
+			result *= d;
+		}
+
+		return result;
+
+	}
+
+	// Future value of a sum of money invested today
+	double FutureValue(double P0, long nPeriods, double r)
+	{
+
+		double factor = 1.0 + r;
+		return P0 * power(factor, nPeriods);
+	}
+
+	// Future value of a sum of money invested today, m periods 
+	// per year. r is annual interest rate
+	double FutureValue(double P0, long nPeriods, double r, long m)
+	{
+		double R = r / double(m);
+		long newPeriods = m * nPeriods;
+
+		return FutureValue(P0, newPeriods, R);
+	}
+
+	// Continuous compounding
+	double FutureValueContinuous(double P0, long nPeriods, double r)
+	{
+					
+		double growthFactor = std::exp(r * double(nPeriods) );
+		
+		return P0 * growthFactor;
+	}
+
+	// Future value of an ordinary annuity
+	double OrdinaryAnnuity(double A, long nPeriods, double r)
+	{
+
+		double factor = 1.0 + r;
+		return A * ((power(factor, nPeriods) - 1.0)/r);
+	}
+
+	// Present Value
+	double PresentValue(double Pn, long nPeriods, double r)
+	{
+		
+		double factor = 1.0 + r;
+		return Pn * (1.0 / power(factor, nPeriods));
+	}
+
+	// Present Value of a series of future values
+	double PresentValue(const Vector&amp; prices, long nPeriods, double r)
+	{
+		// Number of periods MUST == size of the vector
+		assert (nPeriods == prices.size());
+
+		double factor = 1.0 + r;
+
+		double PV = 0.0;
+
+		for (long t = 0; t &lt; nPeriods; t++)
+		{
+			PV += prices[t] / power(factor, t+1);
+		}
+
+		return PV;
+
+	}
+
+
+	// Present Value of an ordinary annuity
+	double PresentValueOrdinaryAnnuity(double A, long nPeriods, double r)
+	{
+
+		double factor = 1.0 + r;
+		double numerator = 1.0 - (1.0 / power(factor, nPeriods));
+		return (A * numerator ) / r;
+	}
+
+}
+
+#endif</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="o">!</span><span class="n">cat</span> <span class="n">TestSimpleBondPricing</span><span class="p">.</span><span class="n">cpp</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>// TestSimpleBondPricing.cpp
+//
+// (C) Datasim Education BV 2006
+//
+
+#include &#34;SimpleBondPricing.hpp&#34;
+#include &lt;iostream&gt;
+
+int main()
+{
+
+	// Future value of a sum of money invested today
+	long nPeriods = 6;				// 6 years
+	double P = 10000000;	// Amount invested now
+	double r = 0.092;		// 9.2% interest
+
+	double fv = Chapter3CPPBook::FutureValue(P, nPeriods, r);
+
+	std::cout.setf(std::ios_base::fixed, std::ios_base::floatfield);
+	std::cout &lt;&lt; &#34;Future Value: &#34; &lt;&lt; fv &lt;&lt; std::endl;
+
+	long frequency = 2;
+	double fv2 = Chapter3CPPBook::FutureValue(P, nPeriods, r, frequency);
+//	cout.setf(0, ios_base::floatfield);
+
+	std::cout &lt;&lt; &#34;Future Value, 2 periods: &#34; &lt;&lt; fv2 &lt;&lt; std::endl;
+
+	// Future value of a sum of money invested today, m periods 
+	// per year. r is annual interest rate
+
+	// Using: means that we search in NS for the functions
+	using namespace Chapter3CPPBook;
+
+	double P0 = 10000000; // 10 million
+	r = 0.092;
+	long m = 2;	// Twice per year
+	nPeriods = 6;
+	std::cout &lt;&lt; &#34;**Future with &#34; &lt;&lt; m &lt;&lt; &#34; periods: &#34; &lt;&lt; FutureValue(P0, nPeriods, r, m) &lt;&lt; std::endl;
+
+	// Future value of an ordinary annuity
+	double A = 2000000;
+	r = 0.08;
+	nPeriods = 15;	// 15 years
+	std::cout &lt;&lt; &#34;**Ordinary Annuity; &#34; &lt;&lt; OrdinaryAnnuity(A, nPeriods, r)  &lt;&lt; std::endl;
+
+	// Present Value
+	double Pn = 5000000;
+	r = 0.10;
+	nPeriods = 7;
+	std::cout &lt;&lt; &#34;**Present value: &#34; &lt;&lt; PresentValue(Pn, nPeriods, r) &lt;&lt; std::endl;
+
+	// Present Value of a series of future values
+	Vector futureValues(5); // For five years
+	for (long j = 0; j &lt; 4; j++)
+	{ // The first 4 years
+		futureValues[j] = 100.0;
+	}
+	futureValues[4] = 1100.0;
+
+	nPeriods = 5; // Redundant in a sense since this is in the vector
+	r = 0.0625;
+	std::cout &lt;&lt; &#34;**Present value, series: &#34; &lt;&lt; PresentValue(futureValues, nPeriods, r) &lt;&lt; std::endl;
+
+	// Present Value of an ordinary annuity
+	A = 100.0;
+	r = 0.09;
+	nPeriods = 8;
+	std::cout &lt;&lt; &#34;**PV, ordinary annuity: &#34; &lt;&lt; PresentValueOrdinaryAnnuity(A, nPeriods, r) &lt;&lt; std::endl;
+
+	// Now test periodic testing with continuous compounding
+	P0 = 10000000;
+	r = 0.092;
+	nPeriods = 6;
+	for (long mm = 1; mm &lt;= 10000000; mm *=12)
+	{
+		std::cout &lt;&lt; &#34;Periodic: &#34; &lt;&lt; mm &lt;&lt; &#34;, &#34; &lt;&lt; FutureValue(P0, nPeriods, r, mm) &lt;&lt; std::endl;
+
+	}
+
+	std::cout &lt;&lt; &#34;Continuous Compounding: &#34; &lt;&lt; FutureValueContinuous(P0, nPeriods, r);
+
+	return 0;
+}
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;SimpleBondPricing.cpp&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-c++"><pre><span></span><span class="p">{</span>
+    <span class="c1">// Future value of a sum of money invested today</span>
+	<span class="kt">long</span> <span class="n">nPeriods</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>				<span class="c1">// 6 years</span>
+	<span class="kt">double</span> <span class="n">P</span> <span class="o">=</span> <span class="mi">10000000</span><span class="p">;</span>	<span class="c1">// Amount invested now</span>
+	<span class="kt">double</span> <span class="n">r</span> <span class="o">=</span> <span class="mf">0.092</span><span class="p">;</span>		<span class="c1">// 9.2% interest</span>
+
+	<span class="kt">double</span> <span class="n">fv</span> <span class="o">=</span> <span class="n">Chapter3CPPBook</span><span class="o">::</span><span class="n">FutureValue</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">nPeriods</span><span class="p">,</span> <span class="n">r</span><span class="p">);</span>
+
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">.</span><span class="n">setf</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ios_base</span><span class="o">::</span><span class="n">fixed</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">ios_base</span><span class="o">::</span><span class="n">floatfield</span><span class="p">);</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Future Value: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">fv</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+	<span class="kt">long</span> <span class="n">frequency</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+	<span class="kt">double</span> <span class="n">fv2</span> <span class="o">=</span> <span class="n">Chapter3CPPBook</span><span class="o">::</span><span class="n">FutureValue</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">nPeriods</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">frequency</span><span class="p">);</span>
+    <span class="c1">//	cout.setf(0, ios_base::floatfield);</span>
+
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Future Value, 2 periods: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">fv2</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+	<span class="c1">// Future value of a sum of money invested today, m periods </span>
+	<span class="c1">// per year. r is annual interest rate</span>
+
+	<span class="c1">// Using: means that we search in NS for the functions</span>
+	<span class="k">using</span> <span class="k">namespace</span> <span class="n">Chapter3CPPBook</span><span class="p">;</span>
+
+	<span class="kt">double</span> <span class="n">P0</span> <span class="o">=</span> <span class="mi">10000000</span><span class="p">;</span> <span class="c1">// 10 million</span>
+	<span class="n">r</span> <span class="o">=</span> <span class="mf">0.092</span><span class="p">;</span>
+	<span class="kt">long</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>	<span class="c1">// Twice per year</span>
+	<span class="n">nPeriods</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;**Future with &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">m</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; periods: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">FutureValue</span><span class="p">(</span><span class="n">P0</span><span class="p">,</span> <span class="n">nPeriods</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+	<span class="c1">// Future value of an ordinary annuity</span>
+	<span class="kt">double</span> <span class="n">A</span> <span class="o">=</span> <span class="mi">2000000</span><span class="p">;</span>
+	<span class="n">r</span> <span class="o">=</span> <span class="mf">0.08</span><span class="p">;</span>
+	<span class="n">nPeriods</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>	<span class="c1">// 15 years</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;**Ordinary Annuity; &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">OrdinaryAnnuity</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">nPeriods</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>  <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+	<span class="c1">// Present Value</span>
+	<span class="kt">double</span> <span class="n">Pn</span> <span class="o">=</span> <span class="mi">5000000</span><span class="p">;</span>
+	<span class="n">r</span> <span class="o">=</span> <span class="mf">0.10</span><span class="p">;</span>
+	<span class="n">nPeriods</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;**Present value: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">PresentValue</span><span class="p">(</span><span class="n">Pn</span><span class="p">,</span> <span class="n">nPeriods</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+	<span class="c1">// Present Value of a series of future values</span>
+	<span class="n">Vector</span> <span class="nf">futureValues</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span> <span class="c1">// For five years</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">long</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+	<span class="p">{</span> <span class="c1">// The first 4 years</span>
+		<span class="n">futureValues</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mf">100.0</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">futureValues</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1100.0</span><span class="p">;</span>
+
+	<span class="n">nPeriods</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">// Redundant in a sense since this is in the vector</span>
+	<span class="n">r</span> <span class="o">=</span> <span class="mf">0.0625</span><span class="p">;</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;**Present value, series: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">PresentValue</span><span class="p">(</span><span class="n">futureValues</span><span class="p">,</span> <span class="n">nPeriods</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+	<span class="c1">// Present Value of an ordinary annuity</span>
+	<span class="n">A</span> <span class="o">=</span> <span class="mf">100.0</span><span class="p">;</span>
+	<span class="n">r</span> <span class="o">=</span> <span class="mf">0.09</span><span class="p">;</span>
+	<span class="n">nPeriods</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;**PV, ordinary annuity: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">PresentValueOrdinaryAnnuity</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">nPeriods</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+	<span class="c1">// Now test periodic testing with continuous compounding</span>
+	<span class="n">P0</span> <span class="o">=</span> <span class="mi">10000000</span><span class="p">;</span>
+	<span class="n">r</span> <span class="o">=</span> <span class="mf">0.092</span><span class="p">;</span>
+	<span class="n">nPeriods</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">long</span> <span class="n">mm</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">mm</span> <span class="o">&lt;=</span> <span class="mi">10000000</span><span class="p">;</span> <span class="n">mm</span> <span class="o">*=</span><span class="mi">12</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Periodic: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">mm</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">FutureValue</span><span class="p">(</span><span class="n">P0</span><span class="p">,</span> <span class="n">nPeriods</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">mm</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+	<span class="p">}</span>
+
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Continuous Compounding: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">FutureValueContinuous</span><span class="p">(</span><span class="n">P0</span><span class="p">,</span> <span class="n">nPeriods</span><span class="p">,</span> <span class="n">r</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Future Value: 16956485.006864
+Future Value, 2 periods: 17154584.929442
+**Future with 2 periods: 17154584.929442
+**Ordinary Annuity; 54304227.854957
+**Present value: 2565790.591154
+**Present value, series: 1156.895096
+**PV, ordinary annuity: 553.481911
+Periodic: 1, 16956485.006864
+Periodic: 12, 17330706.083117
+Periodic: 144, 17364169.079167
+Periodic: 1728, 17366974.736354
+Periodic: 20736, 17367208.660596
+Periodic: 248832, 17367228.155581
+Periodic: 2985984, 17367229.774378
+Continuous Compounding: 17367229.927213</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+ 
+
+</body>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: 'center'," +
+        "    displayIndent: '0em'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['$','$'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        " linebreaks: { automatic: true, width: '95% container' }, " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+        "    } " +
+        "}); ";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+
+
+            <div>
+</div>
+
+            
+            
+            <hr/>
+            <aside>
+            <nav>
+            <ul class="articles-timeline">
+                <li class="previous-article">« <a href="https://carlosal1015.github.io/Finite-element-method-FEM/blog/2018/12/25/review/" title="Previous: Review of linear algebra">Review of linear algebra</a></li>
+                <li class="next-article"><a href="https://carlosal1015.github.io/Finite-element-method-FEM/blog/2019/10/24/cpp-101/" title="Next: Derivation of Numerical Methods">Derivation of Numerical Methods</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2019-11-09T12:00:00-05:00">Nov 9, 2019</time>
+
+<h4>Last Updated</h4>
+<time datetime="2019-11-24T22:12:00-05:00">Nov 24, 2019</time>
+
+            <h4>Category</h4>
+            <a class="category-link" href="https://carlosal1015.github.io/Finite-element-method-FEM/categories.html#c-ref">c++</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://carlosal1015.github.io/Finite-element-method-FEM/tags#fdm-ref">fdm
+                    <span>5</span>
+</a></li>
+                <li><a href="https://carlosal1015.github.io/Finite-element-method-FEM/tags#numeric-ref">numeric
+                    <span>5</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+    <a href="#" title="My You can add links in your config file Profile" class="sidebar-social-links" target="_blank">
+    <i class="fa fa-you can add links in your config file sidebar-social-links"></i></a>
+    <a href="#" title="My Another social link Profile" class="sidebar-social-links" target="_blank">
+    <i class="fa fa-another social link sidebar-social-links"></i></a>
+        </div>
+        </section>
+</div>
+</article>
+                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>
